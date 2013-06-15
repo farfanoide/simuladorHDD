@@ -44,16 +44,11 @@ def attend_pf(list,init_pos,direction):
 # FCFS  implementation
 def FCFS(list,init_pos,direction):
     pf_result = attend_pf(list,init_pos,direction)
-    print pf_result
-    print list
     count=pf_result[1]
     fifo_result = fifo(list,pf_result[0][-1],pf_result[2])
     count += fifo_result[1]
-    print pf_result[0]
-    print fifo_result[0]
-    listatendida = pf_result[0].extend(fifo_result[0])
-    print listatendida
-    return (fifo_result[1],fifo_result[2])
+    pf_result[0].extend(fifo_result[0])
+    return (fifo_result[0],fifo_result[1],fifo_result[2])
 
 #def SSTF():
  #   atender pfs
