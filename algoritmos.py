@@ -59,17 +59,6 @@ def FCFS(list, init_pos, direction):
 
     return (pf_result[0], momentum(pf_result[0],init_pos), fifo_result[2])
 
-# def SSTF():
-#    atender pfs
-#    hacer copia lista orig
-#     mientras elem
-#        obtener prox
-#        elim de lista y append
-
-   # sacar lista distancias
-    # obtener minimo e indice (lista distancias)
-
-
 def min_dist(list, current_pos):
     list_distances = map(lambda p: abs(p - current_pos), list)
     value = min(list_distances)
@@ -90,8 +79,25 @@ def SSTF(list_req, init_pos, direction):
     return (pf_result[0], momentum(pf_result[0], init_pos))
 
 #   SCAN (lista, posicion inicial, direccion.)
-    copiamos lista
-    obtener_proximo -> devuelve indice del proximo
+    # copiamos lista
+    # obtener_proximo -> devuelve indice del proximo
+
+
+def divide_list(list,pos):
+    """
+        divides list into < (pos) >
+    """
+    greater = []
+    lower = []
+    for req in list:
+        if req > pos:
+            greater.append(req)
+        else:
+            lower.append(req)
+    greater.sort()
+    lower.sort(reverse = True)
+    return (greater, lower)
+
 
 # Data conversor
 # TESTS
@@ -116,3 +122,6 @@ print "fin"
 # print l
 # print min_dist(l,9)
 # print "end test FCFS"
+print "test divides"
+print divide_list(lsstf,150)
+
