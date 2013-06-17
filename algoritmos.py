@@ -54,11 +54,10 @@ def attend_pf(list, init_pos, direction):
 
 def FCFS(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
-    count = pf_result[1]
     fifo_result = fifo(list, pf_result[0][-1], pf_result[2])
-    count += fifo_result[1]
     pf_result[0].extend(fifo_result[0])
-    return (pf_result[0], fifo_result[1], fifo_result[2])
+
+    return (pf_result[0], momentum(pf_result[0],init_pos), fifo_result[2])
 
 # def SSTF():
 #    atender pfs
@@ -82,9 +81,6 @@ def SSTF(list_req, init_pos, direction):
     list_req_copy = list_req[:]
     list_req_attended = []
     pf_result = attend_pf(list_req_copy, init_pos, direction)
-    count = pf_result[1]
-    print "mov pf"
-    print count
     current_pos = pf_result[0][-1]
     while (len(list_req_copy) > 0):
         index = min_dist(list_req_copy, current_pos)
@@ -93,6 +89,9 @@ def SSTF(list_req, init_pos, direction):
     pf_result[0].extend(list_req_attended)
     return (pf_result[0], momentum(pf_result[0], init_pos))
 
+#   SCAN (lista, posicion inicial, direccion.)
+    copiamos lista
+    obtener_proximo -> devuelve indice del proximo
 
 # Data conversor
 # TESTS
