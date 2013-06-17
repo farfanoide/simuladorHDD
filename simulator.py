@@ -1,14 +1,17 @@
-from random import randint
+import random
 import math
+
 def random_list(quantity):
     list=[]
     for x in range(0,quantity):
-         list.append(randint(0,511))
+         list.append(random.randint(0,511))
     return list
 
 def add_random_pf(list, quantity):
+    rep = set 
     for x in range(0,quantity):
-        elem = randint(0,len(l)-1)
+
+        elem = random.randint(0,len(l)-1)
         list[elem] = list[elem] *-1
     return list
 
@@ -70,11 +73,13 @@ def FCFS(list,init_pos,direction):
 #print tupla
 #print "fin test fifo"
 
-#print "test get_pf"
-# l=random_list(10)
-# add_random_pf(l,3)
-# pfss=get_pf(l)
-# print pfss
+print "test get_pf"
+l=random_list(10)
+print l
+add_random_pf(l,3)
+print l
+pfss=get_pf(l)
+print pfss
 
 print "test FCFS"
 lfcfs=[399,190,120,-450,350,511,-12,-130,510,150]
