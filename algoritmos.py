@@ -1,7 +1,6 @@
 from random import randint
 import math
 
-
 def random_list(quantity):
     list = []
     for x in range(0, quantity):
@@ -19,7 +18,7 @@ def add_random_pf(list, quantity):
 def momentum(list, init_pos):
     mov = abs(list[0] - init_pos)
     for index in range(1, len(list)):
-            mov = mov + abs(list[index - 1] - list[index])
+        mov = mov + abs(list[index - 1] - list[index])
     return mov
 
 
@@ -57,7 +56,8 @@ def FCFS(list, init_pos, direction):
     fifo_result = fifo(list, pf_result[0][-1], pf_result[2])
     pf_result[0].extend(fifo_result[0])
 
-    return (pf_result[0], momentum(pf_result[0],init_pos), fifo_result[2])
+    return (pf_result[0], momentum(pf_result[0], init_pos), fifo_result[2])
+
 
 def min_dist(list, current_pos):
     list_distances = map(lambda p: abs(p - current_pos), list)
@@ -83,7 +83,7 @@ def SSTF(list_req, init_pos, direction):
     # obtener_proximo -> devuelve indice del proximo
 
 
-def divide_list(list,pos):
+def divide_list(list, pos, sort = True):
     """
         divides list into < (pos) >
     """
@@ -94,10 +94,48 @@ def divide_list(list,pos):
             greater.append(req)
         else:
             lower.append(req)
-    greater.sort()
-    lower.sort(reverse = True)
+    if sort:
+        greater.sort()
+        lower.sort(reverse=True)
     return (greater, lower)
+        
 
+def SCAN(list, init_pos, direction):
+    pf_result = attend_pf(list, init_pos, direction)
+    direction = pf_result[2]
+    last_pf = pf_result[0][-1]
+    sorted_lists = divide_list(list, last_pf, direction)
+    served_list = pf_result[0]
+    greater = sorted_lists[0]
+    lower = sorted_lists[1]
+    #TODO: destroy pf_result
+    if direction:
+        served_list.extend(greater)
+        served_list.extend(lower)
+        try:
+            movements = (511 - greater[-1])*2
+        except IndexError:
+            movements = (511 - last_pf)*2
+            
+    else:
+        served_list.extend(lower)
+        served_list.extend(greater)
+        try:
+            movements = lower[-1]*2
+        except IndexError:
+            movements = last_pf*2
+    # direction = !direction
+    movements += momentum(served_list, init_pos)
+    return(served_list,movements,not direction)
+
+
+
+
+
+
+# TODO: preguntar destroy
+# TODO: preguntar web 0 pygame 0 xxx
+# TODO: preguntar cuando se entrega
 
 # Data conversor
 # TESTS
@@ -122,6 +160,9 @@ print "fin"
 # print l
 # print min_dist(l,9)
 # print "end test FCFS"
-print "test divides"
-print divide_list(lsstf,150)
-
+lsstf = [-10,20,22,15,-5,-25]
+# print "test divides"
+# print divide_list(lsstf, 150)
+print "test SCAN"
+print SCAN(lsstf,2,False)
+print "fin SCAN"
