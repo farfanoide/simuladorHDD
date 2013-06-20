@@ -16,23 +16,27 @@ def add_random_pf(list, quantity):
 
 
 def momentum(list, init_pos):
-    mov = abs(list[0] - init_pos)
-    for index in range(1, len(list)):
-        mov = mov + abs(list[index - 1] - list[index])
-    return mov
-
+    if len(list) > 0:
+	mov = abs(list[0] - init_pos)
+	for index in range(1, len(list)):
+	    mov = mov + abs(list[index - 1] - list[index])
+	return mov
+    else:
+	return 0
 
 def fifo(list, init_pos, direction):
     "receives a list, initial position and direction. returns list ordered as served by algorithm, amount of movements and direction"
     # Final direction set
-    leindex = len(list) - 1  # last element index
-    if (list[leindex] - list[leindex - 1] > 0):
-        direction = True
+    if len(list) > 0:
+	leindex = len(list) - 1  # last element index
+	if (list[leindex] - list[leindex - 1] > 0):
+	    direction = True
+	else:
+	    direction = False
+	sum = momentum(list, init_pos)
+	return(list, sum, direction)
     else:
-        direction = False
-    sum = momentum(list, init_pos)
-    return(list, sum, direction)
-
+	return(list,0,direction)
 
 def get_pf(list):
     "returns list of page faults and default list without them"
@@ -130,24 +134,39 @@ def SCAN(list, init_pos, direction):
 
 def CSCAN(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
-    last_pf = pf_result[0][-1]
+    try:
+	last_pf = pf_result[0][-1]
+    except:
+	last_pf = init_pos
     sorted_lists = divide_list(list, last_pf, False)
     greater = sorted_lists[0]
     lower = sorted_lists[1]
     served_list = pf_result[0]
-    movements = []
+    movements = momentum(pf_result[0], init_pos)
     if direction:
         greater.sort()
         lower.sort()
-        served_list.extend(greater)
-        served_list.extend(lower)
-        movements = momentum(served_list,init_pos)
+	if len(greater) > 0:
+	    served_list.extend(greater)
+	    movements +=  momentum(greater, last_pf)
+	    movements += 511 - greater[-1]
+	else:
+	    movements += 511 - last_pf
+	if len(lower) > 0:
+	    served_list.extend(lower)
+	    movements += momentum(lower, 0)
     else:
         greater.sort(reverse = True)
         lower.sort(reverse = True)
-        served_list.extend(lower)
-        served_list.extend(greater)
-        movements = momentum(served_list,init_pos)
+	if len(lower) > 0:
+	    served_list.extend(lower)
+	    movements += momentum(lower, last_pf)
+	    movements += lower[-1] #agregamos el ultimo elem para compensar la distancia
+	else:
+	    movements += last_pf
+	if len(greater) > 0:
+	    served_list.extend(greater)
+	    movements += momentum(greater, 511)
     return (served_list, movements, direction)
 
 
@@ -169,10 +188,10 @@ def CSCAN(list, init_pos, direction):
 # add_random_pf(l,3)
 # pfss=get_pf(l)
 # print pfss
-print "test FCFS"
-lsstf = [399, 190, 120, -450, 350, 511, -12]
-print SSTF(lsstf, 1, False)
-print "fin"
+# print "test FCFS"
+# lsstf = [399, 190, 120, -450, 350, 511, -12]
+# # print SSTF(lsstf, 1, False)
+# print "fin"
 # print "test momentum and min"
 # l=[15,10,30,40,14]
 # i=0
@@ -180,9 +199,11 @@ print "fin"
 # print l
 # print min_dist(l,9)
 # print "end test FCFS"
-lsstf = [-10,20,22,15,-5,-25]
+#lsstf = [-10,20,22,15,-5,-25]
+lsstf = random_list(5)
+print lsstf
 # print "test divides"
 # print divide_list(lsstf, 150)
 print "test CSCAN"
-print CSCAN(lsstf,2,False)
+print CSCAN(lsstf,250,False)
 print "fin SCAN"
