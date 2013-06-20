@@ -77,7 +77,11 @@ def SSTF(list_req, init_pos, direction):
     list_req_copy = list_req[:]
     list_req_attended = []
     pf_result = attend_pf(list_req_copy, init_pos, direction)
-    current_pos = pf_result[0][-1]
+    try:
+        current_pos = pf_result[0][-1]
+    except Exception:
+        current_pos = init_pos
+        
     while (len(list_req_copy) > 0):
         index = min_dist(list_req_copy, current_pos)
         current_pos = list_req_copy[index]
@@ -109,13 +113,16 @@ def divide_list(list, pos, sort=False):
 
 def SCAN(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
+    try:
+        last_pf = pf_result[0][-1]
+    except:
+        last_pf = init_pos
     direction = pf_result[2]
     last_pf = pf_result[0][-1]
     sorted_lists = divide_list(list, last_pf, True)
     served_list = pf_result[0]
     greater = sorted_lists[0]
     lower = sorted_lists[1]
-    # TODO: destroy pf_result
     if direction:
         served_list.extend(greater)
         served_list.extend(lower)
@@ -131,7 +138,6 @@ def SCAN(list, init_pos, direction):
             movements = lower[-1] * 2
         except IndexError:
             movements = last_pf * 2
-    # direction = !direction
     movements += momentum(served_list, init_pos)
     return(served_list, movements, not direction)
 
@@ -151,6 +157,8 @@ def CSCAN(list, init_pos, direction):
         greater.sort()
         lower.sort()
         served_list.extend(greater)
+        served_list.append(511)
+
         movements += 511 - last_pf
         if len(lower) > 0:
             served_list.extend(lower)
@@ -159,16 +167,43 @@ def CSCAN(list, init_pos, direction):
         greater.sort(reverse=True)
         lower.sort(reverse=True)
         served_list.extend(lower)
+        served_list.append(0)
         movements += last_pf  # agregamos el ultimo elem para compensar la distancia
         if len(greater) > 0:
             served_list.extend(greater)
             movements += 511 - greater[-1]
     return (served_list, movements, direction)
 
+def LOOK(list, init_pos, direction):
+    pf_result = attend_pf(list, init_pos, direction)
+    print init_pos
+    try:
+        current_pos = pf_result[0][-1]
+    except:
+        current_pos = init_pos
+    direction = pf_result[2]
+    served_list = pf_result[0]
+    print served_list
+    (greater,lower) = divide_list(list, current_pos, True)
+    
+    if direction:
+        served_list.extend(greater)
+        served_list.extend(lower)
+    else:
+        served_list.extend(lower)
+        served_list.extend(greater)
+    print served_list
+    movements = momentum(served_list, init_pos)
+    return(served_list, movements, not direction)
 
-# TODO: preguntar destroy
-# TODO: preguntar web 0 pygame 0 xxx
-# TODO: preguntar cuando se entrega
+
+
+
+
+
+
+# TODO: check nomenclatura
+
 # Data conversor
 # TESTS
 # print "testeando fifo"
@@ -198,6 +233,6 @@ print lsstf
 # print "test divides"
 # print divide_list(lsstf, 150)
 print "test CSCAN"
-print CSCAN(lsstf, 250, False)
+print LOOK(lsstf, 250, True)
 print "fin SCAN"
 
