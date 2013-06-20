@@ -118,11 +118,8 @@ def SCAN(list, init_pos, direction):
     except:
         last_pf = init_pos
     direction = pf_result[2]
-    last_pf = pf_result[0][-1]
-    sorted_lists = divide_list(list, last_pf, True)
+    (greater, lower) = divide_list(list, last_pf, True)
     served_list = pf_result[0]
-    greater = sorted_lists[0]
-    lower = sorted_lists[1]
     if direction:
         served_list.extend(greater)
         served_list.extend(lower)
@@ -176,14 +173,12 @@ def CSCAN(list, init_pos, direction):
 
 def LOOK(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
-    print init_pos
     try:
         current_pos = pf_result[0][-1]
     except:
         current_pos = init_pos
     direction = pf_result[2]
     served_list = pf_result[0]
-    print served_list
     (greater,lower) = divide_list(list, current_pos, True)
     
     if direction:
@@ -192,11 +187,34 @@ def LOOK(list, init_pos, direction):
     else:
         served_list.extend(lower)
         served_list.extend(greater)
-    print served_list
     movements = momentum(served_list, init_pos)
     return(served_list, movements, not direction)
 
+def CLOOK(list, init_pos, direction):
+    pf_result = attend_pf(list, init_pos, direction)
+    try:
+        current_pos = pf_result[0][-1]
+    except:
+        current_pos = init_pos
+    served_list = pf_result[0]
+    movements = momentum(served_list, init_pos)
+    (greater,lower) = divide_list(list, current_pos)
+    if direction:
+        greater.sort()
+        lower.sort()
+        served_list.extend(greater)
+        served_list.extend(lower)
+        movements += momentum(greater, current_pos)
+        movements += momentum(lower, lower[0])
 
+    else:
+        greater.sort(reverse = True)
+        lower.sort(reverse = True)
+        served_list.extend(lower)
+        served_list.extend(greater)
+        movements += momentum(lower, current_pos)
+        movements += momentum(greater, greater[0])
+    return (served_list, movements, direction)
 
 
 
@@ -233,6 +251,6 @@ print lsstf
 # print "test divides"
 # print divide_list(lsstf, 150)
 print "test CSCAN"
-print LOOK(lsstf, 250, True)
+print SCAN(lsstf, 250, False)
 print "fin SCAN"
 
