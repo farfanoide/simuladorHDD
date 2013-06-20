@@ -1,6 +1,7 @@
 from random import randint
 import math
 
+
 def random_list(quantity):
     list = []
     for x in range(0, quantity):
@@ -17,26 +18,28 @@ def add_random_pf(list, quantity):
 
 def momentum(list, init_pos):
     if len(list) > 0:
-	mov = abs(list[0] - init_pos)
-	for index in range(1, len(list)):
-	    mov = mov + abs(list[index - 1] - list[index])
-	return mov
+        mov = abs(list[0] - init_pos)
+        for index in range(1, len(list)):
+            mov = mov + abs(list[index - 1] - list[index])
+        return mov
     else:
-	return 0
+        return 0
+
 
 def fifo(list, init_pos, direction):
     "receives a list, initial position and direction. returns list ordered as served by algorithm, amount of movements and direction"
     # Final direction set
     if len(list) > 0:
-	leindex = len(list) - 1  # last element index
-	if (list[leindex] - list[leindex - 1] > 0):
-	    direction = True
-	else:
-	    direction = False
-	sum = momentum(list, init_pos)
-	return(list, sum, direction)
+        leindex = len(list) - 1  # last element index
+        if (list[leindex] - list[leindex - 1] > 0):
+            direction = True
+        else:
+            direction = False
+        sum = momentum(list, init_pos)
+        return(list, sum, direction)
     else:
-	return(list,0,direction)
+        return(list, 0, direction)
+
 
 def get_pf(list):
     "returns list of page faults and default list without them"
@@ -87,7 +90,7 @@ def SSTF(list_req, init_pos, direction):
     # obtener_proximo -> devuelve indice del proximo
 
 
-def divide_list(list, pos, sort = False):
+def divide_list(list, pos, sort=False):
     """
         divides list into < (pos) >
     """
@@ -102,7 +105,7 @@ def divide_list(list, pos, sort = False):
         greater.sort()
         lower.sort(reverse=True)
     return (greater, lower)
-        
+
 
 def SCAN(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
@@ -112,32 +115,33 @@ def SCAN(list, init_pos, direction):
     served_list = pf_result[0]
     greater = sorted_lists[0]
     lower = sorted_lists[1]
-    #TODO: destroy pf_result
+    # TODO: destroy pf_result
     if direction:
         served_list.extend(greater)
         served_list.extend(lower)
         try:
-            movements = (511 - greater[-1])*2
+            movements = (511 - greater[-1]) * 2
         except IndexError:
-            movements = (511 - last_pf)*2
-            
+            movements = (511 - last_pf) * 2
+
     else:
         served_list.extend(lower)
         served_list.extend(greater)
         try:
-            movements = lower[-1]*2
+            movements = lower[-1] * 2
         except IndexError:
-            movements = last_pf*2
+            movements = last_pf * 2
     # direction = !direction
     movements += momentum(served_list, init_pos)
-    return(served_list,movements,not direction)
+    return(served_list, movements, not direction)
+
 
 def CSCAN(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
     try:
-	last_pf = pf_result[0][-1]
+        last_pf = pf_result[0][-1]
     except:
-	last_pf = init_pos
+        last_pf = init_pos
     sorted_lists = divide_list(list, last_pf, False)
     greater = sorted_lists[0]
     lower = sorted_lists[1]
@@ -146,36 +150,25 @@ def CSCAN(list, init_pos, direction):
     if direction:
         greater.sort()
         lower.sort()
-	if len(greater) > 0:
-	    served_list.extend(greater)
-	    movements +=  momentum(greater, last_pf)
-	    movements += 511 - greater[-1]
-	else:
-	    movements += 511 - last_pf
-	if len(lower) > 0:
-	    served_list.extend(lower)
-	    movements += momentum(lower, 0)
+        served_list.extend(greater)
+        movements += 511 - last_pf
+        if len(lower) > 0:
+            served_list.extend(lower)
+            movements += lower[-1]
     else:
-        greater.sort(reverse = True)
-        lower.sort(reverse = True)
-	if len(lower) > 0:
-	    served_list.extend(lower)
-	    movements += momentum(lower, last_pf)
-	    movements += lower[-1] #agregamos el ultimo elem para compensar la distancia
-	else:
-	    movements += last_pf
-	if len(greater) > 0:
-	    served_list.extend(greater)
-	    movements += momentum(greater, 511)
+        greater.sort(reverse=True)
+        lower.sort(reverse=True)
+        served_list.extend(lower)
+        movements += last_pf  # agregamos el ultimo elem para compensar la distancia
+        if len(greater) > 0:
+            served_list.extend(greater)
+            movements += 511 - greater[-1]
     return (served_list, movements, direction)
-
-
 
 
 # TODO: preguntar destroy
 # TODO: preguntar web 0 pygame 0 xxx
 # TODO: preguntar cuando se entrega
-
 # Data conversor
 # TESTS
 # print "testeando fifo"
@@ -190,7 +183,7 @@ def CSCAN(list, init_pos, direction):
 # print pfss
 # print "test FCFS"
 # lsstf = [399, 190, 120, -450, 350, 511, -12]
-# # print SSTF(lsstf, 1, False)
+# print SSTF(lsstf, 1, False)
 # print "fin"
 # print "test momentum and min"
 # l=[15,10,30,40,14]
@@ -199,11 +192,12 @@ def CSCAN(list, init_pos, direction):
 # print l
 # print min_dist(l,9)
 # print "end test FCFS"
-#lsstf = [-10,20,22,15,-5,-25]
-lsstf = random_list(5)
+lsstf = [280, 406, 161, 444, 0]
+# lsstf = random_list(5)
 print lsstf
 # print "test divides"
 # print divide_list(lsstf, 150)
 print "test CSCAN"
-print CSCAN(lsstf,250,False)
+print CSCAN(lsstf, 250, False)
 print "fin SCAN"
+
