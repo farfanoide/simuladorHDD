@@ -1,3 +1,4 @@
+#python
 from random import randint
 import math
 
@@ -17,6 +18,10 @@ def add_random_pf(list, quantity):
 
 
 def momentum(list, init_pos):
+    """
+    calculates movements between each requirement in a list
+    :param list: list
+    """
     if len(list) > 0:
         mov = abs(list[0] - init_pos)
         for index in range(1, len(list)):
@@ -27,7 +32,7 @@ def momentum(list, init_pos):
 
 
 def fifo(list, init_pos, direction):
-    "receives a list, initial position and direction. returns list ordered as served by algorithm, amount of movements and direction"
+
     # Final direction set
     if len(list) > 0:
         leindex = len(list) - 1  # last element index
@@ -55,15 +60,34 @@ def attend_pf(list, init_pos, direction):
     pf_list = get_pf(list)
     return fifo(pf_list, init_pos, direction)
 
-# FCFS  implementation
+def divide_list(list, pos, sort=False):
+    """
+        divides list into < (pos) >
+    """
+    lower, greater = [], []
+    for req in list:
+        if req > pos:
+            greater.append(req)
+        else:
+            lower.append(req)
+    if sort:
+        greater.sort()
+        lower.sort(reverse=True)
+    return (greater, lower)
 
 
 def FCFS(list, init_pos, direction):
     pf_result = attend_pf(list, init_pos, direction)
-    fifo_result = fifo(list, pf_result[0][-1], pf_result[2])
-    pf_result[0].extend(fifo_result[0])
-
-    return (pf_result[0], momentum(pf_result[0], init_pos), fifo_result[2])
+    try:
+        current_pos = pf_result[0][-1]
+        served_list = pf_result[0]
+    except IndexError:
+        current_pos = init_pos
+        served_list = []
+    fifo_result = fifo(list, current_pos, pf_result[2])
+    served_list.extend(fifo_result[0])
+    movements = momentum(served_list, init_pos)
+    return (served_list, movements, fifo_result[2])
 
 
 def min_dist(list, current_pos):
@@ -79,7 +103,7 @@ def SSTF(list_req, init_pos, direction):
     pf_result = attend_pf(list_req_copy, init_pos, direction)
     try:
         current_pos = pf_result[0][-1]
-    except Exception:
+    except IndexError:
         current_pos = init_pos
         
     while (len(list_req_copy) > 0):
@@ -89,26 +113,6 @@ def SSTF(list_req, init_pos, direction):
     pf_result[0].extend(list_req_attended)
     return (pf_result[0], momentum(pf_result[0], init_pos))
 
-#   SCAN (lista, posicion inicial, direccion.)
-    # copiamos lista
-    # obtener_proximo -> devuelve indice del proximo
-
-
-def divide_list(list, pos, sort=False):
-    """
-        divides list into < (pos) >
-    """
-    lower = []
-    greater = []
-    for req in list:
-        if req > pos:
-            greater.append(req)
-        else:
-            lower.append(req)
-    if sort:
-        greater.sort()
-        lower.sort(reverse=True)
-    return (greater, lower)
 
 
 def SCAN(list, init_pos, direction):
