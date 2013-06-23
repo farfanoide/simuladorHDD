@@ -42,19 +42,17 @@ class Simulator():
             return 0
 
 
-    def fifo(list, init_pos, direction):
+    def fifo(req_list, init_pos, direction):
 
-        # Final direction set
-        if list:
-            leindex = len(list) - 1  # last element index
-            if (list[leindex] - list[leindex - 1] > 0):
+        if req_list:
+            if (req_list[-1] - req_list[- 2] > 0):
                 direction = True
             else:
                 direction = False
-            sum = momentum(list, init_pos)
-            return(list, sum, direction)
+            movements = momentum(req_list, init_pos)
+            return(req_list, movements, direction)
         else:
-            return(list, 0, direction)
+            return(req_list, 0, direction)
 
 
     def get_pf(list):
