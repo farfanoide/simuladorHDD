@@ -109,19 +109,18 @@ class Simulator():
 
     def SSTF(list_req, init_pos, direction):
         list_req_copy = list_req[:]
-        list_req_attended = []
         pf_result = attend_pf(list_req_copy, init_pos, direction)
+        served_list = pf_result[0]
         try:
             current_pos = pf_result[0][-1]
         except IndexError:
             current_pos = init_pos
-
-        while (len(list_req_copy) > 0):
+        while list_req_copy:
             index = min_distance(list_req_copy, current_pos)
             current_pos = list_req_copy[index]
-            list_req_attended.append(list_req_copy.pop(index))
-        pf_result[0].extend(list_req_attended)
-        return (pf_result[0], momentum(pf_result[0], init_pos))
+            served_list.append(list_req_copy.pop(index))
+        movements = momentum(pf_result[0], init_pos)
+        return (served_list, movements)
 
 
     def SCAN(list, init_pos, direction):
@@ -230,4 +229,6 @@ class Simulator():
             movements += momentum(lower, current_pos)
             movements += momentum(greater, greater[0])
         return (served_list, movements, direction)
-
+testlist = [4, 7, 124, 550, 230, 39]
+s = Simulator(testlist)
+print s.SSTF(250, True)
