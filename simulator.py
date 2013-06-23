@@ -1,45 +1,47 @@
 from random import randint
 import math
 class Simulator():
-    """docstring for simulator"""
+    """Simulates Scheduling Algorithms"""
     
 
-    def __init__(self, reqs = [], tracks = 511):
+    def __init__(self, reqs=[], pfs=[], pos=250, dire=True, tracks=511):
         self.requirements = reqs
+        self.page_faults = pfs
+        self.init_pos = pos
+        self.direction = dire
         self.max_tracks = tracks
-                       
-    def random_list(quantity, max):
+        self.movements = 0
+
+    
+    #-------------
+    # helpers
+    #-------------
+
+    def random_list(self, quantity):
         """Generates random list, duh!
 
         Keyword arguments:
         quantity (int) -- amount of numbers 
 
         """
-        reqs = []
-        for x in range(0, quantity):
-            reqs.append(randint(0, self.max_tracks))
-        return reqs
+        self.requirements = [randint(0,self.max_tracks) for i in range(quantity)]
 
 
-    def add_random_pf(list, quantity):
-        for x in range(0, quantity):
-            elem = randint(0, len(l) - 1)
-            list[elem] = list[elem] * -1
-        return list
+    def add_random_pf(self, quantity):
+        for x in range(quantity):
+            elem = randint(0,len(self.requirements)-1)
+            self.requirements[elem] = -self.requirements[elem]
 
 
-    def momentum(req_list, init_pos):
+    def momentum(self, init_pos):
         """
         calculates movements between each requirement in a list
         :param list: list
         """
-        if req_list:
-            mov = abs(req_list[0] - init_pos)
-            for index in range(1, len(req_list)):
-                mov = mov + abs(req_list[index - 1] - req_list[index])
-            return mov
-        else:
-            return 0
+        if self.requirements:
+            self.movements = abs(self.requirements[0] - init_pos)
+            for index in range(1, len(self.requirements)):
+                self.movements +=  abs(self.requirements[index - 1] - self.requirements[index])
 
 
     def fifo(req_list, init_pos, direction):
@@ -85,7 +87,20 @@ class Simulator():
             lower.sort(reverse=True)
         return greater, lower
 
+    def min_distance(list, current_pos):
+        list_distances = map(lambda p: abs(p - current_pos), list)
+        value = min(list_distances)
+        print list_distances
+        return list_distances.index(value)
 
+
+    #-------------
+    # end helpers
+    #-------------
+
+    #-------------------------------
+    # Scheduling Algorithms
+    #-------------------------------
     def FCFS(list, init_pos, direction):
         pf_result = attend_pf(list, init_pos, direction)
         try:
@@ -99,12 +114,6 @@ class Simulator():
         movements = momentum(served_list, init_pos)
         return (served_list, movements, fifo_result[2])
 
-
-    def min_distance(list, current_pos):
-        list_distances = map(lambda p: abs(p - current_pos), list)
-        value = min(list_distances)
-        print list_distances
-        return list_distances.index(value)
 
 
     def SSTF(list_req, init_pos, direction):
@@ -229,6 +238,6 @@ class Simulator():
             movements += momentum(lower, current_pos)
             movements += momentum(greater, greater[0])
         return (served_list, movements, direction)
-testlist = [4, 7, 124, 550, 230, 39]
-s = Simulator(testlist)
-print s.SSTF(250, True)
+    #-------------------------------
+    # end Scheduling Algorithms
+    #-------------------------------
