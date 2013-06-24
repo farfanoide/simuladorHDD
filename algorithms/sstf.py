@@ -1,10 +1,8 @@
-from scheduling import Scheduling
-class sstf(Scheduling):
+class SSTF():
     """docstring for sstf"""
 
 
     def attend_requisites(simulator):
-
         list_req_copy = simulator.requisites[:]
         pf_result = attend_pf(list_req_copy, init_pos, direction)
         served_list = pf_result[0]

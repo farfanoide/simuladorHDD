@@ -1,5 +1,7 @@
-class look():
-    def LOOK(list, init_pos, direction):
+class LOOK():
+
+    
+    def attend_requisites():
         pf_result = attend_pf(list, init_pos, direction)
         try:
             current_pos = pf_result[0][-1]

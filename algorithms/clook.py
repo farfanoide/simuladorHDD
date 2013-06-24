@@ -1,4 +1,6 @@
-class clook():
+class CLOOK():
+
+    
     def attend_requisites(simulator):
         pf_result = attend_pf(list, init_pos, direction)
         try:

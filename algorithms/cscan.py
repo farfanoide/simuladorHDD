@@ -1,5 +1,7 @@
-class cscan():
-    def CSCAN(list, init_pos, direction):
+class CSCAN():
+
+    
+    def attend_requisites():
         pf_result = attend_pf(list, init_pos, direction)
         try:
             last_pf = pf_result[0][-1]
