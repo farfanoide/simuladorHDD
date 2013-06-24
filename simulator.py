@@ -4,46 +4,43 @@ class Simulator():
     """Simulates Scheduling Algorithms"""
     
 
-    def __init__(self, reqs=[], pfs=[], pos=250, dire=True, tracks=511):
+    def __init__(self, reqs=[], pos=250, dire=True, tracks=511):
         self.requirements = reqs
-        self.page_faults = pfs
         self.init_pos = pos
         self.direction = dire
         self.max_tracks = tracks
         self.movements = 0
+        self.page_faults = []
+        self.served_reqs = []
 
     
+    def executeFCFS():
+        algorithm = Fcfs()
+        algorithm.attend_requisites(self)
+    
+    def executeSSTF():
+        algorithm = Sstf()
+        algorithm.attend_requisites(self)
+    
+    def executeSCAN():
+        algorithm = Scan()
+        algorithm.attend_requisites(self)
+    
+    def executeCSCAN():
+        algorithm = CScan()
+        algorithm.attend_requisites(self)
+    
+    def executeLOOK():
+        algorithm = Look()
+        algorithm.attend_requisites(self)
+    
+    def executeCLOOK():
+        algorithm = CLook()
+        algorithm.attend_requisites(self)
+
     #-------------
-    # helpers
+    # Common
     #-------------
-
-    def random_list(self, quantity):
-        """Generates random list, duh!
-
-        Keyword arguments:
-        quantity (int) -- amount of numbers 
-
-        """
-        self.requirements = [randint(0,self.max_tracks) for i in range(quantity)]
-
-
-    def add_random_pf(self, quantity):
-        for x in range(quantity):
-            elem = randint(0,len(self.requirements)-1)
-            self.requirements[elem] = -self.requirements[elem]
-
-
-    def momentum(self, init_pos):
-        """
-        calculates movements between each requirement in a list
-        :param list: list
-        """
-        if self.requirements:
-            self.movements = abs(self.requirements[0] - init_pos)
-            for index in range(1, len(self.requirements)):
-                self.movements +=  abs(self.requirements[index - 1] - self.requirements[index])
-
-
     def fifo(req_list, init_pos, direction):
 
         if req_list:
@@ -57,19 +54,49 @@ class Simulator():
             return(req_list, 0, direction)
 
 
-    def get_pf(list):
+    def get_pf(self):
         "returns list of page faults and default list without them"
-        list_pf = []
-        for i in range(len(list) - 1, -1, -1):  # recorremos en forma inversa para no perer indices
-            if list[i] < 0:
-                list_pf.append(abs(list.pop(i)))
-        list_pf.reverse()
-        return list_pf
+        pf_list = []
+        for i in range(len(self.requirements) - 1, -1, -1):  # recorremos en forma inversa para no perer indices
+            if self.requirements[i] < 0:
+                pf_list.append(abs(self.requirements.pop(i)))
+        pf_list.reverse()
+        self.page_faults = pf_list
+
+    def startup(self):
+        self.get_pf()
+        if self.page_faults:
+            self.movements = momentum(self.page_faults, self.init_pos)
+            return self.page_faults[-1]
+        else:
+            return init_pos
+    
 
 
-    def attend_pf(list, init_pos, direction):
-        pf_list = get_pf(list)
-        return fifo(pf_list, init_pos, direction)
+    # def attend_pf(list, init_pos, direction):
+    #     pf_list = get_pf(list)
+    #     return fifo(pf_list, init_pos, direction)
+
+
+        
+
+    def random_list(self, quantity):
+        """Generates random list, duh!
+
+        Keyword arguments:
+        quantity (int) -- amount of numbers 
+
+        """
+        return [randint(0,self.max_tracks) for i in range(quantity)]
+
+
+    def add_random_pf(self, quantity):
+        for x in range(quantity):
+            elem = randint(0,len(self.requirements)-1)
+            self.requirements[elem] = -self.requirements[elem]
+
+
+
 
 
     def divide_list(list, pos, sort=False):
@@ -95,149 +122,5 @@ class Simulator():
 
 
     #-------------
-    # end helpers
+    # end Common
     #-------------
-
-    #-------------------------------
-    # Scheduling Algorithms
-    #-------------------------------
-    def FCFS(list, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            current_pos = pf_result[0][-1]
-            served_list = pf_result[0]
-        except IndexError:
-            current_pos = init_pos
-            served_list = []
-        fifo_result = fifo(list, current_pos, pf_result[2])
-        served_list.extend(fifo_result[0])
-        movements = momentum(served_list, init_pos)
-        return (served_list, movements, fifo_result[2])
-
-
-
-    def SSTF(list_req, init_pos, direction):
-        list_req_copy = list_req[:]
-        pf_result = attend_pf(list_req_copy, init_pos, direction)
-        served_list = pf_result[0]
-        try:
-            current_pos = pf_result[0][-1]
-        except IndexError:
-            current_pos = init_pos
-        while list_req_copy:
-            index = min_distance(list_req_copy, current_pos)
-            current_pos = list_req_copy[index]
-            served_list.append(list_req_copy.pop(index))
-        movements = momentum(pf_result[0], init_pos)
-        return (served_list, movements)
-
-
-    def SCAN(list, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            last_pf = pf_result[0][-1]
-        except:
-            last_pf = init_pos
-        direction = pf_result[2]
-        (greater, lower) = divide_list(list, last_pf, True)
-        served_list = pf_result[0]
-        if direction:
-            served_list.extend(greater)
-            served_list.extend(lower)
-            try:
-                movements = (511 - greater[-1]) * 2
-            except IndexError:
-                movements = (511 - last_pf) * 2
-
-        else:
-            served_list.extend(lower)
-            served_list.extend(greater)
-            try:
-                movements = lower[-1] * 2
-            except IndexError:
-                movements = last_pf * 2
-        movements += momentum(served_list, init_pos)
-        return(served_list, movements, not direction)
-
-
-    def CSCAN(list, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            last_pf = pf_result[0][-1]
-        except:
-            last_pf = init_pos
-        sorted_lists = divide_list(list, last_pf, False)
-        greater = sorted_lists[0]
-        lower = sorted_lists[1]
-        served_list = pf_result[0]
-        movements = momentum(pf_result[0], init_pos)
-        if direction:
-            greater.sort()
-            lower.sort()
-            served_list.extend(greater)
-            served_list.append(511)
-
-            movements += 511 - last_pf
-            if len(lower) > 0:
-                served_list.extend(lower)
-                movements += lower[-1]
-        else:
-            greater.sort(reverse=True)
-            lower.sort(reverse=True)
-            served_list.extend(lower)
-            served_list.append(0)
-            movements += last_pf  # agregamos el ultimo elem para compensar la distancia
-            if len(greater) > 0:
-                served_list.extend(greater)
-                movements += 511 - greater[-1]
-        return (served_list, movements, direction)
-
-
-    def LOOK(list, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            current_pos = pf_result[0][-1]
-        except:
-            current_pos = init_pos
-        direction = pf_result[2]
-        served_list = pf_result[0]
-        (greater, lower) = divide_list(list, current_pos, True)
-
-        if direction:
-            served_list.extend(greater)
-            served_list.extend(lower)
-        else:
-            served_list.extend(lower)
-            served_list.extend(greater)
-        movements = momentum(served_list, init_pos)
-        return(served_list, movements, not direction)
-
-
-    def CLOOK(list, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            current_pos = pf_result[0][-1]
-        except:
-            current_pos = init_pos
-        served_list = pf_result[0]
-        movements = momentum(served_list, init_pos)
-        (greater, lower) = divide_list(list, current_pos)
-        if direction:
-            greater.sort()
-            lower.sort()
-            served_list.extend(greater)
-            served_list.extend(lower)
-            movements += momentum(greater, current_pos)
-            movements += momentum(lower, lower[0])
-
-        else:
-            greater.sort(reverse=True)
-            lower.sort(reverse=True)
-            served_list.extend(lower)
-            served_list.extend(greater)
-            movements += momentum(lower, current_pos)
-            movements += momentum(greater, greater[0])
-        return (served_list, movements, direction)
-    #-------------------------------
-    # end Scheduling Algorithms
-    #-------------------------------

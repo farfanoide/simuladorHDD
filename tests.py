@@ -6,7 +6,6 @@ class testSimulator(unittest.TestCase):
     def setUp(self):
         self.reqs = Simulator()
         self.reqs.requirements = [80, 44, 230, 128, 511, 90, 56, 6, 444, 211]
-        self.reqs.momentum(self.reqs.init_pos)
         self.reqs.add_random_pf(4)
 
     def test_random_list_should_return_list(self):
@@ -17,9 +16,9 @@ class testSimulator(unittest.TestCase):
         self.assertEqual(len(self.reqs.requirements),33)
 
     def test_momentum_should_return_amount_of_movements(self):
-        self.assertEqual(self.reqs.movements, 2053)
+        self.assertEqual(self.reqs.momentum(self.reqs.requirements, self.reqs.init_pos), 2053)
 
-    def test_add_random_pf_should_add_x_negative_numbers(self):
+    def test_add_random_pf_should_add_aprox_x_negative_numbers(self):
 
         def count_pfs(reqs):
             count = 0
@@ -29,5 +28,8 @@ class testSimulator(unittest.TestCase):
             return count
                     
         self.assertLessEqual(count_pfs(self.reqs.requirements),4)
+
+    # def test_fifo_returns_direction():
+        
 
 
