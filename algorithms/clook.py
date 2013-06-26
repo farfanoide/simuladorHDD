@@ -1,4 +1,4 @@
-class CLOOK():
+class CLOOK(Scheduling):
 
     
     def attend_requisites(simulator):

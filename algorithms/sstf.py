@@ -1,6 +1,11 @@
-class SSTF():
+class SSTF(Scheduling):
     """docstring for sstf"""
 
+    def min_distance(list, current_pos):
+        list_distances = map(lambda p: abs(p - current_pos), list)
+        value = min(list_distances)
+        print list_distances
+        return list_distances.index(value)
 
     def attend_requisites(simulator):
         list_req_copy = simulator.requisites[:]
@@ -16,3 +21,4 @@ class SSTF():
             served_list.append(list_req_copy.pop(index))
         movements = momentum(pf_result[0], init_pos)
         return (served_list, movements)
+

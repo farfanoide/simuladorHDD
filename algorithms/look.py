@@ -1,4 +1,4 @@
-class LOOK():
+class LOOK(Scheduling):
 
     
     def attend_requisites():

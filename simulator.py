@@ -54,22 +54,7 @@ class Simulator():
             return(req_list, 0, direction)
 
 
-    def get_pf(self):
-        "returns list of page faults and default list without them"
-        pf_list = []
-        for i in range(len(self.requirements) - 1, -1, -1):  # recorremos en forma inversa para no perer indices
-            if self.requirements[i] < 0:
-                pf_list.append(abs(self.requirements.pop(i)))
-        pf_list.reverse()
-        self.page_faults = pf_list
 
-    def startup(self):
-        self.get_pf()
-        if self.page_faults:
-            self.movements = momentum(self.page_faults, self.init_pos)
-            return self.page_faults[-1]
-        else:
-            return init_pos
     
 
 
@@ -78,47 +63,12 @@ class Simulator():
     #     return fifo(pf_list, init_pos, direction)
 
 
-        
-
-    def random_list(self, quantity):
-        """Generates random list, duh!
-
-        Keyword arguments:
-        quantity (int) -- amount of numbers 
-
-        """
-        return [randint(0,self.max_tracks) for i in range(quantity)]
-
-
     def add_random_pf(self, quantity):
         for x in range(quantity):
             elem = randint(0,len(self.requirements)-1)
             self.requirements[elem] = -self.requirements[elem]
 
 
-
-
-
-    def divide_list(list, pos, sort=False):
-        """
-            divides list into < (pos) >
-        """
-        lower, greater = [], []
-        for req in list:
-            if req > pos:
-                greater.append(req)
-            else:
-                lower.append(req)
-        if sort:
-            greater.sort()
-            lower.sort(reverse=True)
-        return greater, lower
-
-    def min_distance(list, current_pos):
-        list_distances = map(lambda p: abs(p - current_pos), list)
-        value = min(list_distances)
-        print list_distances
-        return list_distances.index(value)
 
 
     #-------------

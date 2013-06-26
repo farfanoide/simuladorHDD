@@ -1,4 +1,4 @@
-class CSCAN():
+class CSCAN(Scheduling):
 
     
     def attend_requisites():

@@ -1,4 +1,4 @@
-class FCFS():
+class FCFS(Scheduling):
 
 
         def attend_requisites(simulator):

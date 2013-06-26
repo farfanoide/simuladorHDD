@@ -1,4 +1,5 @@
-class SCAN():
+from shceduling import Scheduling
+class SCAN(Scheduling):
 
 
     def attend_requisites():
