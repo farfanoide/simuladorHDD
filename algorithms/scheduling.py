@@ -72,9 +72,19 @@ class Scheduling():
             lower.sort(reverse=True)
         return (greater, lower)
 
-    def get_end_dir(self, requirements):
-        if (requirements[-1] - requirements[- 2] > 0):
-            direction = True
-        else:
-            direction = False
-        return direction    
+    def get_end_dir(self, requirements, init_pos, orig_dir):
+
+        try:
+            if len(requirements) > 1:
+                if (requirements[-1] - requirements[- 2] > 0):
+                    direction = True
+                else:
+                    direction = False
+            else:
+                if (requirements[0] - init_pos > 0):
+                    direction = True
+                else:
+                    direction = False
+            return direction
+        except IndexError:
+            return orig_dir

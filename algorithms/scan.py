@@ -6,10 +6,7 @@ class SCAN(Scheduling):
 
         current_pos    = self.startup(requirements, init_pos)
         greater, lower = self.divide_list(self.requirements, current_pos, True)
-        try:
-            post_pf_dir  = self.get_end_dir(self.page_faults)
-        except IndexError:
-            post_pf_dir = direction
+        post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
         if post_pf_dir:
             self.attended += greater
             self.attended += lower

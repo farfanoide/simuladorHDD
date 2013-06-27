@@ -3,13 +3,11 @@ class CLOOK(Scheduling):
 
     
     def attend_requirements(self, requirements, init_pos, direction):
-        current_pos      = self.startup(requirements, init_pos)
-        self.movements   = self.count_movements(self.page_faults, init_pos)
-        (greater, lower) = self.divide_list(requirements, current_pos)
-        try:
-            post_pf_dir  = self.get_end_dir(self.page_faults)
-        except IndexError:
-            post_pf_dir = direction
+        current_pos    = self.startup(requirements, init_pos)
+        self.movements = self.count_movements(self.page_faults, init_pos)
+        greater, lower = self.divide_list(requirements, current_pos)
+        post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
+
         if post_pf_dir:
             if greater:
                 greater.sort()

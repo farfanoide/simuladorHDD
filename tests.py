@@ -3,9 +3,14 @@ from simulator import Simulator
 class testSimulator(unittest.TestCase):
     """tests default functions"""
 
+    no_pf_list : [80, 44, 230, 128, 511, 90, 56, 6, 444, 211]
+
     def setUp(self):
-        self.reqs = Simulator()
-        self.reqs.requirements = [80, 44, 230, 128, 511, 90, 56, 6, 444, 211]
+        self.reqs_no_pf        = Simulator()
+        self.reqs_no_lower     = Simulator()
+        self.reqs_no_greater   = Simulator()
+        self.reqs_normal       = Simulator()
+        self.reqs.requirements = no_pf_list
         self.reqs.add_random_pf(4)
 
     def test_random_list_should_return_list(self):

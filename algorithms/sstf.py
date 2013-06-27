@@ -16,5 +16,5 @@ class SSTF(Scheduling):
             current_pos = reqs_copy[index]
             self.attended.append(reqs_copy.pop(index))
         self.movements = self.count_movements(self.attended, init_pos) 
-        self.last_dir  = self.get_end_dir(self.attended)
+        self.last_dir  = self.get_end_dir(self.attended, init_pos, direction)
         return (self.attended, self.movements, self.last_dir)
