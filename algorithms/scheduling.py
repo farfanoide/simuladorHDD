@@ -1,12 +1,12 @@
 class Scheduling():
 
     def __init__(self):
-        self.requirements= []
-        self.attended    = []
+        self.requirements = []
+        self.attended = []
         self.page_faults = []
-        self.movements   = 0
-        self.direction   = True
-        self.last_dir    = True
+        self.movements = 0
+        self.direction = True
+        self.last_dir = True
 
     def get_attended_requirements(self):
         return self.requirements
@@ -22,7 +22,7 @@ class Scheduling():
 
     def get_pfs(self, requirements):
         "returns list of page faults"
-        
+
         for req in requirements:
             if req < 0:
                 self.page_faults.append(abs(req))
@@ -31,7 +31,7 @@ class Scheduling():
 
     def startup(self, requirements, init_pos):
         """
-        Initializes 
+        Initializes
         """
         self.get_pfs(requirements)
         if self.page_faults:
@@ -39,12 +39,18 @@ class Scheduling():
             self.attended += self.page_faults
             return self.page_faults[-1]
         else:
+            # there arent any page faults
+            try:
+                self.movements = abs(self.requirements[0] - init_pos)
+            except IndexError:
+            # there arent any requirements
+                pass
             return init_pos
 
     def count_movements(self, requirements, init_pos):
         """
         calculates movements between each requirement in a list
-        
+
         Keyword arguments:
         requirements (list) -- requirements list
 
