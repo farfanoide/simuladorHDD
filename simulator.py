@@ -19,28 +19,33 @@ class Simulator():
             self.requirements, self.init_pos, self.direction)
 
     def executeSSTF(self):
-        algorithm = Sstf()
-        algorithm.attend_requirements(
+        from algorithms.sstf import SSTF
+        algorithm = SSTF()
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction)
 
     def executeSCAN(self):
-        algorithm = Scan()
-        algorithm.attend_requirements(
+        from algorithms.scan import SCAN
+        algorithm = SCAN()
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction)
 
     def executeCSCAN(self):
-        algorithm = CScan()
-        algorithm.attend_requirements(
+        from algorithms.cscan import CSCAN
+        algorithm = CSCAN()
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction)
 
     def executeLOOK(self):
-        algorithm = Look()
-        algorithm.attend_requirements(
+        from algorithms.look import LOOK
+        algorithm = LOOK()
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction)
 
     def executeCLOOK(self):
-        algorithm = CLook()
-        algorithm.attend_requirements(
+        from algorithms.clook import CLOOK
+        algorithm = CLOOK()
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction)
 
     #-------------

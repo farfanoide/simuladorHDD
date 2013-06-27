@@ -6,6 +6,7 @@ class Scheduling():
         self.page_faults = []
         self.movements   = 0
         self.direction   = True
+        self.last_dir    = True
 
     def get_attended_requirements(self):
         return self.requirements

@@ -1,7 +1,7 @@
 class CSCAN(Scheduling):
 
     
-    def attend_requirements(requirements, init_pos, direction):
+    def attend_requirements(self, requirements, init_pos, direction):
         pf_result = attend_pf(list, init_pos, direction)
         try:
             last_pf = pf_result[0][-1]
