@@ -1,46 +1,63 @@
 class Scheduling():
 
-    def attend_requisites():
+    def __init__(self):
+        self.requirements= []
+        self.attended    = []
+        self.page_faults = []
+        self.movements   = 0
+        self.direction   = True
+
+    def get_attended_requirements(self):
+        return self.requirements
+
+    def get_movements(self):
+        return self.movements
+
+    def get_direction(self):
+        return self.direction
+
+    def attend_requirements(self, requirements, init_pos, direction):
         pass
 
-    def get_pf(req_list):
-        "returns list of page faults and default list without them"
-        pf_list = []
-        for i in range(len(self.requirements) - 1, -1, -1):  # recorremos en forma inversa para no perer indices
-            if self.requirements[i] < 0:
-                pf_list.append(abs(self.requirements.pop(i)))
-        pf_list.reverse()
-        return pf_list
+    def get_pfs(self, requirements):
+        "returns list of page faults"
+        
+        for req in requirements:
+            if req < 0:
+                self.page_faults.append(abs(req))
+            else:
+                self.requirements.append(req)
 
-    def startup(req_list):
-        self.get_pf()
+    def startup(self, requirements, init_pos):
+        self.get_pfs(requirements)
         if self.page_faults:
-            self.movements = momentum(self.page_faults, self.init_pos)
+            self.movements += self.count_movements(self.page_faults, init_pos)
             return self.page_faults[-1]
         else:
             return init_pos
-    def momentum(req_list, init_pos):
+
+    def count_movements(self, requirements, init_pos):
         """
         calculates movements between each requirement in a list
         
         Keyword arguments:
-        req_list (list) -- requirements list
+        requirements (list) -- requirements list
 
         """
-        if req_list:
-            movements = abs(req_list[0] - init_pos)
-            for index in range(1, len(req_list)):
-                movements += abs(req_list[index - 1] - req_list[index])
+        if requirements:
+            movements = abs(requirements[0] - init_pos)
+            for index in range(1, len(requirements)):
+                movements += abs(requirements[index - 1] - requirements[index])
             return movements
         else:
             return 0
 
-    def divide_list(list, pos, sort=False):
+    def divide_list(self, requirements, pos, sort=False):
         """
             divides list into < (pos) >
         """
         lower, greater = [], []
-        for req in list:
+        for req in requirements:
             if req > pos:
                 greater.append(req)
             else:
@@ -48,12 +65,11 @@ class Scheduling():
         if sort:
             greater.sort()
             lower.sort(reverse=True)
-        return greater, lower
+        return (greater, lower)
 
-    def get_direction_after_fifo(req_list):
-
-        if (req_list[-1] - req_list[- 2] > 0):
+    def get_end_dir(self, requirements):
+        if (requirements[-1] - requirements[- 2] > 0):
             direction = True
         else:
             direction = False
-        return direction
+        return direction    

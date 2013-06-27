@@ -1,17 +1,12 @@
+from scheduling import Scheduling
 class FCFS(Scheduling):
 
 
-        def attend_requisites(simulator):
-                current_pos = self.startup(simulator)
-                self.served_reqs += self.page_faults + self.requirements
-                self.movements += momentum(self.requirements, current_pos)
+        def attend_requirements(self, requirements, init_pos, direction):
                 
-                # try:
-                #     current_pos = pf_result[0][-1]
-                #     served_list = pf_result[0]
-                # except IndexError:
-                #     current_pos = init_pos
-                #     served_list = []
-                # fifo_result = fifo(list, current_pos, pf_result[2])
-                # served_list.extend(fifo_result[0])
-                # return (served_list, movements, fifo_result[2])
+                current_pos = self.startup(requirements, init_pos)
+                self.attended = self.page_faults + self.requirements
+                self.movements += self.count_movements(self.requirements, current_pos)
+                last_dir = self.get_end_dir(self.attended)
+                return (self.attended, self.movements, last_dir)
+                

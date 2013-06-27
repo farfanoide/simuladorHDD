@@ -2,13 +2,17 @@ from shceduling import Scheduling
 class SCAN(Scheduling):
 
 
-    def attend_requisites():
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            last_pf = pf_result[0][-1]
-        except:
-            last_pf = init_pos
-        direction = pf_result[2]
+    def attend_requirements(requirements, init_pos, direction):
+
+
+        # pf_result = attend_pf(list, init_pos, direction)
+        # try:
+        #     last_pf = pf_result[0][-1]
+        # except:
+        #     last_pf = init_pos
+        # direction = pf_result[2]
+
+        current_pos = self.startup(requirements, init_pos)
         (greater, lower) = divide_list(list, last_pf, True)
         served_list = pf_result[0]
         if direction:

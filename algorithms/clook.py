@@ -1,7 +1,7 @@
 class CLOOK(Scheduling):
 
     
-    def attend_requisites(simulator):
+    def attend_requirements(requirements, init_pos, direction):
         pf_result = attend_pf(list, init_pos, direction)
         try:
             current_pos = pf_result[0][-1]
