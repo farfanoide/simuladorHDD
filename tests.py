@@ -1,6 +1,5 @@
 import unittest
 from simulator import Simulator
-import algorithms
 class testSimulator(unittest.TestCase):
     """tests default functions"""
 

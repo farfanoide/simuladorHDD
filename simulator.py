@@ -28,7 +28,7 @@ class Simulator():
         from algorithms.scan import SCAN
         algorithm = SCAN()
         return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+            self.requirements, self.init_pos, self.direction, self.max_tracks)
 
     def executeCSCAN(self):
         from algorithms.cscan import CSCAN

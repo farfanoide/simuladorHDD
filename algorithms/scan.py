@@ -1,26 +1,29 @@
-from shceduling import Scheduling
+from scheduling import Scheduling
 class SCAN(Scheduling):
 
 
-    def attend_requirements(self, requirements, init_pos, direction):
+    def attend_requirements(self, requirements, init_pos, direction, max_tracks):
 
-        current_pos = self.startup(requirements, init_pos)
-        (greater, lower) = divide_list(list, last_pf, True)
-        served_list = pf_result[0]
-        if direction:
-            served_list.extend(greater)
-            served_list.extend(lower)
+        current_pos    = self.startup(requirements, init_pos)
+        greater, lower = self.divide_list(self.requirements, current_pos, True)
+        try:
+            post_pf_dir  = self.get_end_dir(self.page_faults)
+        except IndexError:
+            post_pf_dir = direction
+        if post_pf_dir:
+            self.attended += greater
+            self.attended += lower
             try:
-                movements = (511 - greater[-1]) * 2
+                self.movements += (max_tracks - greater[-1]) * 2
             except IndexError:
-                movements = (511 - last_pf) * 2
+                self.movements += (max_tracks - current_pos) * 2
 
         else:
-            served_list.extend(lower)
-            served_list.extend(greater)
+            self.attended += lower
+            self.attended += greater
             try:
-                movements = lower[-1] * 2
+                self.movements += lower[-1] * 2
             except IndexError:
-                movements = last_pf * 2
-        movements += momentum(served_list, init_pos)
-        return(served_list, movements, not direction)
+                self.movements += current_pos * 2
+        self.movements += self.count_movements(self.attended, init_pos)
+        return(self.attended, self.movements, not post_pf_dir)

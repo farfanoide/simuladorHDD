@@ -4,9 +4,12 @@ class CSCAN(Scheduling):
     
     def attend_requirements(self, requirements, init_pos, direction, max_tracks):
         current_pos    = self.startup(requirements, init_pos)
-        greater, lower = self.divide_list(attend_requirements, current_pos, False)
-        direction      = self.get_end_dir(self.page_faults)
-        if direction:
+        greater, lower = self.divide_list(self.requirements, current_pos, False)
+        try:
+            post_pf_dir  = self.get_end_dir(self.page_faults)
+        except IndexError:
+            post_pf_dir = direction
+        if post_pf_dir:
             greater.sort()
             lower.sort()
             self.attended  += greater
@@ -26,4 +29,4 @@ class CSCAN(Scheduling):
             if greater:
                 self.attended  += greater
                 self.movements += max_tracks - greater[-1]
-        return (self.attended, self.movements, direction)
+        return (self.attended, self.movements, post_pf_dir)
