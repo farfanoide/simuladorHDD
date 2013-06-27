@@ -34,7 +34,7 @@ class Simulator():
         from algorithms.cscan import CSCAN
         algorithm = CSCAN()
         return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+            self.requirements, self.init_pos, self.direction, self.max_tracks)
 
     def executeLOOK(self):
         from algorithms.look import LOOK

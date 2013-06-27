@@ -1,21 +1,17 @@
+from scheduling import Scheduling
 class LOOK(Scheduling):
 
     
     def attend_requirements(self, requirements, init_pos, direction):
-        pf_result = attend_pf(simulator.requirements, init_pos, direction)
-        try:
-            current_pos = pf_result[0][-1]
-        except:
-            current_pos = init_pos
-        direction = pf_result[2]
-        served_list = pf_result[0]
-        (greater, lower) = divide_list(list, current_pos, True)
-
+        
+        current_pos      = self.startup(requirements, init_pos)
+        direction        = self.get_end_dir(self.page_faults)
+        (greater, lower) = self.divide_list(requirements, current_pos, sort=True)
         if direction:
-            served_list.extend(greater)
-            served_list.extend(lower)
+            self.attended += greater
+            self.attended += lower
         else:
-            served_list.extend(lower)
-            served_list.extend(greater)
-        movements = momentum(served_list, init_pos)
-        return(served_list, movements, not direction)
+            self.attended += lower
+            self.attended += greater
+        self.movements += self.count_movements(self.attended, init_pos)
+        return(self.attended, self.movements, not direction)

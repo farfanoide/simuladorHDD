@@ -30,9 +30,13 @@ class Scheduling():
                 self.requirements.append(req)
 
     def startup(self, requirements, init_pos):
+        """
+        Initializes 
+        """
         self.get_pfs(requirements)
         if self.page_faults:
             self.movements += self.count_movements(self.page_faults, init_pos)
+            self.attended += self.page_faults
             return self.page_faults[-1]
         else:
             return init_pos

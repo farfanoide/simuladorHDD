@@ -1,28 +1,25 @@
+from scheduling import Scheduling
 class CLOOK(Scheduling):
 
     
     def attend_requirements(self, requirements, init_pos, direction):
-        pf_result = attend_pf(list, init_pos, direction)
-        try:
-            current_pos = pf_result[0][-1]
-        except:
-            current_pos = init_pos
-        served_list = pf_result[0]
-        movements = momentum(served_list, init_pos)
-        (greater, lower) = divide_list(list, current_pos)
+        current_pos      = self.startup(requirements, init_pos)
+        self.movements   = self.count_movements(self.page_faults, init_pos)
+        (greater, lower) = self.divide_list(requirements, current_pos)
+        direction        = self.get_end_dir(self.page_faults)
         if direction:
             greater.sort()
             lower.sort()
-            served_list.extend(greater)
-            served_list.extend(lower)
-            movements += momentum(greater, current_pos)
-            movements += momentum(lower, lower[0])
+            self.attended  += greater
+            self.attended  += lower
+            self.movements += self.count_movements(greater, current_pos)
+            self.movements += self.count_movements(lower, lower[0])
 
         else:
             greater.sort(reverse=True)
             lower.sort(reverse=True)
-            served_list.extend(lower)
-            served_list.extend(greater)
-            movements += momentum(lower, current_pos)
-            movements += momentum(greater, greater[0])
-        return (served_list, movements, direction)
+            self.attended.extend(lower)
+            self.attended.extend(greater)
+            self.movements += self.count_movements(lower, current_pos)
+            self.movements += self.count_movements(greater, greater[0])
+        return (self.attended, self.movements, direction)
