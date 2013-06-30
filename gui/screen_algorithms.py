@@ -15,28 +15,29 @@ class ScreenAlgorithms:
         self.graphic_screen = pygame.Surface(size)
         self.graphic_screen.fill(bkg_colour)
         self.bkg_colour = bkg_colour
-        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*3/4)), self.bkg_colour)
+        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*3/4), int(self.height)), self.bkg_colour)
         self.simulation = simulation
         # just for debuggin purpose. Uncoment to see the size of the surface
         #pygame.draw.rect(self.graphic_screen,(0,0,0),(0,0,self.size[0],self.size[1]),1)
 
     def __calculate_coordinates(self, requirements):
         reqs_quantity = len(requirements)
+        print requirements
         # height of the graphic
-        y_axis = 3 * self.height / 4 - self.graphic.padding
+        y_axis =self.graphic.height - self.graphic.padding
         step = int(y_axis / reqs_quantity)
         coordinates = []
-        i = 20
+        i = self.graphic.padding
         for element in requirements:
-            coordinate = (element+128,i)
+            coordinate = (element + self.graphic.padding, i)
             i += step
             coordinates.append(coordinate)
         return coordinates
 
     def print_graphic(self):
-        coors = self.graphic.draw_grid(self.simulation.max_tracks)
+        coors = self.graphic.draw_grid(self.simulation.max_tracks+1, 50)
         self.graphic.label_grid(50, coors)
-        self.graphic.draw_graphic(self.__calculate_coordinates(self.simulation.requirements))
+        self.graphic.draw_graphic(self.__calculate_coordinates(self.simulation.algorithm.attended))
         self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):

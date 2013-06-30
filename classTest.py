@@ -19,12 +19,12 @@ lote = Simulator()
 lote.random_list(15)
 lote.add_random_pf(5)
 button = BaseButton(lote, "executeFCFS", (10,10), "gui/img/button_small.png")
-button2 = BaseButton(lote, "executeSSTF", (100,100), "gui/img/button_small.png")
-screen.blit(button.img, button.rect)
-screen.blit(button2.img, button2.rect)
+# button2 = BaseButton(lote, "executeSSTF", (100,100), "gui/img/button_small.png")
+# screen.blit(button.img, button.rect)
+# screen.blit(button2.img, button2.rect)
 
 #creamos superficie grafico
-g = ScreenAlgorithms((1024,768),black,lote)
+g = ScreenAlgorithms((1024,702),black,lote)
 # g.print_leyends('SSTF','345', True)
 # g.print_graphic()
 # g.print_reqs_attended() 
@@ -41,17 +41,22 @@ while run:
           # for button in menu.buttons:
           #   if button.img.get_rect().collidepoint(pos):
                   # print button.executeAction()
-          if button.img.get_rect().collidepoint(pos):
+          # if button.img.get_rect().collidepoint(pos):
             # n = Button()
             # screen.blit(n.img, (200,200))
-            results = button.executeAction()
-            g.print_graphic()
-            g.print_leyends(results[1], str(results[0][1]), results[0][2])
+        results = button.executeAction()
+        print results
+        g.print_graphic()
+        reqs = results[0][0]
+        movs = str(results[0][1])
+        dire = results[0][2]
+
+        g.print_leyends(results[1], movs, dire)
             # print button2.executeAction()
 
             
-            screen.blit(g.graphic_screen,(0,234))
-            pygame.display.flip()
+        screen.blit(g.graphic_screen,(0,234))
+        pygame.display.flip()
         if event.type == pygame.QUIT:
             run = False
         #faster dubugging

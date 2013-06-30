@@ -15,26 +15,26 @@ class Graphic():
         self.graphic_sfc = pygame.Surface((self.width, self.height))
         self.graphic_sfc.fill(bkg_colour)
 		#just for debuggin purpose. Uncoment to see the size of the surface
-        #pygame.draw.rect(self.graphic_sfc,(0,0,0),(0,0,size[0],size[1]),1)
+        pygame.draw.rect(self.graphic_sfc,(0,0,0),rect,1)
 
     def draw_grid(self, graph_width, hspacing=0, vspacing=0, gridColour=(0, 0, 0), center = True):
         # if Center = True grid will be x centered
         if center:
         	x_coor = (self.width - graph_width) / 2
-        rect = (self.padding, self.padding, graph_width,
+        rect = (x_coor, self.padding, graph_width,
                 self.height - self.padding - 1)
         # Let's draw the contour of the graphic
         pygame.draw.rect(self.graphic_sfc, gridColour, rect, 2)
         # Now the horizontal lines
         if hspacing:
-            for i in range(hspacing, width, hspacing):
+            for i in range(hspacing, graph_width, hspacing):
                 pygame.draw.aaline(self.graphic_sfc, gridColour, (
                     i + self.padding, self.padding), (i + self.padding, rect[3] + self.padding))
         # Finally vertical lines
         if vspacing:
-            for i in range(vspacing, width, vspacing):
+            for i in range(vspacing, graph_width, vspacing):
                 pygame.draw.aaline(self.graphic_sfc, gridColour, (
-                    self.padding, self.padding + i), (self.padding + width, self.padding + i))
+                    self.padding, self.padding + i), (self.padding + graph_width, self.padding + i))
         return rect
 
     def label_grid(self, hspacing, grid_coor):
