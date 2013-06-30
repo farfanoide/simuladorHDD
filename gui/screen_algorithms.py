@@ -15,7 +15,7 @@ class ScreenAlgorithms:
         self.graphic_screen = pygame.Surface(size)
         self.graphic_screen.fill(bkg_colour)
         self.bkg_colour = bkg_colour
-        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*3/4), int(self.height)), self.bkg_colour)
+        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*5/6)), (100,100,100))
         self.simulation = simulation
         # just for debuggin purpose. Uncoment to see the size of the surface
         #pygame.draw.rect(self.graphic_screen,(0,0,0),(0,0,self.size[0],self.size[1]),1)
@@ -24,12 +24,12 @@ class ScreenAlgorithms:
         reqs_quantity = len(requirements)
         print requirements
         # height of the graphic
-        y_axis =self.graphic.height - self.graphic.padding
+        y_axis =self.graphic.height - 2* self.graphic.padding
         step = int(y_axis / reqs_quantity)
         coordinates = []
         i = self.graphic.padding
         for element in requirements:
-            coordinate = (element + self.graphic.padding, i)
+            coordinate = ((element + (self.graphic.width - self.simulation.max_tracks+1)/2)  , i)
             i += step
             coordinates.append(coordinate)
         return coordinates

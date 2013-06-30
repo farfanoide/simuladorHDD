@@ -25,6 +25,7 @@ button = BaseButton(lote, "executeFCFS", (10,10), "gui/img/button_small.png")
 
 #creamos superficie grafico
 g = ScreenAlgorithms((1024,702),black,lote)
+screen.blit(g.graphic_screen,(0,0))
 # g.print_leyends('SSTF','345', True)
 # g.print_graphic()
 # g.print_reqs_attended() 
@@ -55,7 +56,7 @@ while run:
             # print button2.executeAction()
 
             
-        screen.blit(g.graphic_screen,(0,234))
+        screen.blit(g.graphic_screen,(0,0))
         pygame.display.flip()
         if event.type == pygame.QUIT:
             run = False

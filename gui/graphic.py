@@ -15,21 +15,21 @@ class Graphic():
         self.graphic_sfc = pygame.Surface((self.width, self.height))
         self.graphic_sfc.fill(bkg_colour)
 		#just for debuggin purpose. Uncoment to see the size of the surface
-        pygame.draw.rect(self.graphic_sfc,(0,0,0),rect,1)
+        #pygame.draw.rect(self.graphic_sfc,(0,0,0),rect,1)
 
     def draw_grid(self, graph_width, hspacing=0, vspacing=0, gridColour=(0, 0, 0), center = True):
         # if Center = True grid will be x centered
         if center:
         	x_coor = (self.width - graph_width) / 2
         rect = (x_coor, self.padding, graph_width,
-                self.height - self.padding - 1)
+                self.height - 2 * self.padding - 1)
         # Let's draw the contour of the graphic
         pygame.draw.rect(self.graphic_sfc, gridColour, rect, 2)
         # Now the horizontal lines
         if hspacing:
             for i in range(hspacing, graph_width, hspacing):
                 pygame.draw.aaline(self.graphic_sfc, gridColour, (
-                    i + self.padding, self.padding), (i + self.padding, rect[3] + self.padding))
+                    i + x_coor, self.padding), (i + x_coor, self.height - self.padding))
         # Finally vertical lines
         if vspacing:
             for i in range(vspacing, graph_width, vspacing):
