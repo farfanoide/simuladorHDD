@@ -46,7 +46,7 @@ class Simulator():
         from algorithms.clook import CLOOK
         self.algorithm = CLOOK()
         return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction, "CLOOK")
+            self.requirements, self.init_pos, self.direction), "CLOOK"
 
     #-------------
     # Common

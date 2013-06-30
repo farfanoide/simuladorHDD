@@ -21,23 +21,33 @@ class ScreenAlgorithms:
         #pygame.draw.rect(self.graphic_screen,(0,0,0),(0,0,self.size[0],self.size[1]),1)
 
     def __calculate_coordinates(self, requirements):
-        reqs_quantity = len(requirements)
+        reqs_quantity = 0
+        for reqs in requirements:
+            if reqs:
+                reqs_quantity += len(reqs)
         print requirements
+        coordinates = ([],[],[])
         # height of the graphic
-        y_axis =self.graphic.height - 2* self.graphic.padding
+        y_axis = self.graphic.height - 2* self.graphic.padding
         step = int(y_axis / reqs_quantity)
-        coordinates = []
         i = self.graphic.padding
-        for element in requirements:
-            coordinate = ((element + (self.graphic.width - self.simulation.max_tracks+1)/2)  , i)
-            i += step
-            coordinates.append(coordinate)
+        for x in range(len(requirements)):
+            if requirements[x]:
+                for req in requirements[x]:
+                    coordinate = ((req + (self.graphic.width - self.simulation.max_tracks+1)/2), i)
+                    i += step
+                    coordinates[x].append(coordinate)
+        print coordinates
         return coordinates
 
-    def print_graphic(self):
+
+            
+            
+
+    def print_graphic(self, list_reqs):
         coors = self.graphic.draw_grid(self.simulation.max_tracks+1, 50)
         self.graphic.label_grid(50, coors)
-        self.graphic.draw_graphic(self.__calculate_coordinates(self.simulation.algorithm.attended))
+        self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
         self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):

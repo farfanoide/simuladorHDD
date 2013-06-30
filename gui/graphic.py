@@ -14,13 +14,13 @@ class Graphic():
         self.padding = pad
         self.graphic_sfc = pygame.Surface((self.width, self.height))
         self.graphic_sfc.fill(bkg_colour)
-		#just for debuggin purpose. Uncoment to see the size of the surface
+        #just for debuggin purpose. Uncoment to see the size of the surface
         #pygame.draw.rect(self.graphic_sfc,(0,0,0),rect,1)
 
     def draw_grid(self, graph_width, hspacing=0, vspacing=0, gridColour=(0, 0, 0), center = True):
         # if Center = True grid will be x centered
         if center:
-        	x_coor = (self.width - graph_width) / 2
+            x_coor = (self.width - graph_width) / 2
         rect = (x_coor, self.padding, graph_width,
                 self.height - 2 * self.padding - 1)
         # Let's draw the contour of the graphic
@@ -53,16 +53,34 @@ class Graphic():
 
 
     def draw_graphic(self, coordinates, img=''):
-    	"""this function takes the coordinates given by any algorithm and draws them in the grid"""
-
-    	pygame.draw.aalines(self.graphic_sfc,(255,0,0),False,coordinates,True)
-    	if img=='':
-    		for element in coordinates:
-    			pygame.draw.circle(self.graphic_sfc,(0,255,255),element,4)
-    	else:
-    		image_sfc = pygame.image.load(img)
-
-    		for element in coordinates:
-    			self.graphic_sfc.blit(image_sfc,element)
-		    				
-    
+        """this function takes the coordinates given by any algorithm and draws them in the grid"""
+        for x in range(len(coordinates)):
+            if coordinates[x]:
+                try:
+                    if x:
+                        pygame.draw.aalines(self.graphic_sfc,(0,0,255),False,coordinates[x],True)
+                        if coordinates[x-1] and x == 1:
+                            pygame.draw.aaline(self.graphic_sfc,(0,0,255),coordinates[x-1][-1],coordinates[x][0],True)
+                    else:
+                        pygame.draw.aalines(self.graphic_sfc,(255,0,0),False,coordinates[x],True)
+                except ValueError:
+                    try:
+                        if x:
+                            pygame.draw.aaline(self.graphic_sfc,(0,0,255),coordinates[x][-1],coordinates[x+1][0],True)
+                        else:
+                            pygame.draw.aaline(self.graphic_sfc,(255,0,0),coordinates[x][-1],coordinates[x+1][0],True)
+                    except IndexError:
+                        pass
+                if not img:
+                    for element in coordinates[x]:
+                        if x:
+                            pygame.draw.circle(self.graphic_sfc,(0,255,0),element,4)
+                        else:
+                            # Different colour for page faults
+                            pygame.draw.circle(self.graphic_sfc,(255,0,0),element,4)
+                else:
+                    image_sfc = pygame.image.load(img)
+                    for element in coordinates[x]:
+                        self.graphic_sfc.blit(image_sfc,element)
+                                    
+            

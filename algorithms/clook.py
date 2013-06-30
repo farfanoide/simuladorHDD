@@ -17,6 +17,7 @@ class CLOOK(Scheduling):
                 lower.sort()
                 self.attended  += lower
                 self.movements += self.count_movements(lower, lower[0])
+            return [self.page_faults, greater, lower], self.movements, post_pf_dir
         else:
             if lower:
                 lower.sort(reverse=True)
@@ -26,4 +27,4 @@ class CLOOK(Scheduling):
                 greater.sort(reverse=True)
                 self.attended.extend(greater)
                 self.movements += self.count_movements(greater, greater[0])
-        return (self.attended, self.movements, post_pf_dir)
+            return [self.page_faults, lower, greater], self.movements, post_pf_dir

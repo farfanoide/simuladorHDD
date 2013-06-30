@@ -18,8 +18,8 @@ screen.fill(gray)
 lote = Simulator()
 lote.random_list(15)
 lote.add_random_pf(5)
-button = BaseButton(lote, "executeFCFS", (10,10), "gui/img/button_small.png")
-# button2 = BaseButton(lote, "executeSSTF", (100,100), "gui/img/button_small.png")
+button = BaseButton(lote, "executeLOOK", (10,10), "gui/img/button_small.png")
+# button = BaseButton(lote, "executeCLOOK", (100,100), "gui/img/button_small.png")
 # screen.blit(button.img, button.rect)
 # screen.blit(button2.img, button2.rect)
 
@@ -47,11 +47,11 @@ while run:
             # screen.blit(n.img, (200,200))
         results = button.executeAction()
         print results
-        g.print_graphic()
         reqs = results[0][0]
         movs = str(results[0][1])
         dire = results[0][2]
 
+        g.print_graphic(reqs)
         g.print_leyends(results[1], movs, dire)
             # print button2.executeAction()
 

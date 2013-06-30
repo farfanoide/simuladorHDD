@@ -36,7 +36,7 @@ class Scheduling():
         self.get_pfs(requirements)
         if self.page_faults:
             self.movements += self.count_movements(self.page_faults, init_pos)
-            self.attended += self.page_faults
+            # self.attended += self.page_faults
             return self.page_faults[-1]
         else:
             # there arent any page faults
