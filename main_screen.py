@@ -2,7 +2,7 @@ import os,sys
 import pygame
 from pygame.locals import *
 
-class main_screen:
+class main_screen():
 	
 	def __init__(self, width=1024, height=768, colour=(0,0,0), title='titulo'):
 		self.size = (width, height)
@@ -43,7 +43,7 @@ class main_screen:
 #		sfc_label.blit(sfc_label_txt,((coor[2]-large)/2,coor[3]/3)) 	#centramos el texto en el label
 #		self.screen.blit(sfc_label,coor)
 	
-	def make_grid(self,width,height,hspacing,vspacing,colour=(0,0,0)):
+	def draw_grid(self,width,height,hspacing,vspacing,colour=(0,0,0)):
 		grid_sfc = pygame.Surface((width,height))
 		grid_sfc.fill(self.bkg_colour)
 		pygame.draw.rect(grid_sfc,colour,(0,0,width,height),3)

@@ -4,7 +4,7 @@ import math
 
 class Simulator():
 
-    """Simulates Scheduling Algorithms"""
+    """Simulates Scheduling algorithms"""
 
     def __init__(self, reqs=[], pos=250, dire=True, tracks=511):
         self.requirements = reqs
@@ -14,39 +14,39 @@ class Simulator():
 
     def executeFCFS(self):
         from algorithms.fcfs import FCFS
-        algorithm = FCFS()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+        self.algorithm = FCFS()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction), "FCFS"
 
     def executeSSTF(self):
         from algorithms.sstf import SSTF
-        algorithm = SSTF()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+        self.algorithm = SSTF()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction), "SSTF"
 
     def executeSCAN(self):
         from algorithms.scan import SCAN
-        algorithm = SCAN()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction, self.max_tracks)
+        self.algorithm = SCAN()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction, self.max_tracks), "SCAN"
 
     def executeCSCAN(self):
         from algorithms.cscan import CSCAN
-        algorithm = CSCAN()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction, self.max_tracks)
+        self.algorithm = CSCAN()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction, self.max_tracks), "CSCAN"
 
     def executeLOOK(self):
         from algorithms.look import LOOK
-        algorithm = LOOK()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+        self.algorithm = LOOK()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction), "LOOK"
 
     def executeCLOOK(self):
         from algorithms.clook import CLOOK
-        algorithm = CLOOK()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
+        self.algorithm = CLOOK()
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction, "CLOOK")
 
     #-------------
     # Common

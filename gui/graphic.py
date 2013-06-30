@@ -6,44 +6,53 @@ from pygame.locals import *
 
 class Graphic():
 
-    def __init__(self, size, bkg_colour):
-        self.graphic_sfc = pygame.Surface(size)
+    def __init__(self, rect, bkg_colour, pad=20):
+        self.ax_x = rect[0]
+        self.ax_y = rect[1]
+        self.width = rect[2]
+        self.height = rect[3]
+        self.padding = pad
+        self.graphic_sfc = pygame.Surface((self.width, self.height))
         self.graphic_sfc.fill(bkg_colour)
-        self.size = size
 		#just for debuggin purpose. Uncoment to see the size of the surface
         #pygame.draw.rect(self.graphic_sfc,(0,0,0),(0,0,size[0],size[1]),1)
 
-    def make_grid(self, width ,x_coor=0,y_coor=0, hspacing=0, vspacing=0, gridColour=(0, 0, 0),center = True):
-        #if Center = True grid will be x centered
+    def draw_grid(self, graph_width, hspacing=0, vspacing=0, gridColour=(0, 0, 0), center = True):
+        # if Center = True grid will be x centered
         if center:
-        	x_coor = (self.size[0] - width) / 2
-        rect = (x_coor, y_coor, width,
-                self.size[1] - y_coor - 1)
+        	x_coor = (self.width - graph_width) / 2
+        rect = (self.padding, self.padding, graph_width,
+                self.height - self.padding - 1)
         # Let's draw the contour of the graphic
         pygame.draw.rect(self.graphic_sfc, gridColour, rect, 2)
         # Now the horizontal lines
-        if hspacing != 0:
+        if hspacing:
             for i in range(hspacing, width, hspacing):
                 pygame.draw.aaline(self.graphic_sfc, gridColour, (
-                    i + x_coor, y_coor), (i + x_coor, rect[3] + y_coor))
+                    i + self.padding, self.padding), (i + self.padding, rect[3] + self.padding))
         # Finally vertical lines
-        if vspacing != 0:
+        if vspacing:
             for i in range(vspacing, width, vspacing):
                 pygame.draw.aaline(self.graphic_sfc, gridColour, (
-                    x_coor, y_coor + i), (x_coor + width, y_coor + i))
+                    self.padding, self.padding + i), (self.padding + width, self.padding + i))
         return rect
 
     def label_grid(self, hspacing, grid_coor):
         pygame.font.init()
-        for i in range(0,grid_coor[2] , hspacing):
+        grid_ax_x   = grid_coor[0] 
+        grid_ax_y   = grid_coor[1]
+        grid_width  = grid_coor[2]
+        grid_height = grid_coor[3]
+        for i in range(0, grid_width, hspacing):
             label = pygame.font.SysFont(None, 20)
             label_sfc = label.render(str(i), True, (0, 0, 0))
-            # Neded to center the label to the desired coordinate
+            # Needed to center the label to the desired coordinate
             half_width = label_sfc.get_width()/2
+            self.graphic_sfc.blit(label_sfc, (grid_ax_x + i - half_width, 0))
+            print i
 
-            self.graphic_sfc.blit(label_sfc, (grid_coor[0]+i-half_width, 0))
 
-    def draw_graphic(self,coordinates,img=''):
+    def draw_graphic(self, coordinates, img=''):
     	"""this function takes the coordinates given by any algorithm and draws them in the grid"""
 
     	pygame.draw.aalines(self.graphic_sfc,(255,0,0),False,coordinates,True)
