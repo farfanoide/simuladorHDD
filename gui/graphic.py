@@ -7,6 +7,7 @@ from pygame.locals import *
 class Graphic():
 
     def __init__(self, rect, bkg_colour, pad=20):
+        self.rect = rect
         self.ax_x = rect[0]
         self.ax_y = rect[1]
         self.width = rect[2]

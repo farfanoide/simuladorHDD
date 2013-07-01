@@ -36,7 +36,6 @@ buttons.append(button6)
 
 #creamos superficie grafico
 g = ScreenAlgorithms((1024,702),black,lote)
-screen.blit(g.graphic_screen,(0,0))
 screen.blit(button.img, button.pos)
 screen.blit(button2.img, button2.pos)
 screen.blit(button3.img, button3.pos)
@@ -67,8 +66,7 @@ while run:
                 movs = str(results[0][1])
                 dire = results[0][2]
                 g.print_graphic(reqs)
-                screen.blit(g.graphic_screen,(0,0))
-                print button.action
+                #pygame.display.update()
           # for button in 
 
           # for button in menu.buttons:
@@ -83,8 +81,10 @@ while run:
         # g.print_leyends(results[1], movs, dire)
             # print button2.executeAction()
 
-            
-        # pygame.display.flip()
+
+        screen.blit(g.graphic_screen,(200,0))
+        g.graphic_screen.blit(g.graphic.graphic_sfc,(0,0))
+        pygame.display.flip()    
         if event.type == pygame.QUIT:
             run = False
         #faster dubugging
