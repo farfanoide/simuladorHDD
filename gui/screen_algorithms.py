@@ -48,7 +48,7 @@ class ScreenAlgorithms:
         coors = self.graphic.draw_grid(self.simulation.max_tracks+1, 50)
         self.graphic.label_grid(50, coors)
         self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
-        self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
+        #self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):
         if direction:

@@ -18,13 +18,13 @@ screen.fill(gray)
 lote = Simulator()
 lote.random_list(15)
 lote.add_random_pf(5)
-
 button = BaseButton(lote, (10,10), "executeLOOK", "gui/img/LOOK.jpg")
 button2 = BaseButton(lote, (10,70), "executeCLOOK","gui/img/CLOOK.jpg")
 button3 = BaseButton(lote, (10,130), "executeCSCAN","gui/img/CSCAN.jpg")
 button4 = BaseButton(lote, (10,190), "executeSCAN","gui/img/SCAN.jpg")
 button5 = BaseButton(lote, (10,250), "executeFCFS","gui/img/FCFS.jpg")
 button6 = BaseButton(lote, (10,310), "executeSSTF","gui/img/SSTF.jpg")
+
 buttons = []
 buttons.append(button)
 buttons.append(button2)
