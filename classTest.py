@@ -44,28 +44,32 @@ screen.blit(button5.img, button5.pos)
 screen.blit(button6.img, button6.pos)
 # g.print_leyends('SSTF','345', True)
 # g.print_reqs_attended() 
-cursor = BaseButton(lote,(10,10))
+# cursor = BaseButton(lote,(10,10))
 
 clock = pygame.time.Clock()
 pygame.display.flip()
 run = True
 while run:
-    clock.tick(30)
+    
+    #clock.tick(30)
     for event in pygame.event.get():
         # print event
-        if event.type == pygame.MOUSEBUTTONUP:
-          x,y = pygame.mouse.get_pos()
-          cursor.rect.x = x
-          cursor.rect.y = y
+       
+        if event.type == pygame.MOUSEBUTTONDOWN:
+          pos = pygame.mouse.get_pos()
           for button in buttons:
-              if button.clicked(cursor):
-                print button.img.get_clip()
+              if button.clicked(pos):
+                g.print_canvas()
+                g.graphic.blit(g.graphic.canvas_sfc,(0,0))
                 results = button.executeAction()
                 print results
                 reqs = results[0][0]
                 movs = str(results[0][1])
                 dire = results[0][2]
                 g.print_graphic(reqs)
+                screen.blit(g.graphic_screen,(200,0))
+                g.graphic_screen.blit(g.graphic.canvas_sfc,(0,0))
+                pygame.display.flip()    
                 #pygame.display.update()
           # for button in 
 
@@ -82,9 +86,6 @@ while run:
             # print button2.executeAction()
 
 
-        screen.blit(g.graphic_screen,(200,0))
-        g.graphic_screen.blit(g.graphic.graphic_sfc,(0,0))
-        pygame.display.flip()    
         if event.type == pygame.QUIT:
             run = False
         #faster dubugging

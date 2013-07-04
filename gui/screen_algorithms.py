@@ -15,8 +15,8 @@ class ScreenAlgorithms:
         self.graphic_screen = pygame.Surface(size)
         self.graphic_screen.fill(bkg_colour)
         self.bkg_colour = bkg_colour
-        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*5/6)), (100,100,100))
         self.simulation = simulation
+        self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*5/6)), (100,100,100), self.simulation.max_tracks+1)
         # just for debuggin purpose. Uncoment to see the size of the surface
         #pygame.draw.rect(self.graphic_screen,(0,0,0),(0,0,self.size[0],self.size[1]),1)
 
@@ -34,20 +34,22 @@ class ScreenAlgorithms:
         for x in range(len(requirements)):
             if requirements[x]:
                 for req in requirements[x]:
-                    coordinate = ((req + (self.graphic.width - self.simulation.max_tracks+1)/2), i)
+                    coordinate = ((req, i))
                     i += step
                     coordinates[x].append(coordinate)
-        print coordinates
         return coordinates
 
 
             
             
 
+    def print_canvas(self):
+        coors = self.graphic.draw_grid(50)
+        self.graphic.label_grid(50) 
+        
     def print_graphic(self, list_reqs):
-        coors = self.graphic.draw_grid(self.simulation.max_tracks+1, 50)
-        self.graphic.label_grid(50, coors)
         self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
+        
         #self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):
