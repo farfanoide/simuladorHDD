@@ -9,13 +9,11 @@ class SSTF(Scheduling):
 
     def attend_requirements(self, requirements, init_pos, direction):
         current_pos   = self.startup(requirements, init_pos)
-        # self.attended = self.page_faults[:]
-        self.attended = []
         reqs_copy     = self.requirements[:]
         while reqs_copy:
             index       = self.get_min_distance(reqs_copy, current_pos)
             current_pos = reqs_copy[index]
             self.attended.append(reqs_copy.pop(index))
-        self.movements = self.count_movements(self.attended, init_pos) 
-        self.last_dir  = self.get_end_dir(self.attended, init_pos, direction)
+        self.movements += self.count_movements(self.attended, self.get_last_req(self.page_faults, init_pos))
+        self.last_dir   = self.get_end_dir(self.attended, current_pos, direction)
         return [self.page_faults, self.attended], self.movements, self.last_dir

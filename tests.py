@@ -3,38 +3,38 @@ from simulator import Simulator
 class testSimulator(unittest.TestCase):
     """tests default functions"""
 
-    no_pf_list : [80, 44, 230, 128, 511, 90, 56, 6, 444, 211]
-
     def setUp(self):
-        self.reqs_no_pf        = Simulator()
-        self.reqs_no_lower     = Simulator()
-        self.reqs_no_greater   = Simulator()
-        self.reqs_normal       = Simulator()
-        self.reqs.requirements = no_pf_list
-        self.reqs.add_random_pf(4)
+         self.simulator = Simulator()
+         self.simulator.init_pos = 0
+         self.simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
+ 
+    def test_random_list_should_create_x_amount_reqs(self):
+         self.simulator.random_list(33)
+         self.assertEqual(len(self.simulator.requirements),33)
 
     def test_random_list_should_return_list(self):
-        self.assertIsInstance(self.reqs.requirements, list)
+        self.assertIsInstance(self.simulator.requirements, list)
 
-    def test_random_list_should_create_x_amount_reqs(self):
-        self.reqs.random_list(33)
-        self.assertEqual(len(self.reqs.requirements),33)
+    def test_FCFS_shoud_return(self):
+        base_results = (([[5, 35, 400], [15, 40, 65, 20, 90, 100]], 960, True), 'FCFS')
+        self.assertEqual(self.simulator.executeFCFS(),base_results)
 
-    def test_momentum_should_return_amount_of_movements(self):
-        self.assertEqual(self.reqs.momentum(self.reqs.requirements, self.reqs.init_pos), 2053)
+    def test_SSTF_shoud_return(self):
+        base_results = (([[5, 35, 400], [100, 90, 65, 40, 20, 15]], 785, False), 'SSTF')
+        self.assertEqual(self.simulator.executeSSTF(),base_results)
 
-    def test_add_random_pf_should_add_aprox_x_negative_numbers(self):
+    def test_SCAN_shoud_return(self):
+        base_results = (([[5, 35, 400], [self.simulator.max_tracks, 100, 90, 65, 40, 20, 15]], 1007, False), 'SCAN')
+        self.assertEqual(self.simulator.executeSCAN(),base_results)
 
-        def count_pfs(reqs):
-            count = 0
-            for req in reqs:
-                if req < 0:
-                    count += 1
-            return count
-                    
-        self.assertLessEqual(count_pfs(self.reqs.requirements),4)
+    def test_CSCAN_shoud_return(self):
+        base_results = (([[5, 35, 400], [511], [0, 15, 20, 40, 65, 90, 100]], 611, True), 'CSCAN')
+        self.assertEqual(self.simulator.executeCSCAN(),base_results)
 
-    # def test_fifo_returns_direction():
-        
+    def test_LOOK_shoud_return(self):
+        base_results = (([[5, 35, 400], [100, 90, 65, 40, 20, 15]], 485, False), 'LOOK')
+        self.assertEqual(self.simulator.executeLOOK(),base_results)
 
-
+    def test_CLOOK_shoud_return(self):
+        base_results = (([[5, 35, 400], [], [15, 20, 40, 65, 90, 100]], 485, True), 'CLOOK')
+        self.assertEqual(self.simulator.executeCLOOK(),base_results)

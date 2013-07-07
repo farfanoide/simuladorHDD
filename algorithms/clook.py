@@ -4,7 +4,6 @@ class CLOOK(Scheduling):
     
     def attend_requirements(self, requirements, init_pos, direction):
         current_pos    = self.startup(requirements, init_pos)
-        self.movements = self.count_movements(self.page_faults, init_pos)
         greater, lower = self.divide_list(self.requirements, current_pos)
         post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
 

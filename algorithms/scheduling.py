@@ -76,7 +76,7 @@ class Scheduling():
         if sort:
             greater.sort()
             lower.sort(reverse=True)
-        return (greater, lower)
+        return greater, lower
 
     def get_end_dir(self, requirements, init_pos, orig_dir):
 
@@ -94,3 +94,9 @@ class Scheduling():
             return direction
         except IndexError:
             return orig_dir
+
+    def get_last_req(self, requirements, init_pos):
+        if requirements:
+            return requirements[-1]
+        else:
+            return init_pos
