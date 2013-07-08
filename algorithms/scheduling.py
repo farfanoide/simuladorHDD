@@ -35,16 +35,11 @@ class Scheduling():
         """
         self.get_pfs(requirements)
         if self.page_faults:
+            self.page_faults = [init_pos] + self.page_faults
             self.movements += self.count_movements(self.page_faults, init_pos)
-            # self.attended += self.page_faults
             return self.page_faults[-1]
         else:
-            # there arent any page faults
-            try:
-                self.movements = abs(self.requirements[0] - init_pos)
-            except IndexError:
-            # there arent any requirements
-                pass
+            self.attended.append(init_pos)
             return init_pos
 
     def count_movements(self, requirements, init_pos):
