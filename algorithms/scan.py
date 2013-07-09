@@ -8,7 +8,7 @@ class SCAN(Scheduling):
         greater, lower = self.divide_list(self.requirements, current_pos, True)
         post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
         if post_pf_dir:
-            if lower:
+            if lower and self.get_last_req(greater, current_pos) < max_tracks:
                 greater.append(max_tracks)
             self.attended += greater
             self.attended += lower

@@ -58,24 +58,47 @@ class testSimulatorNoPageFaults(unittest.TestCase):
     def test_FCFS_shoud_return(self):
         base_results = (([[], [0, 5, 15, 40, 65, 20, 35, 400, 90, 100]], 810, True), 'FCFS')
         self.assertEqual(self.simulator.executeFCFS(),base_results)
+        
+        self.simulator.init_pos = self.simulator.max_tracks
+        base_results = (([[], [511, 5, 15, 40, 65, 20, 35, 400, 90, 100]], 1311, True), 'FCFS')
+        self.assertEqual(self.simulator.executeFCFS(),base_results)
 
     def test_SSTF_shoud_return(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'SSTF')
+        self.assertEqual(self.simulator.executeSSTF(),base_results)
+        
+        self.simulator.init_pos = self.simulator.max_tracks
+        base_results = (([[], [511, 400, 100, 90, 65, 40, 35, 20, 15, 5]], 506, False), 'SSTF')
         self.assertEqual(self.simulator.executeSSTF(),base_results)
 
     def test_SCAN_shoud_return(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'SCAN')
         self.assertEqual(self.simulator.executeSCAN(),base_results)
+        
+        self.simulator.init_pos = self.simulator.max_tracks
+        base_results = (([[], [511, 400, 100, 90, 65, 40, 35, 20, 15, 5]], 506, False), 'SCAN')
+        self.assertEqual(self.simulator.executeSCAN(),base_results)
 
     def test_CSCAN_shoud_return(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400], []], 400, True), 'CSCAN')
         self.assertEqual(self.simulator.executeCSCAN(),base_results)
+        
+        # self.simulator.init_pos = self.simulator.max_tracks
+        # base_results = (([[], [], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 506, True), 'CSCAN')
+        # self.assertEqual(self.simulator.executeCSCAN(),base_results)
 
     def test_LOOK_shoud_return(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'LOOK')
         self.assertEqual(self.simulator.executeLOOK(),base_results)
+        
+    #     self.simulator.init_pos = self.simulator.max_tracks
+    #     base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'LOOK')
+    #     self.assertEqual(self.simulator.executeLOOK(),base_results)
 
     def test_CLOOK_shoud_return(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400], []], 400, True), 'CLOOK')
         self.assertEqual(self.simulator.executeCLOOK(),base_results)
-
+        
+    #     self.simulator.init_pos = self.simulator.max_tracks
+    #     base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400], []], 400, True), 'CLOOK')
+    #     self.assertEqual(self.simulator.executeCLOOK(),base_results)
