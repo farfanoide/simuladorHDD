@@ -61,8 +61,7 @@ class Graphic():
         """this function takes the coordinates given by any algorithm and draws them in the grid"""
         self.graphic_sfc.fill(self.bkg_colour)
         #self.graphic_sfc.set_colorkey(self.bkg_colour)
-        self.canvas_sfc.blit(self.graphic_sfc,(self.grid_rect[0],self.grid_rect[1]))
-        pygame.display.flip()
+        #self.canvas_sfc.blit(self.graphic_sfc,(self.grid_rect[0],self.grid_rect[1]))
         print coordinates
         for x in range(len(coordinates)):
             if coordinates[x]:

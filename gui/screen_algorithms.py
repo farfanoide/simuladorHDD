@@ -44,13 +44,15 @@ class ScreenAlgorithms:
             
 
     def print_canvas(self):
-        coors = self.graphic.draw_grid(50)
+        self.graphic.draw_grid(50)
         self.graphic.label_grid(50) 
-        
+        self.graphic_screen.blit(self.graphic.canvas_sfc, (0,0))
+
     def print_graphic(self, list_reqs):
         self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
+        self.graphic_screen.blit(self.graphic.canvas_sfc,(0,0))
         
-        #self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
+        # self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):
         if direction:
