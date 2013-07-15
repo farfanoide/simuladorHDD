@@ -50,16 +50,18 @@ screen.blit(button6.img, button6.pos)
 pygame.display.flip()
 run = True
 while run:
-    
+    # g.print_canvas()
+    # g.graphic_screen.blit(g.graphic.canvas_sfc, (0,0))    
     #clock.tick(30)
     for event in pygame.event.get():
         # print event
-       
+
+
         if event.type == pygame.MOUSEBUTTONDOWN:
           pos = pygame.mouse.get_pos()
           for button in buttons:
               if button.clicked(pos):
-                g.print_canvas()
+                # g.print_canvas()
                 #g.graphic.graphic_sfc.blit(g.graphic.canvas_sfc,(0,0))
                 results = button.executeAction()
                 print results
@@ -70,8 +72,8 @@ while run:
                 screen.blit(g.graphic_screen,(200,0))
                 # g.graphic_screen.blit(g.graphic.canvas_sfc,(0,0))
                 #pygame.display.flip() 
-                g.graphic_screen.blit(g.graphic.canvas_sfc, (0,0))   
-                pygame.display.update()
+                # g.graphic_screen.blit(g.graphic.canvas_sfc, (0,0))  
+                pygame.display.update() 
           # for button in 
 
           # for button in menu.buttons:

@@ -50,6 +50,7 @@ class ScreenAlgorithms:
 
     def print_graphic(self, list_reqs):
         self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
+        self.print_canvas()
         self.graphic_screen.blit(self.graphic.canvas_sfc,(0,0))
         
         # self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
