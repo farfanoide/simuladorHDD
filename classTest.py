@@ -69,6 +69,7 @@ while run:
                 movs = str(results[0][1])
                 dire = results[0][2]
                 g.print_graphic(reqs)
+                g.print_leyends(results[1],results[0][1],results[0][2])
                 screen.blit(g.graphic_screen,(200,0))
                 # g.graphic_screen.blit(g.graphic.canvas_sfc,(0,0))
                 #pygame.display.flip() 
