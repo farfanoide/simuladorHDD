@@ -31,6 +31,7 @@ class CSCAN(Scheduling):
             if lower:
                 self.attended  += lower
                 self.movements += lower[-1]
+            self.last_dir = self.get_end_dir(self.attended, current_pos, init_pos)
             return [self.page_faults, greater, lower], self.movements, direction
         else:
             greater.sort(reverse=True)
@@ -41,4 +42,5 @@ class CSCAN(Scheduling):
             if greater:
                 self.attended  += greater
                 self.movements += max_tracks - greater[-1]
+            self.last_dir = self.get_end_dir(self.attended, current_pos, init_pos)
             return [self.page_faults, lower, greater], self.movements, direction
