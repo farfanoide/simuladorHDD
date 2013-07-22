@@ -55,7 +55,7 @@ class Simulator():
     # def attend_pf(list, init_pos, direction):
     #     pf_list = get_pf(list)
     #     return fifo(pf_list, init_pos, direction)
-    def random_list(self, quantity):
+    def random_list(self, quantity=15):
         """Generates random list, duh!
 
         Keyword arguments:

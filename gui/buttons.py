@@ -5,7 +5,8 @@ from pygame.locals import *
 class BaseButton(pygame.sprite.Sprite):
 
 
-    def __init__(self, obj_class, pos, action="", img='gui/img/button_small.png'):
+    def __init__(self, idn, pos, obj_class = "", action="", img="gui/img/button_small.png"):
+        self.id = idn
         self.pos = pos
         self.img = pygame.image.load(img)
         # self.rect = (pos[0], pos[1], self.img.get_width(), self.img.get_height())
@@ -27,3 +28,6 @@ class BaseButton(pygame.sprite.Sprite):
             return action()
         else:
             print "no action defined"
+
+
+
