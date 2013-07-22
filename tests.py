@@ -1,6 +1,15 @@
 import unittest
 from simulator import Simulator
 
+class testSchedullingBaseFunctions(unittest.TestCase):
+    from algorithms.scheduling import Scheduling
+    """
+    Tests base functions in Scheduling()
+    """
+    def __init__(self, arg):
+        self.sched = Scheduling()
+        
+
 class testStandaloneFunctions(unittest.TestCase):
     
 

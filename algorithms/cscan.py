@@ -37,7 +37,6 @@ class CSCAN(Scheduling):
             greater.sort(reverse=True)
             lower.sort(reverse=True)
             self.attended  += lower
-            print self.movements
             self.movements += current_pos  
             if greater:
                 self.attended  += greater
