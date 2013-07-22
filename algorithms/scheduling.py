@@ -1,4 +1,7 @@
 class Scheduling():
+    """
+        Base Class for all algorithms
+    """
 
     def __init__(self):
         self.requirements = []
@@ -20,8 +23,11 @@ class Scheduling():
     def attend_requirements(self, requirements, init_pos, direction):
         pass
 
-    def get_pfs(self, requirements):
-        "returns list of page faults"
+    def extract_page_faults(self, requirements):
+        """
+        Removes page faults from original requirement list 
+        and saves them to their own to be attended.
+        """
 
         for req in requirements:
             if req < 0:
@@ -33,18 +39,13 @@ class Scheduling():
         """
         Initializes
         """
-        self.get_pfs(requirements)
+        self.extract_page_faults(requirements)
         if self.page_faults:
+            self.page_faults = [init_pos] + self.page_faults
             self.movements += self.count_movements(self.page_faults, init_pos)
-            # self.attended += self.page_faults
             return self.page_faults[-1]
         else:
-            # there arent any page faults
-            try:
-                self.movements = abs(self.requirements[0] - init_pos)
-            except IndexError:
-            # there arent any requirements
-                pass
+            self.attended.append(init_pos)
             return init_pos
 
     def count_movements(self, requirements, init_pos):

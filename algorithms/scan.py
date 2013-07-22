@@ -8,12 +8,15 @@ class SCAN(Scheduling):
         greater, lower = self.divide_list(self.requirements, current_pos, True)
         post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
         if post_pf_dir:
-            greater.append(max_tracks)
+            if lower and self.get_last_req(greater, current_pos) < max_tracks:
+                greater.append(max_tracks)
             self.attended += greater
             self.attended += lower
         else:
-            lower.append(0)
+            if greater:
+                lower.append(0)
             self.attended += lower
             self.attended += greater
         self.movements += self.count_movements(self.attended, self.get_last_req(self.page_faults, init_pos))
-        return [self.page_faults, self.attended], self.movements, not post_pf_dir
+        self.last_dir   = self.get_end_dir(self.attended, current_pos, direction)
+        return [self.page_faults, self.attended], self.movements, self.last_dir
