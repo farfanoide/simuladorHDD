@@ -1,6 +1,6 @@
 import os,sys,pygame
 from pygame.locals import *
-from guiclasses import *
+from gui.guiclasses import *
 from simulator import Simulator
 # from gui.screen_algorithms import ScreenAlgorithms
 ##begin
