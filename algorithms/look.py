@@ -13,5 +13,6 @@ class LOOK(Scheduling):
         else:
             self.attended += lower
             self.attended += greater
+        self.last_dir   = self.get_end_dir(self.attended, current_pos, direction)
         self.movements += self.count_movements(self.attended, self.attended[0])
-        return [self.page_faults, self.attended], self.movements, not post_pf_dir
+        return [self.page_faults, self.attended], self.movements, self.last_dir

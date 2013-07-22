@@ -5,9 +5,12 @@ class CLOOK(Scheduling):
     def attend_requirements(self, requirements, init_pos, direction):
         current_pos    = self.startup(requirements, init_pos)
         greater, lower = self.divide_list(self.requirements, current_pos)
-        post_pf_dir    = self.get_end_dir(self.page_faults, init_pos, direction)
-
-        if post_pf_dir:
+        if not self.page_faults:
+            if direction:
+                greater.append(init_pos)
+            else:
+                lower.append(init_pos)
+        if direction:
             if greater:
                 greater.sort()
                 self.attended  += greater
@@ -16,7 +19,8 @@ class CLOOK(Scheduling):
                 lower.sort()
                 self.attended  += lower
                 self.movements += self.count_movements(lower, lower[0])
-            return [self.page_faults, greater, lower], self.movements, post_pf_dir
+            self.last_dir = self.get_end_dir(self.attended, current_pos, direction)
+            return [self.page_faults, greater, lower], self.movements, self.last_dir
         else:
             if lower:
                 lower.sort(reverse=True)
@@ -26,4 +30,5 @@ class CLOOK(Scheduling):
                 greater.sort(reverse=True)
                 self.attended.extend(greater)
                 self.movements += self.count_movements(greater, greater[0])
-            return [self.page_faults, lower, greater], self.movements, post_pf_dir
+            self.last_dir = self.get_end_dir(self.attended, current_pos, direction)
+            return [self.page_faults, lower, greater], self.movements, self.last_dir
