@@ -5,6 +5,7 @@ from pygame.locals import *
 
 
 class Graphic():
+    """Class wich represents the graph area of the screen"""
 
     def __init__(self, rect, bkg_colour, grid_width, pad=20):
         self.bkg_colour = bkg_colour
@@ -14,36 +15,37 @@ class Graphic():
         self.width = rect[2]
         self.height = rect[3]
         self.padding = pad
+        #This surface is the graph area with contains the grid with it's labels.
         self.canvas_sfc = pygame.Surface((self.width, self.height))
         self.canvas_sfc.fill(self.bkg_colour)
+        ##      Setting the grid
+        #   x_coor is the horizontal corrdinate for the grid to be centered
         x_coor = (self.width - grid_width) / 2
         self.grid_rect = (x_coor, self.padding, grid_width,
-                self.height - 2 * self.padding - 1)
+                self.height - 2 * self.padding -1)
+        # Graph surface wich will contain grid + lines
         self.graphic_sfc = pygame.Surface((self.grid_rect[2], self.grid_rect[3]))
-
-        #TODO: LLENAR CON TRANSPARENCIA
         self.graphic_sfc.fill(self.bkg_colour)
-        #self.graphic_sfc.set_colorkey(self.bkg_colour)
-        self.canvas_sfc.blit(self.graphic_sfc, (self.grid_rect[0],self.grid_rect[1]))
-
-        #just for debuggin purpose. Uncoment to see the size of the surface
-        #pygame.draw.rect(self.canvas_sfc,(0,0,0),rect,1)
 
     def draw_grid(self, hspacing=0, vspacing=0, gridColour=(0, 0, 0)):
+        """ Draws the grid of the graphic"""
         # Let's draw the contour of the graphic
-        pygame.draw.rect(self.canvas_sfc, gridColour, self.grid_rect, 2)
+        self.graphic_sfc.fill(self.bkg_colour)
+        pygame.draw.rect(self.graphic_sfc, gridColour, (0,0,self.grid_rect[2],self.grid_rect[3]), 3)
         # Now the horizontal lines
         if hspacing:
             for i in range(hspacing, self.grid_rect[2], hspacing):
-                pygame.draw.aaline(self.canvas_sfc, gridColour, (
-                    i + self.grid_rect[0], self.padding), (i + self.grid_rect[0], self.height - self.padding))
+                pygame.draw.aaline(self.graphic_sfc, gridColour, (
+                    i, 0), (i , self.grid_rect[3]))
         # Finally vertical lines
         if vspacing:
             for i in range(vspacing, self.grid_rect[2], vspacing):
-                pygame.draw.aaline(self.canvas_sfc, gridColour, (
-                    self.padding, self.padding + i), (self.padding + self.grid_rect[0], self.padding + i))
-
+                pygame.draw.aaline(self.graphic_sfc, gridColour, (
+                    0,  i), (self.grid_rect[0], i))
+        self.canvas_sfc.blit(self.graphic_sfc,self.grid_rect)
+                
     def label_grid(self, hspacing):
+        """Draws the label of the graphic"""
         pygame.font.init()
         grid_ax_x   = self.grid_rect[0] 
         grid_ax_y   = self.grid_rect[1]
@@ -59,10 +61,6 @@ class Graphic():
 
     def draw_graphic(self, coordinates, img=''):
         """this function takes the coordinates given by any algorithm and draws them in the grid"""
-        self.graphic_sfc.fill(self.bkg_colour)
-        #self.graphic_sfc.set_colorkey(self.bkg_colour)
-        self.canvas_sfc.blit(self.graphic_sfc,(self.grid_rect[0],self.grid_rect[1]))
-        pygame.display.flip()
         print coordinates
         for x in range(len(coordinates)):
             if coordinates[x]:
@@ -93,6 +91,5 @@ class Graphic():
                     for element in coordinates[x]:
                         self.graphic_sfc.blit(image_sfc,element)
 
-        self.canvas_sfc.blit(self.graphic_sfc,(self.grid_rect[0],self.grid_rect[1]))
-        pygame.display.update()
+        self.canvas_sfc.blit(self.graphic_sfc,self.grid_rect)
             

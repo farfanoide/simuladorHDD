@@ -9,7 +9,6 @@ class ScreenAlgorithms:
 
     """Class that handle the graphics section of the main screen"""
     def __init__(self, size, bkg_colour, simulation):
-        # self.size = size
         self.width = size[0]
         self.height = size[1]
         self.graphic_screen = pygame.Surface(size)
@@ -17,8 +16,9 @@ class ScreenAlgorithms:
         self.bkg_colour = bkg_colour
         self.simulation = simulation
         self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*5/6)), (100,100,100), self.simulation.max_tracks+1)
-        # just for debuggin purpose. Uncoment to see the size of the surface
-        #pygame.draw.rect(self.graphic_screen,(0,0,0),(0,0,self.size[0],self.size[1]),1)
+        self.leyend_sfc = pygame.Surface((int(self.width*4/5),int(self.height) - int(self.height*5/6)))
+        self.leyend_sfc.fill((255,0,0))
+        self.graphic_screen.blit(self.leyend_sfc,(0,int(self.height*5/6) ))
 
     def __calculate_coordinates(self, requirements):
         reqs_quantity = 0
@@ -44,38 +44,44 @@ class ScreenAlgorithms:
             
 
     def print_canvas(self):
-        coors = self.graphic.draw_grid(50)
+        self.graphic.draw_grid(50)
         self.graphic.label_grid(50) 
-        
+        self.graphic.canvas_sfc.blit(self.graphic.graphic_sfc,self.graphic.grid_rect)
+        self.graphic_screen.blit(self.graphic.canvas_sfc, (0,0))
+
     def print_graphic(self, list_reqs):
+        self.print_canvas()
         self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
-        
-        #self.graphic_screen.blit(self.graphic.graphic_sfc, (self.graphic.ax_x, self.graphic.ax_y))
+        self.graphic_screen.blit(self.graphic.canvas_sfc,(0,0))
+
 
     def print_leyends(self, algorithm='Algoritmo', movements='movs', direction="derOizq"):
+        self.leyend_sfc.fill(((255,0,0)))
         if direction:
             directiontxt = 'Derecha'
         else:
             directiontxt = 'Izquierda'
         leyend = 'Metodo:' + algorithm + '     Movimientos: ' + \
-             movements + '     Direccion: ' + directiontxt
+            str(movements) + '     Direccion: ' + directiontxt
         pygame.font.init()
         # Let's make the font obj match the space available
-        font_size = 100
-        leyend_Font = pygame.font.SysFont(None,font_size)
-        while ((leyend_Font.size(leyend)[1] > self.height / 4) or (leyend_Font.size(leyend)[0] > self.width * 3/4)):
+        font_size = 500
+        leyend_Font = pygame.font.SysFont("ubuntu",font_size)
+        while ((leyend_Font.size(leyend)[1] > self.leyend_sfc.get_height()) or (leyend_Font.size(leyend)[0] > self.leyend_sfc.get_width())):
             font_size -= 10
-            leyend_Font = pygame.font.SysFont(None,font_size)
+            leyend_Font = pygame.font.SysFont("ubuntu",font_size)
 
         # Now make the Surface with the font
-        leyend_surface = leyend_Font.render(leyend, True, (0, 0, 0))
+        txt_surface = leyend_Font.render(leyend, True, (0, 0, 0))
         #center the surface in the available space
-        rect_sfc = leyend_surface.get_rect()
-        rect_sfc[1] = 3* self.height/4 + (self.height/4 - leyend_surface.get_height()) /2
-        rect_sfc[0] = (3* self.width /4 - leyend_surface.get_width())/2
+        rect_sfc = txt_surface.get_rect()
+        print rect_sfc
+        rect_sfc[1] =(self.leyend_sfc.get_height() - txt_surface.get_height()) /2
+        rect_sfc[0] = (self.leyend_sfc.get_width() - txt_surface.get_width())/2
 
         #Finally we blit the surface with de centered coordinates 
-        self.graphic_screen.blit(leyend_surface, rect_sfc)
+        self.leyend_sfc.blit(txt_surface, rect_sfc)
+        self.graphic_screen.blit(self.leyend_sfc,(0,int(self.height*5/6) ))
 
         return rect_sfc
 
