@@ -1,24 +1,13 @@
 class Scheduling():
-    """
-        Base Class for all algorithms
-    """
+    """ Base Class for all algorithms """
 
     def __init__(self):
         self.requirements = []
-        self.attended = []
-        self.page_faults = []
-        self.movements = 0
-        self.direction = True
-        self.last_dir = True
-
-    def get_attended_requirements(self):
-        return self.requirements
-
-    def get_movements(self):
-        return self.movements
-
-    def get_direction(self):
-        return self.direction
+        self.attended     = []
+        self.page_faults  = []
+        self.movements    = 0
+        self.direction    = True
+        self.last_dir     = True
 
     def attend_requirements(self, requirements, init_pos, direction):
         pass
@@ -37,7 +26,11 @@ class Scheduling():
 
     def startup(self, requirements, init_pos):
         """
-        Initializes
+        Initializes the simulation movementes and page faults
+
+        Keyword arguments:
+        requirements (list) -- List of requirements
+        init_pos (integer)  -- Initial position
         """
         self.extract_page_faults(requirements)
         if self.page_faults:
@@ -53,7 +46,8 @@ class Scheduling():
         calculates movements between each requirement in a list
 
         Keyword arguments:
-        requirements (list) -- requirements list
+        requirements (list) -- List of requirements
+        init_pos (integer)  -- Initial position
 
         """
         if requirements:
@@ -66,7 +60,14 @@ class Scheduling():
 
     def divide_list(self, requirements, pos, sort=False):
         """
-            divides list into < (pos) >
+        Splits a list of requirements and returns one greater than
+        the initial position and one lower
+
+        Keyword arguments:
+        requirements (list) -- List of requirements
+        pos (integer)  -- Splitting position
+        sort (boolean) -- Sort lists before return
+
         """
         lower, greater = [], []
         for req in requirements:
@@ -80,6 +81,15 @@ class Scheduling():
         return greater, lower
 
     def get_end_dir(self, requirements, init_pos, orig_dir):
+        """
+        Returns final direction from a list of requirements
+
+        Keyword arguments:
+        requirements (list) -- List of requirements
+        init_pos (integer)  -- Initial position in case the list has too few requirements
+        orig_dir (integer)  -- Original directino in case the list has not enough requirements
+
+        """
 
         try:
             if len(requirements) > 1:

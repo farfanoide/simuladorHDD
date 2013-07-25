@@ -48,31 +48,25 @@ class Simulator():
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "CLOOK"
 
-    #-------------
-    # Common
-    #-------------
-
-    # def attend_pf(list, init_pos, direction):
-    #     pf_list = get_pf(list)
-    #     return fifo(pf_list, init_pos, direction)
     def random_list(self, quantity):
-        """Generates random list, duh!
+        """
+        Generates random list, duh!
 
         Keyword arguments:
-        quantity (int) -- length of the requirement list
+        quantity (int) -- Length of the requirement list
 
         """
         self.requirements = [randint(
             0, self.max_tracks) for i in range(quantity)]
 
     def add_random_pf(self, quantity):
+        """
+        Adds page faults at random positions
+
+        Keyword arguments:
+        quantity (int) -- Amount of page faults to create
+
+        """
         for x in range(quantity):
             elem = randint(0, len(self.requirements) - 1)
             self.requirements[elem] = -self.requirements[elem]
-
-
-
-
-    #-------------
-    # end Common
-    #-------------
