@@ -2,7 +2,7 @@ import pygame
 
 from pygame.locals import *
 
-class BaseButton(pygame.sprite.Sprite):
+class BaseButton():
 
 
     def __init__(self, idn, pos, obj_class = "", action="", img="gui/img/button_small.png"):
@@ -14,7 +14,6 @@ class BaseButton(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.obj_class = obj_class
-        self.action = action
 
     def clicked(self, pos):
         if self.rect.collidepoint(pos):

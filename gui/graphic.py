@@ -9,12 +9,12 @@ class Graphic():
 
     def __init__(self, rect, bkg_colour, grid_width, pad=20):
         self.bkg_colour = bkg_colour
-        self.rect = rect
-        self.ax_x = rect[0]
-        self.ax_y = rect[1]
-        self.width = rect[2]
-        self.height = rect[3]
-        self.padding = pad
+        self.rect       = rect
+        self.ax_x       = self.rect[0]
+        self.ax_y       = self.rect[1]
+        self.width      = self.rect[2]
+        self.height     = self.rect[3]
+        self.padding    = pad
         #This surface is the graph area with contains the grid with it's labels.
         self.canvas_sfc = pygame.Surface((self.width, self.height))
         self.canvas_sfc.fill(self.bkg_colour)
@@ -45,7 +45,7 @@ class Graphic():
         self.canvas_sfc.blit(self.graphic_sfc,self.grid_rect)
                 
     def label_grid(self, hspacing):
-        """Draws the label of the graphic"""
+        """Draws the label of the graphic."""
         pygame.font.init()
         grid_ax_x   = self.grid_rect[0] 
         grid_ax_y   = self.grid_rect[1]
@@ -60,7 +60,12 @@ class Graphic():
 
 
     def draw_graphic(self, coordinates, img=''):
-        """this function takes the coordinates given by any algorithm and draws them in the grid"""
+        """
+        this function takes the coordinates given by any algorithm and draws them in the grid
+
+        Keyword arguments:
+        coordinates (list) -- List of tuples in the form (x,y)
+        """
         print coordinates
         for x in range(len(coordinates)):
             if coordinates[x]:
