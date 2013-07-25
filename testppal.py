@@ -3,52 +3,54 @@ from pygame.locals import *
 from gui.guiclasses import *
 from simulator import Simulator
 from gui.screen_algorithms import *
-# from gui.screen_algorithms import ScreenAlgorithms
-##begin
+# pygame.Surface
+# var
+screen_size = (1000, 640)
+red   = (255,0,0)
+green = (0,255,0)
+blue  = (0,0,255)
+white = (255,255,255)
+black = (0,0,0)
+clock = pygame.time.Clock()
+butt_list=[{'action':'sometext', 'img':"img/button.png"},{'action':'sometext', 'img':"img/button.png"},{'action':'sometext', 'img':"img/button.png"},{'action':'sometext', 'img':"img/button.png"}]
+
 pygame.init()
+s = pygame.display.set_mode(screen_size)
+mrect = (0, 0, s.get_width()/3, s.get_height())
+m = Menu(s, mrect, white, butt_list, False)
+# m = Main(screen_size)
+# m.initiate_elements()
+# m.menu.populate_sfc(butt_list)
+pygame.display.flip()
+for button in m.buttons:
+    print button.start_y
+    print button.start_x
+# print screen.get_width()
 
-screen = pygame.display.set_mode((1024,702))
-sim = Simulator()
-sim.random_list()
-sim.add_random_pf(4)
-sus = SetUpScreen(screen, (100,100,100), sim)
-als = AlgorithmScreen(screen, (100,100,100), sim)
+
+
+
 run = True
-
 while run:
-    if sus.selected:
-        buttons = sus.buttons
-        sus.showScreen()
-    else:
-        buttons = als.buttons
-        als.showScreen()
-
+    clock.tick(30)
     for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        # print event
+        if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            for button in buttons:
-                print button.id
+            for button in m.menu.buttons:
                 if button.clicked(pos):
-                    print button.id
-                    if button.id < 100:
-                        results = button.executeAction()
-                        print results
-                        reqs = results[0][0]
-                        movs = str(results[0][1])
-                        dire = results[0][2]
-                        als.print_graphic(reqs)
-                        als.print_leyends(results[1],results[0][1],results[0][2])
-                        screen.blit(als.graphic_screen,(200,0))
-                        pygame.display.update()
-                    else:
-                        sus.switchSelect()
-
+                    print button.img.get_clip()
+            #         print button.img.get_abs_parent().get_rect()
+                    # print super(Button, button).get_rect()
+            
+            # screen.blit(n.img, (200,200))
+            # pygame.display.flip()
         if event.type == pygame.QUIT:
             run = False
         #faster dubugging
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             run = False
-pygame.quit()
-sys.exit()    
+# pygame.quit()
+# sys.exit(), 
 
 
