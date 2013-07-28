@@ -33,8 +33,10 @@ buttons = [
 
 pygame.init()
 s = pygame.display.set_mode(screen_size)
-mrect = (0, 0, s.get_width() / 3, s.get_height())
-m = Menu(s, mrect, white, buttons, False)
+mrect = (0, 0, s.get_width(), s.get_height()/8)
+m = Menu(s, mrect, white, buttons, True)
+irect = (0,s.get_height()/8,s.get_width(),7 * s.get_height()/8)
+i = InputBox(s, irect, (100,100,100))
 pygame.display.flip()
 
 # ----------

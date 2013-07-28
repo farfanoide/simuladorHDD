@@ -1,6 +1,7 @@
 import os
 import sys
 import pygame
+import string
 from pygame.locals import *
 
 class BaseGui(pygame.surface.Surface):
@@ -30,8 +31,6 @@ class BaseGui(pygame.surface.Surface):
         self.base_sfc.blit(self, (self.rect.x, self.rect.y))
         pygame.display.update(self.base_sfc.get_rect())
 
-
-        
 class Button(BaseGui):
     """docstring for Button"""
 
@@ -57,6 +56,7 @@ class Button(BaseGui):
             return action()
         else:
             print "no action defined"
+
 
 class Menu(BaseGui):
 
@@ -96,7 +96,7 @@ class Screen(BaseGui):
         super(Screen, self).__init__(base_sfc, rect, color)
         self.elements = elements
         self.selected = True
-
+    
     def showScreen(self):
         self.screen.fill(self.bkg_colour)
         for button in self.buttons:
@@ -106,3 +106,74 @@ class Screen(BaseGui):
     def switchSelect(self):
         self.screen.fill(self.bkg_colour)
         self.selected = not self.selected
+
+
+
+class InputBox(BaseGui):
+    """ Docstring for InputBox"""
+    def __init__(self, base_sfc, rect, color):
+        super(InputBox, self).__init__(base_sfc, rect, color)
+        self.input       = []
+        self.inputxt     = ""
+        self.inputlst    = []
+        self.line_height = 0
+        self.line_cont   = 0
+        self.ask()
+        self.update_sfc()
+
+    def get_key(self):
+        while 1:
+            event = pygame.event.poll()
+            if event.type == KEYDOWN:
+                return event.key
+            else:
+                pass
+# TODO: refactor variable names/
+    def display_box(self, message):
+        "Print a message in a box in the middle of the sfc"
+        fontobject = pygame.font.Font(None,18)
+        self.line_height=0
+        # self.fill(self.colour)
+        pygame.draw.rect(self, (0,0,0),(0,(self.get_height() / 2),self.get_width(),self.get_height()/2), 0)
+        pygame.draw.rect(self, (255,255,255),(1,(self.get_height() / 2) +1,self.get_width()-1, self.get_height()-1), 1)
+        if len(message) != 0:
+            for lines in self.inputlst:
+                line = fontobject.render(lines, 1, (255, 255, 255))
+                self.blit(line, (0, self.get_height() / 2 + self.line_height))
+                self.line_height += line.get_height()
+            line = fontobject.render(message, 1, (255, 255, 255))
+            self.blit(line, (0, self.get_height() / 2 + self.line_height))
+            # pygame.display.flip()
+            if line.get_width() > self.get_width() - 10 :
+                self.inputlst.append(message)
+                self.line_height =self.line_height + line.get_height()
+                return True
+            else:
+                return False
+        
+
+    def ask(self):
+        "ask(sfc, question) -> answer"
+        pygame.font.init()
+        current_string = []
+        self.display_box(string.join(current_string,""))
+        while 1:
+            inkey = self.get_key()
+            if inkey == K_BACKSPACE:
+                current_string = current_string[0:-1]
+                if len(self.inputlst) > 0 and current_string == "":
+                    self.inputlst.pop()
+                    current_string = self.inputlst.pop()
+                self.display_box(string.join(current_string,""))
+            elif inkey == K_RETURN:
+                self.inputlst.append(string.join(current_string,""))
+                break
+            elif inkey <= 127:
+                current_string.append(chr(inkey))
+                if self.display_box(string.join(current_string,"")):
+                    # self.inputlst.append(string.join(current_string,""))
+                    current_string = []
+            self.update_sfc()
+        print self.inputlst
+        # self.inputxt = string.join(current_string,"")
+        # return string.join(current_string,"")
