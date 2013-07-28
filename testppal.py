@@ -15,8 +15,10 @@ butt_list=[{'action':'esta', 'img':"gui/img/button.png"},{'action':'otra', 'img'
 
 pygame.init()
 s = pygame.display.set_mode(screen_size)
-mrect = (0, 0, s.get_width()/3, s.get_height())
-m = Menu(s, mrect, white, butt_list, False)
+mrect = (0, 0, s.get_width(), s.get_height()/8)
+m = Menu(s, mrect, white, butt_list, True)
+irect = (0,s.get_height()/8,s.get_width(),7 * s.get_height()/8)
+i = InputBox(s, irect, (100,100,100))
 pygame.display.flip()
 
 
