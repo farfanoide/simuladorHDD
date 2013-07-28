@@ -128,52 +128,45 @@ class InputBox(BaseGui):
                 return event.key
             else:
                 pass
-# TODO: refactor variable names/
+    # TODO: refactor variable names/
     def display_box(self, message):
         "Print a message in a box in the middle of the sfc"
         fontobject = pygame.font.Font(None,18)
         self.line_height=0
-        # self.fill(self.colour)
         pygame.draw.rect(self, (0,0,0),(0,(self.get_height() / 2),self.get_width(),self.get_height()/2), 0)
         pygame.draw.rect(self, (255,255,255),(1,(self.get_height() / 2) +1,self.get_width()-1, self.get_height()-1), 1)
-        if len(message) != 0:
-            for lines in self.inputlst:
-                line = fontobject.render(lines, 1, (255, 255, 255))
-                self.blit(line, (0, self.get_height() / 2 + self.line_height))
-                self.line_height += line.get_height()
-            line = fontobject.render(message, 1, (255, 255, 255))
+        for lines in self.inputlst:
+            line = fontobject.render(lines, 1, (255, 255, 255))
             self.blit(line, (0, self.get_height() / 2 + self.line_height))
-            # pygame.display.flip()
-            if line.get_width() > self.get_width() - 10 :
-                self.inputlst.append(message)
-                self.line_height =self.line_height + line.get_height()
-                return True
-            else:
-                return False
+            self.line_height += line.get_height()
+        line = fontobject.render(message, 1, (255, 255, 255))
+        self.blit(line, (0, self.get_height() / 2 + self.line_height))
+        if line.get_width() > (self.get_width() - 10) :
+            return True
+        else:
+            return False
         
 
     def ask(self):
         "ask(sfc, question) -> answer"
         pygame.font.init()
-        current_string = []
-        self.display_box(string.join(current_string,""))
+        current_string = ""
+        self.display_box(current_string)
         while 1:
             inkey = self.get_key()
             if inkey == K_BACKSPACE:
-                current_string = current_string[0:-1]
-                if len(self.inputlst) > 0 and current_string == "":
-                    self.inputlst.pop()
+                if current_string :
+                    current_string = current_string[0:-1]
+                elif self.inputlst :
                     current_string = self.inputlst.pop()
-                self.display_box(string.join(current_string,""))
+                self.display_box(current_string)
             elif inkey == K_RETURN:
-                self.inputlst.append(string.join(current_string,""))
+                self.inputlst.append(current_string)
                 break
             elif inkey <= 127:
-                current_string.append(chr(inkey))
-                if self.display_box(string.join(current_string,"")):
-                    # self.inputlst.append(string.join(current_string,""))
-                    current_string = []
+                current_string+= chr(inkey)
+                if self.display_box(current_string):
+                    self.inputlst.append(current_string)
+                    current_string = ""
             self.update_sfc()
         print self.inputlst
-        # self.inputxt = string.join(current_string,"")
-        # return string.join(current_string,"")
