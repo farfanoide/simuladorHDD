@@ -1,25 +1,45 @@
-import os,sys,pygame
+import os
+import sys
+import pygame
 from pygame.locals import *
 from gui.guiclasses import *
 from simulator import Simulator
 from gui.screen_algorithms import *
 from gui.base_gui import *
+
+# ----------
+# variables
+# ----------
 screen_size = (1000, 640)
-red   = (255,0,0)
-green = (0,255,0)
-blue  = (0,0,255)
-white = (255,255,255)
-black = (0,0,0)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+white = (255, 255, 255)
+black = (0, 0, 0)
 clock = pygame.time.Clock()
-butt_list=[{'action':'esta', 'img':"gui/img/button.png"},{'action':'otra', 'img':"gui/img/button.png"},{'action':'miraqloco', 'img':"gui/img/button.png"},{'action':'otrama', 'img':"gui/img/button.png"}]
+sim = Simulator()
+sim.random_list(15)
+sim.add_random_pf(5)
+buttons = [
+            {'simulator': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
+            {'simulator': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
+            {'simulator': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
+            {'simulator': sim, 'action': 'executeSSTF', 'img': "gui/img/SSTF.jpg"}
+          ]
+
+# ----------
+# main 
+# ----------
 
 pygame.init()
 s = pygame.display.set_mode(screen_size)
-mrect = (0, 0, s.get_width()/3, s.get_height())
-m = Menu(s, mrect, white, butt_list, False)
+mrect = (0, 0, s.get_width() / 3, s.get_height())
+m = Menu(s, mrect, white, buttons, False)
 pygame.display.flip()
 
-
+# ----------
+# pygame loop
+# ----------
 run = True
 while run:
     clock.tick(30)
@@ -28,13 +48,11 @@ while run:
             pos = pygame.mouse.get_pos()
             for button in m.elements:
                 if button.clicked(pos):
-                    print button.action
+                    print button.executeAction()
         if event.type == pygame.QUIT:
             run = False
-        #faster dubugging
+        # faster dubugging
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             run = False
 pygame.quit()
-sys.exit(), 
-
-
+sys.exit()
