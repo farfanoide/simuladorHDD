@@ -4,10 +4,10 @@ import pygame
 import string
 from pygame.locals import *
 
+
 class BaseGui(pygame.surface.Surface):
 
-
-    _bkg_colour = (0,0,0)
+    _bkg_colour = (0, 0, 0)
 
     def __init__(self, base_sfc, rect, padding=(0, 0, 0, 0), color=_bkg_colour):
         print rect
@@ -18,32 +18,32 @@ class BaseGui(pygame.surface.Surface):
         self.base_sfc = base_sfc
         self.padding  = padding
         self.elements = []
-        self.base_sfc.blit(self, self.rect)   
-        pygame.display.update(self.rect)
-
+        self.fill(color)
+        self.update_sfc()
     def initiate_elements(self):
         pass
 
     def update_sfc(self):
-        if (self.elements):
+        if self.elements:
             for e in self.elements:
                 e.update_sfc()
         self.base_sfc.blit(self, (self.rect.x, self.rect.y))
         pygame.display.update(self.base_sfc.get_rect())
 
+
 class Button(BaseGui):
+
     """docstring for Button"""
 
-
-    def __init__(self, base_sfc, action="", simulator="", img=""):
-        self.img = pygame.image.load(img)
+    def __init__(self, base_sfc, action="", obj="", img=""):
+        self.img    = pygame.image.load(img)
         self.action = action
-        self.simulator = simulator
+        self.obj    = obj
         super(Button, self).__init__(base_sfc, self.img.get_rect())
-    
+
     def update_sfc(self):
         self.base_sfc.blit(self.img, (self.rect.x, self.rect.y))
-    
+
     def clicked(self, pos):
         if self.rect.collidepoint(pos):
             return True
@@ -51,7 +51,7 @@ class Button(BaseGui):
             return False
 
     def executeAction(self):
-        action = getattr(self.simulator, self.action)
+        action = getattr(self.obj, self.action)
         if action:
             return action()
         else:
@@ -60,16 +60,17 @@ class Button(BaseGui):
 
 class Menu(BaseGui):
 
-
     def __init__(self, base_sfc, rect, color, buttons, axis):
         super(Menu, self).__init__(base_sfc, rect, color)
         self.initiate_elements(buttons)
+        self.fill(color)
         self.populate_sfc(axis)
         self.update_sfc()
 
     def initiate_elements(self, buttons):
         for button in buttons:
-            b = Button(self, button['action'], button['simulator'], button['img'])
+            b = Button(self, button['action'], button[
+                       'simulator'], button['img'])
             self.elements.append(b)
 
     def populate_sfc(self, axis=True, step=20):
@@ -79,7 +80,7 @@ class Menu(BaseGui):
         Keyword arguments:
         axis (boolean) -- Setup menu horizontally or vertically
         steps (integer)  -- Padding to use between buttons
-        
+
         """
         # axis = True  -> x
         # axis = False -> y
@@ -88,15 +89,16 @@ class Menu(BaseGui):
             for button in self.elements:
                 button.rect.x = padding
                 button.rect.y = step
-                padding += button.get_width()+step
+                padding += button.get_width() + step
         else:
             for button in self.elements:
                 button.rect.x = step
                 button.rect.y = padding
-                padding += button.get_height()+step
-        
+                padding += button.get_height() + step
+
 
 class InputBox(BaseGui):
+
     """ Docstring for InputBox"""
 
     def __init__(self, base_sfc, rect, color):
@@ -106,33 +108,35 @@ class InputBox(BaseGui):
         self.inputlst    = []
         self.line_height = 0
         self.line_cont   = 0
-        self.update_sfc()
 
     def get_key(self):
-        while 1:
+        while True:
             event = pygame.event.poll()
             if event.type == KEYDOWN:
                 return event.key
             else:
                 pass
     # TODO: refactor variable names/
+
     def display_box(self, message):
         "Print a message in a box in the middle of the sfc"
-        fontobject = pygame.font.Font(None,18)
-        self.line_height=0
-        pygame.draw.rect(self, (0,0,0),(0,(self.get_height() / 2),self.get_width(),self.get_height()/2), 0)
-        pygame.draw.rect(self, (255,255,255),(1,(self.get_height() / 2) +1,self.get_width()-1, self.get_height()-1), 1)
+        fontobject = pygame.font.Font(None, 18)
+        self.line_height = 0
+        pygame.draw.rect(self, (0, 0, 0), (0, (
+            self.get_height() / 2), self.get_width(), self.get_height() / 2), 0)
+        pygame.draw.rect(self, (255, 255, 255), (1, (
+            self.get_height() / 2) + 1, self.get_width() - 1, self.get_height() - 1), 1)
         for lines in self.inputlst:
             line = fontobject.render(lines, 1, (255, 255, 255))
             self.blit(line, (0, self.get_height() / 2 + self.line_height))
             self.line_height += line.get_height()
         line = fontobject.render(message, 1, (255, 255, 255))
         self.blit(line, (0, self.get_height() / 2 + self.line_height))
-        if line.get_width() > (self.get_width() - 10) :
+        if line.get_width() > (self.get_width() - 10):
             return True
         else:
             return False
-        
+
     def get_final_string(self):
         final = ""
         if self.inputlst:
@@ -141,28 +145,32 @@ class InputBox(BaseGui):
         return final
 
     def convert_to_list(self, full_string):
-        numlist = full_string.rsplit(' ')
-        full_list = [int(elem) for elem in numlist]
-        return full_list
+        try:
+            numlist = full_string.rsplit(' ')
+            full_list = [int(elem) for elem in numlist]
+            return full_list
+        except ValueError:
+            print "mira si seras gato"
+            return None
 
     def ask(self):
-        
+
         pygame.font.init()
         current_string = ""
         self.display_box(current_string)
-        while 1:
+        while True:
             inkey = self.get_key()
             if inkey == K_BACKSPACE:
-                if current_string :
+                if current_string:
                     current_string = current_string[0:-1]
-                elif self.inputlst :
+                elif self.inputlst:
                     current_string = self.inputlst.pop()
                 self.display_box(current_string)
             elif inkey == K_RETURN:
                 self.inputlst.append(current_string)
                 break
             elif inkey <= 127:
-                current_string+= chr(inkey)
+                current_string += chr(inkey)
                 if self.display_box(current_string):
                     self.inputlst.append(current_string)
                     current_string = ""
@@ -172,14 +180,14 @@ class InputBox(BaseGui):
 
 
 class Screen(BaseGui):
-    """docstring for Screen"""
 
+    """docstring for Screen"""
 
     def __init__(self, base_sfc, rect, color, elements):
         super(Screen, self).__init__(base_sfc, rect, color)
         self.elements = elements
         self.selected = True
-    
+
     def switchSelect(self):
         self.selected = not self.selected
         if self.selected:
