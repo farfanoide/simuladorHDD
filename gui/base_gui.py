@@ -73,6 +73,14 @@ class Menu(BaseGui):
             self.elements.append(b)
 
     def populate_sfc(self, axis=True, step=20):
+        """
+        Blits buttons and updates their position
+
+        Keyword arguments:
+        axis (boolean) -- Setup menu horizontally or vertically
+        steps (integer)  -- Padding to use between buttons
+        
+        """
         # axis = True  -> x
         # axis = False -> y
         padding = step
@@ -88,29 +96,9 @@ class Menu(BaseGui):
                 padding += button.get_height()+step
         
 
-class Screen(BaseGui):
-    """docstring for Screen"""
-
-
-    def __init__(self, base_sfc, rect, color, elements):
-        super(Screen, self).__init__(base_sfc, rect, color)
-        self.elements = elements
-        self.selected = True
-    
-    def showScreen(self):
-        self.screen.fill(self.bkg_colour)
-        for button in self.buttons:
-            self.screen.blit(button.img, button.pos)
-        pygame.display.update()
-
-    def switchSelect(self):
-        self.screen.fill(self.bkg_colour)
-        self.selected = not self.selected
-
-
-
 class InputBox(BaseGui):
     """ Docstring for InputBox"""
+
     def __init__(self, base_sfc, rect, color):
         super(InputBox, self).__init__(base_sfc, rect, color)
         self.input       = []
@@ -118,7 +106,6 @@ class InputBox(BaseGui):
         self.inputlst    = []
         self.line_height = 0
         self.line_cont   = 0
-        self.ask()
         self.update_sfc()
 
     def get_key(self):
@@ -146,9 +133,20 @@ class InputBox(BaseGui):
         else:
             return False
         
+    def get_final_string(self):
+        final = ""
+        if self.inputlst:
+            for i in self.inputlst:
+                final += i
+        return final
+
+    def convert_to_list(self, full_string):
+        numlist = full_string.rsplit(' ')
+        full_list = [int(elem) for elem in numlist]
+        return full_list
 
     def ask(self):
-        "ask(sfc, question) -> answer"
+        
         pygame.font.init()
         current_string = ""
         self.display_box(current_string)
@@ -169,4 +167,20 @@ class InputBox(BaseGui):
                     self.inputlst.append(current_string)
                     current_string = ""
             self.update_sfc()
-        print self.inputlst
+        final = self.get_final_string()
+        return self.convert_to_list(final)
+
+
+class Screen(BaseGui):
+    """docstring for Screen"""
+
+
+    def __init__(self, base_sfc, rect, color, elements):
+        super(Screen, self).__init__(base_sfc, rect, color)
+        self.elements = elements
+        self.selected = True
+    
+    def switchSelect(self):
+        self.selected = not self.selected
+        if self.selected:
+            self.update_sfc()

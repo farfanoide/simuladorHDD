@@ -18,8 +18,6 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 clock = pygame.time.Clock()
 sim = Simulator()
-sim.random_list(15)
-sim.add_random_pf(5)
 buttons = [
             {'simulator': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
             {'simulator': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
@@ -37,6 +35,9 @@ mrect = (0, 0, s.get_width(), s.get_height()/8)
 m = Menu(s, mrect, white, buttons, True)
 irect = (0,s.get_height()/8,s.get_width()/5,7 * s.get_height()/8)
 i = InputBox(s, irect, (100,100,100))
+sim.requirements = i.ask()
+print "printeando sim.requirements \n", sim.requirements
+
 pygame.display.flip()
 
 # ----------
