@@ -7,7 +7,7 @@ from pygame.locals import *
 
 class BaseGui(pygame.surface.Surface):
 
-    _bkg_colour = (0, 0, 0)
+    _bkg_colour = (31, 34, 39)
 
     def __init__(self, base_sfc, rect, padding=(0, 0, 0, 0), color=_bkg_colour):
         print rect
@@ -20,6 +20,7 @@ class BaseGui(pygame.surface.Surface):
         self.elements = []
         self.fill(color)
         self.update_sfc()
+
     def initiate_elements(self):
         pass
 
@@ -95,7 +96,22 @@ class Menu(BaseGui):
                 button.rect.x = step
                 button.rect.y = padding
                 padding += button.get_height() + step
+        
 
+class Screen(BaseGui):
+    """docstring for Screen"""
+
+
+    def __init__(self, base_sfc, rect, color, elements):
+        super(Screen, self).__init__(base_sfc, rect, color)
+        self.elements = elements
+        self.selected = True
+    
+
+    def switchSelect(self):
+        self.selected = not self.selected
+        if self.selected:
+            self.update_sfc()
 
 class InputBox(BaseGui):
 

@@ -21,6 +21,8 @@ sim = Simulator()
 buttons = [
             {'simulator': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
             {'simulator': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
+            {'simulator': sim, 'action': 'executeLOOK', 'img': "gui/img/LOOK.jpg"},
+            {'simulator': sim, 'action': 'executeSCAN', 'img': "gui/img/SCAN.jpg"},
             {'simulator': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
             {'simulator': sim, 'action': 'executeSSTF', 'img': "gui/img/SSTF.jpg"}
           ]

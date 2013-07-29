@@ -7,7 +7,7 @@ class Scheduling():
         self.page_faults  = []
         self.movements    = 0
         self.direction    = True
-        self.last_dir     = True
+        self.last_dir     = None
 
     def attend_requirements(self, requirements, init_pos, direction):
         pass
@@ -43,7 +43,7 @@ class Scheduling():
 
     def count_movements(self, requirements, init_pos):
         """
-        calculates movements between each requirement in a list
+        Calculates movements between each requirement in a list.
 
         Keyword arguments:
         requirements (list) -- List of requirements
@@ -61,7 +61,7 @@ class Scheduling():
     def divide_list(self, requirements, pos, sort=False):
         """
         Splits a list of requirements and returns one greater than
-        the initial position and one lower
+        the initial position and one lower.
 
         Keyword arguments:
         requirements (list) -- List of requirements
@@ -82,7 +82,7 @@ class Scheduling():
 
     def get_end_dir(self, requirements, init_pos, orig_dir):
         """
-        Returns final direction from a list of requirements
+        Checks and returns final direction in al list of requirements.
 
         Keyword arguments:
         requirements (list) -- List of requirements

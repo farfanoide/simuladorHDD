@@ -1,15 +1,46 @@
 import unittest
 from simulator import Simulator
 from gui.base_gui import *
+from algorithms.scheduling import Scheduling
 
-class testSchedullingBaseFunctions(unittest.TestCase):
-    from algorithms.scheduling import Scheduling
-    """
-    Tests base functions in Scheduling()
-    """
-    def __init__(self, arg):
+class testAlgorithmsBaseFunctions(unittest.TestCase):
+    """Tests base functions in Scheduling."""
+    _requirements = [-5, 15, 40, 65, 20, -35]
+    _reqs_no_pf = [15, 40, 65, 20]
+
+    def setUp(self):
         self.sched = Scheduling()
-        
+        self.init_pos = 0
+
+    def test_startup(self):
+        """Check startup initializes the simulation lists."""
+        pos = self.sched.startup(self._requirements, self.init_pos)
+        self.assertEqual(pos, 35)
+        self.assertEqual(self.sched.page_faults, [0, 5, 35])
+        self.assertEqual(self.sched.requirements, [15, 40, 65, 20])
+
+    def test_count_movements(self):
+        """Check correct amount of movements is calculated"""
+        pos = self.sched.startup(self._requirements, self.init_pos)
+        movements = self.sched.count_movements(self.sched.requirements, pos)
+        self.assertEqual(movements, 115)
+
+    def test_divide_list(self):
+        """Check divide list returns two lists in correct order."""
+        self.sched.startup(self._requirements, self.init_pos)
+        greater, lower = self.sched.divide_list(self.sched.requirements, self.init_pos, False)
+        self.assertEqual(greater, [15, 40, 65, 20])
+        self.assertEqual(lower, [])
+
+    def test_get_end_dir(self):
+        """Check final direction is correct"""
+        dir = self.sched.get_end_dir(self._reqs_no_pf, self.init_pos, True)
+        self.assertEqual(dir, False)
+
+    def test_get_last_req(self):
+        """Check last requirement is returned correctly"""
+        last_req = self.sched.get_last_req(self._reqs_no_pf, self.init_pos)
+        self.assertEqual(last_req, 20)
 
 class testStandaloneFunctions(unittest.TestCase):
     
@@ -18,14 +49,15 @@ class testStandaloneFunctions(unittest.TestCase):
          self.simulator = Simulator()
 
     def test_random_list_should_create_x_amount_reqs(self):
-         self.simulator.random_list(33)
-         self.assertEqual(len(self.simulator.requirements),33)
+        """Check length of requirements"""
+        self.simulator.random_list(33)
+        self.assertEqual(len(self.simulator.requirements),33)
 
     def test_random_list_should_return_list(self):
         self.assertIsInstance(self.simulator.requirements, list)
 
 class testSimulator(unittest.TestCase):
-    """tests default functions"""
+    """Tests default algorithms under various significant circumstances."""
 
     def setUp(self):
          self.simulator = Simulator()
@@ -75,7 +107,7 @@ class testSimulator(unittest.TestCase):
 
 
 class testSimulatorNoPageFaults(unittest.TestCase):
-    """tests default functions"""
+    """Tests default algorithms without page faults."""
 
     def setUp(self):
          self.simulator = Simulator()
