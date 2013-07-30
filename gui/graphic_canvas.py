@@ -9,13 +9,13 @@ class GraphicCanvas(BaseGui):
     """Class that handle the graphics section of the main screen"""
     def __init__(self, screen, bkg_colour, simulation):
         ####
-        self.screen = screen
-        self.width = screen.get_width()
-        self.height = screen.get_height()
+        self.screen         = screen
+        self.width          = screen.get_width()
+        self.height         = screen.get_height()
         self.graphic_screen = pygame.Surface((self.width,self.height))
         self.graphic_screen.fill(bkg_colour)
-        self.bkg_colour = bkg_colour
-        self.simulation = simulation
+        self.bkg_colour     = bkg_colour
+        self.simulation     = simulation
         #####
         self.graphic = Graphic((int(self.width*1/5), 0, int(self.width*4/5), int(self.height*5/6)), (100,100,100), self.simulation.max_tracks+1)
         self.leyend_sfc = pygame.Surface((int(self.width*4/5),int(self.height) - int(self.height*5/6)))

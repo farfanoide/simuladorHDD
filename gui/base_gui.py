@@ -8,14 +8,15 @@ from pygame.locals import *
 class BaseGui(pygame.surface.Surface):
     """
     Base class for all graphical elements.
+    elements (list) -- List containing subelements.
+    padding (list)  -- List representing padding in the order: [top, right, bottom, left]
 
     """
 
     _bkg_colour = (31, 34, 39)
-    _fg_color   = (255, 255, 255)
+    _fg_color   = (181, 181, 181)
 
     def __init__(self, base_sfc, rect, padding=[20, 20, 20, 20], color=_bkg_colour):
-        print rect
         super(BaseGui, self).__init__((rect[2], rect[3]))
         self.rect     = self.get_rect()
         self.rect.x   = rect[0]
@@ -64,7 +65,6 @@ class BaseGui(pygame.surface.Surface):
 
 
 class Button(BaseGui):
-
     """
     Button class.
     
@@ -108,8 +108,7 @@ class Menu(BaseGui):
 
     def initiate_elements(self, buttons):
         for button in buttons:
-            b = Button(self, button['action'], button[
-                       'simulator'], button['img'])
+            b = Button(self, button['action'], button['obj'], button['img'])
             self.elements.append(b)
 
     def populate_sfc(self, axis=True, step=20):
@@ -121,8 +120,6 @@ class Menu(BaseGui):
         steps (integer)  -- Padding to use between buttons
 
         """
-        # axis = True  -> x
-        # axis = False -> y
         padding = step
         if axis:
             for button in self.elements:
@@ -156,15 +153,10 @@ class InputBox(BaseGui):
     """Docstring for InputBox"""
     def __init__(self, base_sfc, rect, color):
         super(InputBox, self).__init__(base_sfc, rect)
-        self.inputlst    = []
+        self.inputlst = []
+        pygame.draw.rect(self, self._fg_color, self.apply_padding(), 1)
+        self.update_sfc()
 
-    def __get_key(self):
-        while True:
-            event = pygame.event.poll()
-            if event.type == KEYDOWN:
-                return event.key
-            else:
-                pass
 
     def __update_line(self, line, line_height, font):
         """Updates a line on its surface and updates line_height"""
@@ -174,7 +166,6 @@ class InputBox(BaseGui):
         line_height += rendered_line.get_height() 
 
         return line_height, rendered_line
-
 
     def __display_box(self, message):
         """Creates a surface to represent the input box itself."""
@@ -192,7 +183,6 @@ class InputBox(BaseGui):
             return True
         else:
             return False
-
 
     def __get_final_string(self):
         """Concatenates all strings in self.inputlst and returns them as one"""
@@ -212,6 +202,14 @@ class InputBox(BaseGui):
         except ValueError:
             print "mira si seras gato"
             return None
+
+    def __get_key(self):
+        while True:
+            event = pygame.event.poll()
+            if event.type == KEYDOWN:
+                return event.key
+            else:
+                pass
 
     def ask(self):
 
