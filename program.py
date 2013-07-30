@@ -16,7 +16,7 @@ white = (255, 255, 255)
 black = (31, 34, 39)
 clock = pygame.time.Clock()
 sim = Simulator()
-b_alg = [
+buttons = [
             {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
             {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
             {'obj': sim, 'action': 'executeLOOK', 'img': "gui/img/LOOK.jpg"},
@@ -24,10 +24,10 @@ b_alg = [
             {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
             {'obj': sim, 'action': 'executeSSTF', 'img': "gui/img/SSTF.jpg"}
         ]
-b_home =    [
-                {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"},
-                {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"}
-            ]
+# b_home =    [
+#                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"},
+#                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"}
+#             ]
 
 # ----------
 # main 

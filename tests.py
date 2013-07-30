@@ -4,6 +4,7 @@ from algorithms.scheduling import Scheduling
 
 class testAlgorithmsBaseFunctions(unittest.TestCase):
     """Tests base functions in Scheduling."""
+    
     _requirements = [-5, 15, 40, 65, 20, -35]
     _reqs_no_pf = [15, 40, 65, 20]
 
