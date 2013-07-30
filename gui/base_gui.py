@@ -6,6 +6,10 @@ from pygame.locals import *
 
 
 class BaseGui(pygame.surface.Surface):
+    """
+    Base class for all graphical elements.
+
+    """
 
     _bkg_colour = (31, 34, 39)
     _fg_color   = (255, 255, 255)
@@ -46,8 +50,8 @@ class BaseGui(pygame.surface.Surface):
 
     def apply_padding(self):
         """
-        Creates Rect based on own width and height and adds padding
-        padding (list) representing [top, right, bottom, left]
+        Creates Rect based on own (width, height) and adds padding
+        self.padding (list) representing [top, right, bottom, left]
 
         """
         draw_rect = self.get_rect()
@@ -61,7 +65,14 @@ class BaseGui(pygame.surface.Surface):
 
 class Button(BaseGui):
 
-    """docstring for Button"""
+    """
+    Button class.
+    
+    img (Surface)   -- Image
+    obj (object)    -- object onto wich action will be applied
+    action (string) -- action to be applied 
+
+    """
 
     def __init__(self, base_sfc, action="", obj="", img=""):
         self.img    = pygame.image.load(img)
@@ -142,49 +153,58 @@ class Screen(BaseGui):
 
 class InputBox(BaseGui):
 
-    """ Docstring for InputBox"""
+    """Docstring for InputBox"""
     def __init__(self, base_sfc, rect, color):
         super(InputBox, self).__init__(base_sfc, rect)
         self.inputlst    = []
 
-    def get_key(self):
+    def __get_key(self):
         while True:
             event = pygame.event.poll()
             if event.type == KEYDOWN:
                 return event.key
             else:
                 pass
-    # TODO: refactor variable names/
 
-    def display_box(self, message):
-        """
-        Creates a surface to represent the input box itself.
-        """
-        fontobject = pygame.font.Font(None, 18)
-        line_height = self.get_padding_top() * 2
+    def __update_line(self, line, line_height, font):
+        """Updates a line on its surface and updates line_height"""
+
+        rendered_line = font.render(line, 1, self._fg_color)
+        self.blit(rendered_line, (self.get_padding_left() * 2, line_height))
+        line_height += rendered_line.get_height() 
+
+        return line_height, rendered_line
+
+
+    def __display_box(self, message):
+        """Creates a surface to represent the input box itself."""
+
+        font   = pygame.font.Font(None, 18)
+        line_h = self.get_padding_top() * 2
         self.fill(self._bkg_colour)
-        draw_rect = self.apply_padding()
-        pygame.draw.rect(self, self._fg_color, draw_rect, 1)
+        pygame.draw.rect(self, self._fg_color, self.apply_padding(), 1)
+
         for line in self.inputlst:
-            l = fontobject.render(line, 1, self._fg_color)
-            self.blit(l, (self.get_padding_left() * 2, line_height))
-            line_height += l.get_height() + self.get_padding_top() / 2
-        current_line = fontobject.render(message, 1, self._fg_color)
-        self.blit(current_line, (self.get_padding_left() * 2, line_height))
-        if current_line.get_width() > (self.get_width() - self.get_padding_right() * 4):
+            line_h, cl = self.__update_line(line, line_h, font)
+
+        line_h, curr_line = self.__update_line(message, line_h, font)
+        if curr_line.get_width() > (self.get_width() - self.get_padding_right() * 4):
             return True
         else:
             return False
 
-    def get_final_string(self):
+
+    def __get_final_string(self):
+        """Concatenates all strings in self.inputlst and returns them as one"""
+
         final = ""
         if self.inputlst:
             for i in self.inputlst:
                 final += i
-
         return final
 
-    def convert_to_list(self, full_string):
+    def __convert_to_list(self):
+        full_string = self.__get_final_string()
         try:
             numlist = full_string.rsplit(' ')
             full_list = [int(elem) for elem in numlist]
@@ -197,23 +217,22 @@ class InputBox(BaseGui):
 
         pygame.font.init()
         current_string = ""
-        self.display_box(current_string)
+        self.__display_box(current_string)
         while True:
-            inkey = self.get_key()
+            inkey = self.__get_key()
             if inkey == K_BACKSPACE:
                 if current_string:
                     current_string = current_string[0:-1]
                 elif self.inputlst:
                     current_string = self.inputlst.pop()
-                self.display_box(current_string)
+                self.__display_box(current_string)
             elif inkey == K_RETURN:
                 self.inputlst.append(current_string)
                 break
             elif inkey <= 127:
                 current_string += chr(inkey)
-                if self.display_box(current_string):
+                if self.__display_box(current_string):
                     self.inputlst.append(current_string)
                     current_string = ""
             self.update_sfc()
-        final = self.get_final_string()
-        return self.convert_to_list(final)
+        return self.__convert_to_list()
