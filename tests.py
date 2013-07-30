@@ -1,6 +1,5 @@
 import unittest
 from simulator import Simulator
-from gui.base_gui import *
 from algorithms.scheduling import Scheduling
 
 class testAlgorithmsBaseFunctions(unittest.TestCase):

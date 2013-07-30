@@ -8,8 +8,9 @@ from pygame.locals import *
 class BaseGui(pygame.surface.Surface):
 
     _bkg_colour = (31, 34, 39)
+    _fg_color   = (255, 255, 255)
 
-    def __init__(self, base_sfc, rect, padding=(0, 0, 0, 0), color=_bkg_colour):
+    def __init__(self, base_sfc, rect, padding=[20, 20, 20, 20], color=_bkg_colour):
         print rect
         super(BaseGui, self).__init__((rect[2], rect[3]))
         self.rect     = self.get_rect()
@@ -30,6 +31,32 @@ class BaseGui(pygame.surface.Surface):
                 e.update_sfc()
         self.base_sfc.blit(self, (self.rect.x, self.rect.y))
         pygame.display.update(self.base_sfc.get_rect())
+    
+    def get_padding_top(self):
+        return self.padding[0]
+    
+    def get_padding_right(self):
+        return self.padding[1]
+    
+    def get_padding_bottom(self):
+        return self.padding[2]
+    
+    def get_padding_left(self):
+        return self.padding[3]
+
+    def apply_padding(self):
+        """
+        Creates Rect based on own width and height and adds padding
+        padding (list) representing [top, right, bottom, left]
+
+        """
+        draw_rect = self.get_rect()
+        draw_rect[0] += self.padding[0]
+        draw_rect[1] += self.padding[1]
+        draw_rect[2] -= self.padding[2]*2
+        draw_rect[3] -= self.padding[3]*2
+        return draw_rect
+
 
 
 class Button(BaseGui):
@@ -56,7 +83,7 @@ class Button(BaseGui):
         if action:
             return action()
         else:
-            print "no action defined"
+            print "No action defined"
 
 
 class Menu(BaseGui):
@@ -116,14 +143,9 @@ class Screen(BaseGui):
 class InputBox(BaseGui):
 
     """ Docstring for InputBox"""
-
     def __init__(self, base_sfc, rect, color):
-        super(InputBox, self).__init__(base_sfc, rect, color)
-        self.input       = []
-        self.inputxt     = ""
+        super(InputBox, self).__init__(base_sfc, rect)
         self.inputlst    = []
-        self.line_height = 0
-        self.line_cont   = 0
 
     def get_key(self):
         while True:
@@ -135,20 +157,21 @@ class InputBox(BaseGui):
     # TODO: refactor variable names/
 
     def display_box(self, message):
-        "Print a message in a box in the middle of the sfc"
+        """
+        Creates a surface to represent the input box itself.
+        """
         fontobject = pygame.font.Font(None, 18)
-        self.line_height = 0
-        pygame.draw.rect(self, (0, 0, 0), (0, (
-            self.get_height() / 2), self.get_width(), self.get_height() / 2), 0)
-        pygame.draw.rect(self, (255, 255, 255), (1, (
-            self.get_height() / 2) + 1, self.get_width() - 1, self.get_height() - 1), 1)
-        for lines in self.inputlst:
-            line = fontobject.render(lines, 1, (255, 255, 255))
-            self.blit(line, (0, self.get_height() / 2 + self.line_height))
-            self.line_height += line.get_height()
-        line = fontobject.render(message, 1, (255, 255, 255))
-        self.blit(line, (0, self.get_height() / 2 + self.line_height))
-        if line.get_width() > (self.get_width() - 10):
+        line_height = self.get_padding_top() * 2
+        self.fill(self._bkg_colour)
+        draw_rect = self.apply_padding()
+        pygame.draw.rect(self, self._fg_color, draw_rect, 1)
+        for line in self.inputlst:
+            l = fontobject.render(line, 1, self._fg_color)
+            self.blit(l, (self.get_padding_left() * 2, line_height))
+            line_height += l.get_height() + self.get_padding_top() / 2
+        current_line = fontobject.render(message, 1, self._fg_color)
+        self.blit(current_line, (self.get_padding_left() * 2, line_height))
+        if current_line.get_width() > (self.get_width() - self.get_padding_right() * 4):
             return True
         else:
             return False
@@ -158,6 +181,7 @@ class InputBox(BaseGui):
         if self.inputlst:
             for i in self.inputlst:
                 final += i
+
         return final
 
     def convert_to_list(self, full_string):
@@ -193,18 +217,3 @@ class InputBox(BaseGui):
             self.update_sfc()
         final = self.get_final_string()
         return self.convert_to_list(final)
-
-
-class Screen(BaseGui):
-
-    """docstring for Screen"""
-
-    def __init__(self, base_sfc, rect, color, elements):
-        super(Screen, self).__init__(base_sfc, rect, color)
-        self.elements = elements
-        self.selected = True
-
-    def switchSelect(self):
-        self.selected = not self.selected
-        if self.selected:
-            self.update_sfc()

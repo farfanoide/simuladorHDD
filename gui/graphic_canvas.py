@@ -2,11 +2,9 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-from graphic import Graphic
-from buttons import BaseButton  
+from base_gui import BaseGui
 
-
-class ScreenAlgorithms():
+class GraphicCanvas(BaseGui):
 
     """Class that handle the graphics section of the main screen"""
     def __init__(self, screen, bkg_colour, simulation):
@@ -24,16 +22,10 @@ class ScreenAlgorithms():
         self.leyend_sfc.fill(bkg_colour)
         self.graphic_screen.blit(self.leyend_sfc,(0,int(self.height*5/6) ))
         self.selected = False
-        self.buttons = []
-        self.buttons.append(BaseButton(101, (10,600), obj_class = self, action = "switchSelect", img="gui/img/button.png"))
-        self.buttons.append(BaseButton(2, (10,10), obj_class = self.simulation, action = "executeLOOK", img = "gui/img/LOOK.jpg"))
-        self.buttons.append(BaseButton(3, (10,70), obj_class = self.simulation, action = "executeCLOOK", img ="gui/img/CLOOK.jpg"))
-        self.buttons.append(BaseButton(4, (10,130), obj_class = self.simulation, action = "executeCSCAN", img ="gui/img/CSCAN.jpg"))
-        self.buttons.append(BaseButton(5, (10,190), obj_class = self.simulation, action = "executeSCAN", img ="gui/img/SCAN.jpg"))
-        self.buttons.append(BaseButton(6, (10,250), obj_class = self.simulation, action = "executeFCFS", img ="gui/img/FCFS.jpg"))
-        self.buttons.append(BaseButton(7, (10,310), obj_class = self.simulation, action = "executeSSTF", img ="gui/img/SSTF.jpg"))
 
     def __calculate_coordinates(self, requirements):
+        """Calculates coordinates for the graphic according to amount of requirements and height available."""
+        
         reqs_quantity = 0
         for reqs in requirements:
             if reqs:
@@ -105,13 +97,3 @@ class ScreenAlgorithms():
             req_sfc = req_txt.render(str(element),True,(0,0,0))
             self.graphic_screen.blit(req_sfc,((3*self.width[0]/4+(self.width[0]/4 - txt_sfc.get_width())/2),i))
             i+=req_sfc.get_height()
-
-    def showScreen(self):
-        # self.screen.fill(self.bkg_colour)
-        for button in self.buttons:
-            self.screen.blit(button.img, button.pos)
-        pygame.display.update()
-
-    def switchSelect(self):
-        self.screen.fill(self.bkg_colour)
-        self.selected = not self.selected

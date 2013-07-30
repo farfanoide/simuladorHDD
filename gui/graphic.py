@@ -2,19 +2,22 @@ import os
 import sys
 import pygame
 from pygame.locals import *
+from base_gui import BaseGui
 
 
-class Graphic():
+class Graphic(BaseGui):
     """Class wich represents the graph area of the screen"""
 
+    def __init__(self, base_sfc, rect):
+        super(Graphic, self).__init__(base_sfc, rect)
     def __init__(self, rect, bkg_colour, grid_width, pad=20):
-        self.bkg_colour = bkg_colour
-        self.rect       = rect
-        self.ax_x       = self.rect[0]
-        self.ax_y       = self.rect[1]
-        self.width      = self.rect[2]
-        self.height     = self.rect[3]
-        self.padding    = pad
+        # self.bkg_colour = bkg_colour
+        # self.rect       = rect
+        # self.ax_x       = self.rect[0]
+        # self.ax_y       = self.rect[1]
+        # self.width      = self.rect[2]
+        # self.height     = self.rect[3]
+        # self.padding    = pad
         #This surface is the graph area with contains the grid with it's labels.
         self.canvas_sfc = pygame.Surface((self.width, self.height))
         self.canvas_sfc.fill(self.bkg_colour)
@@ -64,7 +67,7 @@ class Graphic():
         this function takes the coordinates given by any algorithm and draws them in the grid
 
         Keyword arguments:
-        coordinates (list) -- List of tuples in the form (x,y)
+        coordinates (list) -- List of tuples in the form (x, y)
         """
         print coordinates
         for x in range(len(coordinates)):

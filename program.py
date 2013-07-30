@@ -2,9 +2,7 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-from gui.guiclasses import *
 from simulator import Simulator
-from gui.screen_algorithms import *
 from gui.base_gui import *
 
 # ----------
@@ -36,9 +34,10 @@ s = pygame.display.set_mode(screen_size)
 s.fill(black)
 mrect = (0, 0, s.get_width(), s.get_height()/8)
 m = Menu(s, mrect, black, buttons, True)
-irect = (0,s.get_height()/8,s.get_width()/5,7 * s.get_height()/8)
-i = InputBox(s, irect, (100,100,100))
+irect = (0,s.get_height()/8,s.get_width()/4,s.get_height()/6)
+i = InputBox(s, irect, black)
 sim.requirements = i.ask()
+print "printing padding: ",i.padding
 print "printeando sim.requirements \n", sim.requirements
 
 pygame.display.flip()
