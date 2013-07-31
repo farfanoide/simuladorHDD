@@ -1,4 +1,6 @@
 from base import BaseGui
+import pygame
+from pygame.locals import *
 class InputBox(BaseGui):
 
     """Docstring for InputBox"""

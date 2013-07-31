@@ -3,8 +3,7 @@ import sys
 import pygame
 from pygame.locals import *
 from simulator import Simulator
-from gui.base_gui import *
-
+from gui import * 
 # ----------
 # variables
 # ----------

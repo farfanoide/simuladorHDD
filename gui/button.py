@@ -1,3 +1,4 @@
+import pygame
 from base import BaseGui
 class Button(BaseGui):
     """
@@ -10,7 +11,7 @@ class Button(BaseGui):
     """
 
     def __init__(self, base_sfc, action="", obj="", img=""):
-        self.img    = pygame.image.load(img)
+        self.img    = pygame.image.load(img).convert()
         self.action = action
         self.obj    = obj
         super(Button, self).__init__(base_sfc, self.img.get_rect())

@@ -1,4 +1,5 @@
-from base import BaseGui
+from gui.base import BaseGui
+from gui.button import Button
 class Menu(BaseGui):
 
     def __init__(self, base_sfc, rect, color, buttons, axis):
