@@ -1,6 +1,6 @@
 from random import randint
 import math
-
+from algorithms import *
 
 class Simulator():
 
@@ -13,37 +13,31 @@ class Simulator():
         self.max_tracks = tracks
 
     def executeFCFS(self):
-        from algorithms.fcfs import FCFS
         self.algorithm = FCFS()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "FCFS"
 
     def executeSSTF(self):
-        from algorithms.sstf import SSTF
         self.algorithm = SSTF()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "SSTF"
 
     def executeSCAN(self):
-        from algorithms.scan import SCAN
         self.algorithm = SCAN()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction, self.max_tracks), "SCAN"
 
     def executeCSCAN(self):
-        from algorithms.cscan import CSCAN
         self.algorithm = CSCAN()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction, self.max_tracks), "CSCAN"
 
     def executeLOOK(self):
-        from algorithms.look import LOOK
         self.algorithm = LOOK()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "LOOK"
 
     def executeCLOOK(self):
-        from algorithms.clook import CLOOK
         self.algorithm = CLOOK()
         return self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "CLOOK"

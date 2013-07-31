@@ -1,4 +1,4 @@
-class Scheduling():
+class Scheduling(object):
     """ Base Class for all algorithms """
 
     def __init__(self):
@@ -17,12 +17,14 @@ class Scheduling():
         Removes page faults from original requirement list 
         and saves them to their own to be attended.
         """
-
-        for req in requirements:
-            if req < 0:
-                self.page_faults.append(abs(req))
-            else:
-                self.requirements.append(req)
+        if requirements:
+            for req in requirements:
+                if req < 0:
+                    self.page_faults.append(abs(req))
+                else:
+                    self.requirements.append(req)
+        else:
+            return None
 
     def startup(self, requirements, init_pos):
         """
