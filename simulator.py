@@ -63,4 +63,4 @@ class Simulator():
         """
         for x in range(quantity):
             elem = randint(0, len(self.requirements) - 1)
-            
+            self.requirements[elem] = -self.requirements[elem]
