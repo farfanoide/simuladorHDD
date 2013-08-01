@@ -9,7 +9,7 @@ class Graphic(BaseGui):
     def __init__(self, base_sfc, rect, reqs):
         super(Graphic, self).__init__(base_sfc, rect)
         self.coordinates = self.__calculate_coordinates(reqs)
-        # self.draw_grid()
+        self.print_graphic(self.coordinates)
         # self.label_grid()
         # self.draw_graphic(coordinates, img='img/req.png')
 
@@ -50,7 +50,7 @@ class Graphic(BaseGui):
         # Now the horizontal lines
         if hspacing:
             for i in range(hspacing, self.get_width(), hspacing):
-                pygame.draw.aaline(self, self._fg_color, (i, 0), (i , self.get_height()))
+                pygame.draw.aaline(self, self._fg_color, (i, self.get_padding_top()), (i , self.get_height()-self.get_padding_bottom()))
         # Finally vertical lines
         if vspacing:
             for i in range(vspacing, self.get_width(), vspacing):
@@ -61,12 +61,12 @@ class Graphic(BaseGui):
         """Draws the label of the graphic."""
 
         pygame.font.init()
-        label = pygame.font.SysFont(Ubuntu, 20)
+        label = pygame.font.SysFont(None, 20)
 
         for i in range(0, self.get_width(), hspacing):
             label_sfc = label.render(str(i), 0, self._fg_color)
             # Needed to center the label to the desired coordinate
-            center = (self.rect.x + i) - (label_sfc.get_width() / 2)
+            center = i - label_sfc.get_width() / 2
             self.blit(label_sfc, (center, 0))
 
 
@@ -81,21 +81,21 @@ class Graphic(BaseGui):
             if coordinates[x]:
                 try:
                     if x:
-                        color = _blue
+                        color = self._blue
                         if coordinates[x-1] and x == 1:
                             pygame.draw.aaline(self, color, coordinates[x-1][-1], coordinates[x][0], True)
                     else:
-                        color = _red
-                    pygame.draw.aalines(self, (color, False, coordinates[x], True))
+                        color = self._red
+                    pygame.draw.aalines(self, color, False, coordinates[x], True)
                 except ValueError:
                     try:
-                        color = _blue if x else _red
+                        color = self._blue if x else self._red
                         pygame.draw.aaline(self, color, coordinates[x][-1],coordinates[x+1][0],True)
                     except IndexError:
                         pass
                 if not img:
                     for element in coordinates[x]:
-                        color = _green if x else _red
+                        color = self._green if x else self._red
                         pygame.draw.circle(self, color, element, 4)
                 else:
                     image_sfc = pygame.image.load(img).convert()
@@ -103,12 +103,14 @@ class Graphic(BaseGui):
                         self.blit(image_sfc, coor)
 
     def print_canvas(self):
-        self.graphic.draw_grid(50)
-        self.graphic.label_grid(50) 
         self.graphic.canvas_sfc.blit(self.graphic.graphic_sfc,self.graphic.grid_rect)
         self.graphic_screen.blit(self.graphic.canvas_sfc, (0,0))
 
     def print_graphic(self, list_reqs):
-        self.print_canvas()
-        self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
-        self.graphic_screen.blit(self.graphic.canvas_sfc,(0,0))
+        # self.print_canvas()
+        
+        self.draw_grid(50)
+        self.label_grid(50) 
+
+        self.draw_graphic(self.coordinates)
+        self.update_sfc()
