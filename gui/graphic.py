@@ -1,24 +1,52 @@
-import os
-import sys
 import pygame
 from pygame.locals import *
-from base_gui import BaseGui
+from gui.base import BaseGui
 
 
 class Graphic(BaseGui):
     """Class wich represents the graph area of the screen"""
 
-    def __init__(self, base_sfc, rect, coordinates):
+    def __init__(self, base_sfc, rect, reqs):
         super(Graphic, self).__init__(base_sfc, rect)
-        self.draw_grid()
-        self.label_grid()
-        self.draw_graphic(coordinates, img='img/req.png')
+        self.coordinates = self.__calculate_coordinates(reqs)
+        # self.draw_grid()
+        # self.label_grid()
+        # self.draw_graphic(coordinates, img='img/req.png')
 
-    def draw_grid(self, hspacing=0, vspacing=0, gridColour=(0, 0, 0)):
+    def __calculate_vertical_step(self, requirements):
+        """Calculates distance between each requirement based on height available and amount of requirements."""
+
+        reqs_quantity = 0
+        for reqs in requirements:
+            if reqs:
+                print reqs
+                reqs_quantity += len(reqs)
+
+        height = self.get_height() - self.get_padding_top() - self.get_padding_bottom()
+        step = int(height / reqs_quantity)
+        return step
+
+    def __calculate_coordinates(self, requirements):
+        """Calculates coordinates for the graphic according to amount of requirements and height available."""
+
+        step = self.__calculate_vertical_step(requirements)
+        coordinates = ([],[],[])
+        i = self.get_padding_top()
+        for x in range(len(requirements)):
+            try:
+                for req in requirements[x]:
+                    coordinate = ((req, i))
+                    i += step
+                    coordinates[x].append(coordinate)
+            except IndexError:
+                pass
+        return coordinates
+
+    def draw_grid(self, hspacing=0, vspacing=0):
         """ Draws the grid of the graphic"""
+
         # Let's draw the contour of the graphic
-        self.graphic_sfc.fill(self._bkg_colour)
-        pygame.draw.rect(self, self._fg_color, (0, 0, self.get_width(), self.get_height()), 2)
+        self.draw_surround_rect()
         # Now the horizontal lines
         if hspacing:
             for i in range(hspacing, self.get_width(), hspacing):
@@ -44,41 +72,43 @@ class Graphic(BaseGui):
 
     def draw_graphic(self, coordinates, img=''):
         """
-        this function takes the coordinates given by any algorithm and draws them in the grid
+        Takes the coordinates given by any algorithm and draws them in the grid
 
         Keyword arguments:
-        coordinates (list) -- List of tuples inget_width(), y)
+        coordinates (list) -- List of tuples in the form (x, y)
         """
-       print coordinates
         for x in range(len(coordinates)):
             if coordinates[x]:
                 try:
                     if x:
-                        pygame.draw.aalines(self.graphic_sfc,(0,0,255),False,coordinates[x],True)
+                        color = _blue
                         if coordinates[x-1] and x == 1:
-                            pygame.draw.aaline(self.graphic_sfc,(0,0,255),coordinates[x-1][-1],coordinates[x][0],True)
+                            pygame.draw.aaline(self, color, coordinates[x-1][-1], coordinates[x][0], True)
                     else:
-                        pygame.draw.aalines(self.graphic_sfc,(255,0,0),False,coordinates[x],True)
+                        color = _red
+                    pygame.draw.aalines(self, (color, False, coordinates[x], True))
                 except ValueError:
                     try:
-                        if x:
-                            color = (0,0,255)
-                        else:
-                            color = (255,0,0)
-                        pygame.draw.aaline(self.graphic_sfc, color, coordinates[x][-1],coordinates[x+1][0],True)
+                        color = _blue if x else _red
+                        pygame.draw.aaline(self, color, coordinates[x][-1],coordinates[x+1][0],True)
                     except IndexError:
                         pass
                 if not img:
                     for element in coordinates[x]:
-                        if x:
-                            pygame.draw.circle(self.graphic_sfc,(0,255,0),element,4)
-                        else:
-                            # Different colour for page faults
-                            pygame.draw.circle(self.graphic_sfc,(255,0,0),element,4)
+                        color = _green if x else _red
+                        pygame.draw.circle(self, color, element, 4)
                 else:
-                    image_sfc = pygame.image.load(img)
-                    for element in coordinates[x]:
-                        self.graphic_sfc.blit(image_sfc,element)
+                    image_sfc = pygame.image.load(img).convert()
+                    for coor in coordinates[x]:
+                        self.blit(image_sfc, coor)
 
-        self.canvas_sfc.blit(self.graphic_sfc,self.grid_rect)
-            
+    def print_canvas(self):
+        self.graphic.draw_grid(50)
+        self.graphic.label_grid(50) 
+        self.graphic.canvas_sfc.blit(self.graphic.graphic_sfc,self.graphic.grid_rect)
+        self.graphic_screen.blit(self.graphic.canvas_sfc, (0,0))
+
+    def print_graphic(self, list_reqs):
+        self.print_canvas()
+        self.graphic.draw_graphic(self.__calculate_coordinates(list_reqs))
+        self.graphic_screen.blit(self.graphic.canvas_sfc,(0,0))

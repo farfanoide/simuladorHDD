@@ -25,8 +25,7 @@ class InputBox(BaseGui):
 
         font   = pygame.font.Font(None, 18)
         line_h = self.get_padding_top() * 2
-        self.fill(self._bkg_colour)
-        pygame.draw.rect(self, self._fg_color, self.apply_padding(), 1)
+        self.draw_surround_rect()
 
         for line in self.inputlst:
             line_h, cl = self.__update_line(line, line_h, font)

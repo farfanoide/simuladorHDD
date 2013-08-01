@@ -15,14 +15,8 @@ white = (255, 255, 255)
 black = (31, 34, 39)
 clock = pygame.time.Clock()
 sim = Simulator()
-buttons = [
-            {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
-            {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
-            {'obj': sim, 'action': 'executeLOOK', 'img': "gui/img/LOOK.jpg"},
-            {'obj': sim, 'action': 'executeSCAN', 'img': "gui/img/SCAN.jpg"},
-            {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
-            {'obj': sim, 'action': 'executeSSTF', 'img': "gui/img/SSTF.jpg"}
-        ]
+sim.random_list(15)
+sim.add_random_pf(5)
 # b_home =    [
 #                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"},
 #                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"}
@@ -36,11 +30,22 @@ pygame.init()
 s = pygame.display.set_mode(screen_size)
 s.fill(black)
 mrect = (0, 0, s.get_width(), s.get_height()/8)
-m = Menu(s, mrect, black, buttons, True)
 irect = (0,s.get_height()/8,s.get_width()/4,s.get_height()/6)
 i = InputBox(s, irect, black)
-sim.requirements = i.ask()
-print "printing padding: ",i.padding
+buttons = [
+            {'obj': i,   'action': 'ask',          'img': "gui/img/button_small.png"},
+            {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
+            {'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
+            {'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
+            {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
+            {'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"}
+        ]
+m = Menu(s, mrect, black, buttons, True)
+print i.get_width()
+grect = (i.get_width() + 20, s.get_height()/8, s.get_width()/2,s.get_height()/2)
+# g = Graphic(s, grect, sim.requirements)
+# sim.requirements = i.ask()
+print "printing padding: ", i.padding
 print "printeando sim.requirements \n", sim.requirements
 
 pygame.display.flip()
@@ -56,7 +61,13 @@ while run:
             pos = pygame.mouse.get_pos()
             for button in m.elements:
                 if button.clicked(pos):
-                    print button.executeAction()
+                    results = button.executeAction()
+                    print results
+                    if results:
+                        requirements = results[0][0]
+                        print "reqs post execute \n", requirements
+                        g = Graphic(s, grect, requirements)
+
         if event.type == pygame.QUIT:
             run = False
         # faster dubugging

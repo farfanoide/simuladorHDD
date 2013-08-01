@@ -13,10 +13,15 @@ class BaseGui(pygame.surface.Surface):
 
     """
 
-    _bkg_colour = (31, 34, 39)
-    _fg_color   = (181, 181, 181)
+    # Colors:
+    # ----------------
+    _bg_color = (31, 34, 39)
+    _fg_color = (181, 181, 181)
+    _blue     = (0, 0, 255) 
+    _red      = (255, 0, 0)
+    _green    = (0, 255, 0)
 
-    def __init__(self, base_sfc, rect, padding=[20, 20, 20, 20], color=_bkg_colour):
+    def __init__(self, base_sfc, rect, padding=[20, 20, 20, 20], color=_bg_color):
         super(BaseGui, self).__init__((rect[2], rect[3]))
         self.rect     = self.get_rect()
         self.rect.x   = rect[0]
@@ -56,8 +61,22 @@ class BaseGui(pygame.surface.Surface):
 
         """
         draw_rect = self.get_rect()
-        draw_rect[0] += self.padding[0]
-        draw_rect[1] += self.padding[1]
-        draw_rect[2] -= self.padding[2]*2
-        draw_rect[3] -= self.padding[3]*2
+        draw_rect[0] += self.get_padding_top()
+        draw_rect[1] += self.get_padding_right()
+        draw_rect[2] -= self.get_padding_bottom() * 2
+        draw_rect[3] -= self.get_padding_left() * 2
         return draw_rect
+
+    def get_center_coor(self):
+        dist = self.get_width() + self.get_padding_left() + self.get_padding_right()
+        cent = self.base_sfc.get_width() - dist / 2
+        return cent
+
+    def draw_surround_rect(self, bkg=_bg_color, fg=_fg_color, padding=True):
+        self.fill(bkg)
+        if padding:
+            rect = self.apply_padding()
+        else:
+            rect = self.get_rect()
+        pygame.draw.rect(self, fg, rect, 1)
+
