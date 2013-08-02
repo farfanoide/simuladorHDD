@@ -47,14 +47,19 @@ class Graphic(BaseGui):
 
         # Let's draw the contour of the graphic
         self.draw_surround_rect()
+        top = self.get_padding_top()
+        right = self.get_width() - self.get_padding_right()
+        left = self.get_padding_left()
+        bottom = self.get_height() - self.get_padding_bottom()
+        
         # Now the horizontal lines
         if hspacing:
-            for i in range(hspacing, self.get_width(), hspacing):
-                pygame.draw.aaline(self, self._fg_color, (i, self.get_padding_top()), (i , self.get_height()-self.get_padding_bottom()))
+            for i in range(hspacing, self.get_width() - left, hspacing):
+                pygame.draw.aaline(self, self._fg_color, (i+ left, top), (i + left , bottom))
         # Finally vertical lines
         if vspacing:
             for i in range(vspacing, self.get_width(), vspacing):
-                pygame.draw.aaline(self, self._fg_color, (0,  i), (self.get_width(), i))
+                pygame.draw.aaline(self, self._fg_color, (left,  i), (right, i))
         self.update_sfc()
                 
     def label_grid(self, hspacing):
@@ -62,11 +67,12 @@ class Graphic(BaseGui):
 
         pygame.font.init()
         label = pygame.font.SysFont(None, 20)
-
-        for i in range(0, self.get_width(), hspacing):
+        start = self.get_padding_left()
+        right = self.get_width() - self.get_padding_right()
+        for i in range(0, right, hspacing):
             label_sfc = label.render(str(i), 0, self._fg_color)
             # Needed to center the label to the desired coordinate
-            center = i - label_sfc.get_width() / 2
+            center = i - label_sfc.get_width() / 2 + start
             self.blit(label_sfc, (center, 0))
 
 
