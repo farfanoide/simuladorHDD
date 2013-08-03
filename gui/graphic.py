@@ -10,8 +10,6 @@ class Graphic(BaseGui):
         super(Graphic, self).__init__(base_sfc, rect)
         self.coordinates = self.__calculate_coordinates(reqs)
         self.print_graphic(self.coordinates)
-        # self.label_grid()
-        # self.draw_graphic(coordinates, img='img/req.png')
 
     def __calculate_vertical_step(self, requirements):
         """Calculates distance between each requirement based on height available and amount of requirements."""
@@ -23,7 +21,7 @@ class Graphic(BaseGui):
                 reqs_quantity += len(reqs)
 
         height = self.get_height() - self.get_padding_top() - self.get_padding_bottom()
-        step = int(height / reqs_quantity)
+        step   = int(height / reqs_quantity)
         return step
 
     def __calculate_coordinates(self, requirements):
@@ -31,11 +29,12 @@ class Graphic(BaseGui):
 
         step = self.__calculate_vertical_step(requirements)
         coordinates = ([],[],[])
-        i = self.get_padding_top()
+        i   = self.get_padding_top()
+        pad = self.get_padding_left()
         for x in range(len(requirements)):
             try:
                 for req in requirements[x]:
-                    coordinate = ((req, i))
+                    coordinate = ((req + pad, i))
                     i += step
                     coordinates[x].append(coordinate)
             except IndexError:
@@ -47,10 +46,11 @@ class Graphic(BaseGui):
 
         # Let's draw the contour of the graphic
         self.draw_surround_rect()
-        top = self.get_padding_top()
-        right = self.get_width() - self.get_padding_right()
-        left = self.get_padding_left()
+        
+        top    = self.get_padding_top()
+        right  = self.get_width() - self.get_padding_right()
         bottom = self.get_height() - self.get_padding_bottom()
+        left   = self.get_padding_left()
         
         # Now the horizontal lines
         if hspacing:
@@ -74,6 +74,21 @@ class Graphic(BaseGui):
             # Needed to center the label to the desired coordinate
             center = i - label_sfc.get_width() / 2 + start
             self.blit(label_sfc, (center, 0))
+    
+    def __print_req_label(self, font, coor, img_offset):
+
+        req = str(coor[0] - self.get_padding_left())
+        req_sfc = font.render(req, 0, self._fg_color)
+        # x = self.get_width() - self.get_padding_right()
+        x = coor[0]
+        y = coor[1] - img_offset
+        if x <= 500:
+            x += img_offset * 2
+        else:
+            x -= img_offset * 6
+            
+        self.blit(req_sfc, (x, y))
+
 
 
     def draw_graphic(self, coordinates, img=''):
@@ -99,24 +114,28 @@ class Graphic(BaseGui):
                         pygame.draw.aaline(self, color, coordinates[x][-1],coordinates[x+1][0],True)
                     except IndexError:
                         pass
-                if not img:
-                    for element in coordinates[x]:
-                        color = self._green if x else self._red
-                        pygame.draw.circle(self, color, element, 4)
-                else:
-                    image_sfc = pygame.image.load(img).convert()
-                    for coor in coordinates[x]:
-                        self.blit(image_sfc, coor)
 
-    def print_canvas(self):
-        self.graphic.canvas_sfc.blit(self.graphic.graphic_sfc,self.graphic.grid_rect)
-        self.graphic_screen.blit(self.graphic.canvas_sfc, (0,0))
+                pygame.font.init()
+                font = pygame.font.SysFont(None, 20)
+                
+                if not img:
+                    for coor in coordinates[x]:
+                        color = self._green if x else self._red
+                        pygame.draw.circle(self, color, coor, 4)
+                        self.__print_req_label(font, coor)
+
+                else:
+                    img_sfc = pygame.image.load(img).convert()
+                    img_offset = int(img_sfc.get_width() / 2)
+                    for coor in coordinates[x]:
+                        self.__print_req_label(font, coor, img_offset)
+                        x, y = coor
+                        x -= img_offset
+                        y -= img_offset
+                        self.blit(img_sfc, (x, y))
 
     def print_graphic(self, list_reqs):
-        # self.print_canvas()
-        
         self.draw_grid(50)
         self.label_grid(50) 
-
-        self.draw_graphic(self.coordinates)
+        self.draw_graphic(self.coordinates,'gui/img/req.png')
         self.update_sfc()
