@@ -22,3 +22,11 @@ class Screen(BaseGui):
         if self.selected:
             self.switchSelect()
             self.last_scr.switchSelect()
+
+    def get_menu(self):
+        try:
+            for elem in self.elements:
+                if elem.__class__.__name__ == "Menu":
+                    return elem
+        except IndexError:
+            return None

@@ -43,7 +43,10 @@ class BaseGui(pygame.surface.Surface):
             for e in self.elements:
                 e.update_sfc()
         self.base_sfc.blit(self, (self.rect.x, self.rect.y))
-        pygame.display.update(self.base_sfc.get_rect())
+        try:
+            pygame.display.update(self.base_sfc.rect)
+        except AttributeError:
+            pygame.display.update(self.base_sfc.get_rect())
         print self.base_sfc.get_rect()
     
     def get_padding_top(self):
