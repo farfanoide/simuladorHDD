@@ -11,7 +11,7 @@ class Menu(BaseGui):
 
     def initiate_elements(self, buttons):
         for button in buttons:
-            b = Button(self, button['action'], button['obj'], button['img'])
+            b = Button(self, button['id'], button['action'], button['obj'], button['img'])
             self.elements.append(b)
 
     def populate_sfc(self, axis=True, step=20):

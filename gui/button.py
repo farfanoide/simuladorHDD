@@ -10,12 +10,13 @@ class Button(BaseGui):
 
     """
 
-    def __init__(self, base_sfc, action="", obj="", img=""):
+    def __init__(self, base_sfc,id = 0, action="", obj="", img=""):
         try:
             self.img    = pygame.image.load(img).convert()
         except:
             self.img = pygame.image.load('gui/img/button_small.png').convert()
         self.action = action
+        self.id = id
         self.obj    = obj
         super(Button, self).__init__(base_sfc, self.img.get_rect())
 

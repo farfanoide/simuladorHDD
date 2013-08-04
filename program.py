@@ -4,6 +4,39 @@ import pygame
 from pygame.locals import *
 from simulator import Simulator
 from gui import *
+#---------------
+# helpers
+# --------------
+def init_home_screen(main_screen,screen_size):
+    home_rect = (0, 0, screen_size[0], screen_size[1])
+    home_screen = Screen(main_screen, home_rect, black)
+    home_buttons = [
+                    {'id':1, 'obj': home_screen, 'action': 'go_forward', 'img': "gui/img/back.jpg"},
+                    {'id':2, 'obj': home_screen, 'action': 'go_back', 'img': "gui/img/back.jpg"}
+                   ]
+    home_menu = Menu(home_screen, (0, 0, main_screen.get_width(), main_screen.get_height()/6), black, home_buttons, True)
+    home_screen.add_elements(home_menu)
+    home_screen.update_sfc()
+    return home_screen
+
+def init_algorithm_screen(main_screen,screen_size):
+    buttons = [
+                # {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
+                {'id':3, 'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
+              ]
+    algorithms_screen = Screen(main_screen, (0, 0, screen_size[0], screen_size[1]), black)
+    algorithms_menu = Menu(main_screen, (0, 0, main_screen.get_width()/4, main_screen.get_height()), black, buttons, False)
+    grect = (algorithms_menu.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
+    algorithms_graphic = Graphic(algorithms_screen, grect, color=(255,255,0))
+    algorithms_screen.add_elements(algorithms_menu,algorithms_graphic)
+    algorithms_screen.update_sfc()
+    algorithms_menu.update_sfc()
+    return algorithms_screen
 # ----------
 # variables
 # ----------
@@ -25,67 +58,44 @@ main = pygame.display.set_mode(screen_size)
 main.fill(black)
 
 # initialize home
-home_rect = (0, 0, screen_size[0], screen_size[1])
-home = Screen(main, home_rect, black)
+# home = Screen(main, home_rect, black)
 
-home_buttons = [
-                {'obj': home, 'action': 'go_back', 'img': "gui/img/back.jpg"},
-                {'obj': home, 'action': 'go_back', 'img': "gui/img/back.jpg"}
-               ]
-home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
+# home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
 # initialize algoritmos
-algoritmos = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
-buttons = [
-            {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
-            {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
-            {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
-            {'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
-            {'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
-            {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
-            {'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"}
-          ]
-m = Menu(main, (0, 0, main.get_width()/4, main.get_height()), black, buttons, False)
-grect = (m.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
-g = Graphic(algoritmos, grect, color=(255,255,0))
-algoritmos.add_elements(m,g)
-
-# initialize help
-# help = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
 
 
 
-# irect = (0, s.get_height()/8, s.get_width()/4, s.get_height()/6)
-# i = InputBox(s, irect, black)
-# g = Graphic(s, grect, sim.requirements)
-# sim.requirements = i.ask()
-# print "printing padding: ", i.padding
 print "printeando sim.requirements \n", sim.requirements
-
-pygame.display.flip()
-
 # ----------
 # pygame loop
 # ----------
+# screen = Screen(main, home_rect, black)
+active_screen = init_algorithm_screen(main, screen_size)
+pygame.display.flip()
 run = True
 while run:
     clock.tick(30)
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            for button in m.elements:
-                if button.clicked(pos):
-                    results = button.executeAction()
-                    print results
-                    if results:
-                        requirements = results[0][0]
-                        print "reqs post execute \n", requirements
-                        
+            active_menu = active_screen.get_menu()
+            print active_menu.elements
+            if active_menu.elements:
 
-                        g.print_graphic(requirements)
 
-                        print 'printing elemenst: \n', algoritmos.elements
-                        algoritmos.update_sfc()
-                        # m.update_sfc()
+                for button in active_menu.elements:
+                    if button.clicked(pos):
+                        print button.id
+                        if button.id == 1:
+                            algoritmos = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
+                            print "Espere un momento cargando pantalla"
+                        elif button.id==3:
+                            results = button.executeAction()
+                            if results:
+                                reqs=results[0][0]
+                                active_screen.get_graphic().print_graphic(reqs)
+                                active_screen.update_sfc()
+                                active_screen.get_menu().update_sfc()
 
         if event.type == pygame.QUIT:
             run = False
@@ -94,3 +104,30 @@ while run:
             run = False
 pygame.quit()
 sys.exit()
+
+
+
+
+
+
+            # active_menu = active_screen.get_menu()
+            # print active_menu.elements
+            # for button in active_menu.elements:
+    # for elem in screens:
+        # if elem.selected:
+            # active_screen = elem 
+            # break
+                # if button.clicked(pos):
+                #     results = button.executeAction()
+
+                    # results = button.executeAction()
+                    # print results
+                    # if results:
+                    #     requirements = results[0][0]
+                    #     print "reqs post execute \n", requirements
+                        
+
+                    #     g.print_graphic(requirements)
+                    #     print 'printing elemenst: \n', algoritmos.elements
+                    #     algoritmos.update_sfc()
+                    #     m.update_sfc()
