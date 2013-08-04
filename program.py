@@ -37,12 +37,12 @@ home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, hom
 algoritmos = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
 buttons = [
             {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
-            {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
-            {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
-            {'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
-            {'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
-            {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
-            {'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"}
+            {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/fcfs.png"},
+            {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/clook.png"},
+            {'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/look.png"},
+            {'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/scan.png"},
+            {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/cscan.png"},
+            {'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/sstf.png"}
           ]
 m = Menu(main, (0, 0, main.get_width()/4, main.get_height()), black, buttons, False)
 grect = (m.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
@@ -85,7 +85,7 @@ while run:
 
                         print 'printing elemenst: \n', algoritmos.elements
                         algoritmos.update_sfc()
-                        # m.update_sfc()
+                        m.update_sfc()
 
         if event.type == pygame.QUIT:
             run = False
