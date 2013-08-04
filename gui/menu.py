@@ -34,4 +34,3 @@ class Menu(BaseGui):
                 button.rect.x = step
                 button.rect.y = padding
                 padding += button.get_height() + step
-        

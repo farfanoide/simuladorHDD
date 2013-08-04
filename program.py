@@ -8,47 +8,57 @@ from gui import *
 # variables
 # ----------
 screen_size = (1000, 640)
-red         = (255, 0, 0)
-green       = (0, 255, 0)
-blue        = (0, 0, 255)
-white       = (255, 255, 255)
-black       = (31, 34, 39)
+black = (31, 34, 39)
 clock       = pygame.time.Clock()
 sim         = Simulator()
+
 sim.random_list(15)
 sim.add_random_pf(5)
-# b_home =    [
-#                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"},
-#                 {'obj': s_home, 'action': 'switchSelect', 'img': "gui/img/back.jpg"}
-#             ]
 
 # ----------
 # main 
 # ----------
 
+
 pygame.init()
-s = pygame.display.set_mode(screen_size)
+main = pygame.display.set_mode(screen_size)
+main.fill(black)
 
+# initialize home
+home_rect = (0, 0, screen_size[0], screen_size[1])
+home = Screen(main, home_rect, black)
 
-# screen_alg = Screen()
-s.fill(black)
-mrect = (0, 0, s.get_width(), s.get_height()/8)
-irect = (0, s.get_height()/8, s.get_width()/4, s.get_height()/6)
-i = InputBox(s, irect, black)
+home_buttons = [
+                {'obj': home, 'action': 'go_back', 'img': "gui/img/back.jpg"},
+                {'obj': home, 'action': 'go_back', 'img': "gui/img/back.jpg"}
+               ]
+home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
+# initialize algoritmos
+algoritmos = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
 buttons = [
-            {'obj': i,   'action': 'ask',          'img': "gui/img/button_small.png"},
+            {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
+            {'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
             {'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
             {'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
             {'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
             {'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
             {'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"}
           ]
-m = Menu(s, mrect, black, buttons, True)
-print i.get_width()
-grect = (i.get_width() + 20, s.get_height()/8, sim.max_tracks + 40, sim.max_tracks + 40)
+m = Menu(main, (0, 0, main.get_width()/4, main.get_height()), black, buttons, False)
+grect = (m.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
+g = Graphic(algoritmos, grect, color=(255,255,0))
+algoritmos.add_elements(m,g)
+
+# initialize help
+# help = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
+
+
+
+# irect = (0, s.get_height()/8, s.get_width()/4, s.get_height()/6)
+# i = InputBox(s, irect, black)
 # g = Graphic(s, grect, sim.requirements)
 # sim.requirements = i.ask()
-print "printing padding: ", i.padding
+# print "printing padding: ", i.padding
 print "printeando sim.requirements \n", sim.requirements
 
 pygame.display.flip()
@@ -69,7 +79,13 @@ while run:
                     if results:
                         requirements = results[0][0]
                         print "reqs post execute \n", requirements
-                        g = Graphic(s, grect, requirements)
+                        
+
+                        g.print_graphic(requirements)
+
+                        print 'printing elemenst: \n', algoritmos.elements
+                        algoritmos.update_sfc()
+                        # m.update_sfc()
 
         if event.type == pygame.QUIT:
             run = False

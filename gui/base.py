@@ -35,12 +35,16 @@ class BaseGui(pygame.surface.Surface):
     def initiate_elements(self):
         pass
 
+    def add_elements(self, *elements):
+        self.elements.extend(elements)
+
     def update_sfc(self):
         if self.elements:
             for e in self.elements:
                 e.update_sfc()
         self.base_sfc.blit(self, (self.rect.x, self.rect.y))
         pygame.display.update(self.base_sfc.get_rect())
+        print self.base_sfc.get_rect()
     
     def get_padding_top(self):
         return self.padding[0]
@@ -61,10 +65,10 @@ class BaseGui(pygame.surface.Surface):
 
         """
         draw_rect = self.get_rect()
-        draw_rect[0] += self.get_padding_top()
-        draw_rect[1] += self.get_padding_right()
-        draw_rect[2] -= self.get_padding_bottom() * 2
-        draw_rect[3] -= self.get_padding_left() * 2
+        draw_rect.x += self.get_padding_left()
+        draw_rect.y += self.get_padding_top()
+        draw_rect.height -= self.get_padding_bottom() + self.get_padding_top()
+        draw_rect.width  -= self.get_padding_left() + self.get_padding_right()
         return draw_rect
 
     def get_center_coor(self):
