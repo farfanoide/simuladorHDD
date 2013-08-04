@@ -22,12 +22,12 @@ def init_home_screen(main_screen,screen_size):
 def init_algorithm_screen(main_screen,screen_size):
     buttons = [
                 # {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
-                {'id':3, 'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/FCFS.jpg"},
-                {'id':3, 'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/CLOOK.jpg"},
-                {'id':3, 'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/LOOK.jpg"},
-                {'id':3, 'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/SCAN.jpg"},
-                {'id':3, 'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/SSTF.jpg"},
-                {'id':3, 'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/CSCAN.jpg"},
+                {'id':3, 'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/fcfs.png"},
+                {'id':3, 'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/clook.png"},
+                {'id':3, 'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/look.png"},
+                {'id':3, 'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/scan.png"},
+                {'id':3, 'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/sstf.png"},
+                {'id':3, 'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/cscan.png"},
               ]
     algorithms_screen = Screen(main_screen, (0, 0, screen_size[0], screen_size[1]), black)
     algorithms_menu = Menu(main_screen, (0, 0, main_screen.get_width()/4, main_screen.get_height()), black, buttons, False)
@@ -62,9 +62,6 @@ main.fill(black)
 
 # home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
 # initialize algoritmos
-
-
-
 print "printeando sim.requirements \n", sim.requirements
 # ----------
 # pygame loop
@@ -81,8 +78,6 @@ while run:
             active_menu = active_screen.get_menu()
             print active_menu.elements
             if active_menu.elements:
-
-
                 for button in active_menu.elements:
                     if button.clicked(pos):
                         print button.id
@@ -96,7 +91,6 @@ while run:
                                 active_screen.get_graphic().print_graphic(reqs)
                                 active_screen.update_sfc()
                                 active_screen.get_menu().update_sfc()
-
         if event.type == pygame.QUIT:
             run = False
         # faster dubugging
