@@ -64,11 +64,11 @@ class Graphic(BaseGui):
         """Draws the label of the graphic."""
 
         pygame.font.init()
-        label = pygame.font.SysFont(None, 20)
+        font  = pygame.font.SysFont(None, 20)
         start = self.get_padding_left()
         right = self.get_width() - self.get_padding_right()
         for i in range(0, right, hspacing):
-            label_sfc = label.render(str(i), 0, self._fg_color)
+            label_sfc = font.render(str(i), True, self._fg_color)
             # Needed to center the label to the desired coordinate
             center = i - label_sfc.get_width() / 2 + start
             self.blit(label_sfc, (center, 0))
@@ -79,7 +79,7 @@ class Graphic(BaseGui):
         y -= img_offset
 
         req = str(x - self.get_padding_left())
-        req_sfc = font.render(req, 0, self._fg_color)
+        req_sfc = font.render(req, True, self._fg_color)
 
         if x <= 500:
             x += img_offset * 2

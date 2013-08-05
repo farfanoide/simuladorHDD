@@ -7,7 +7,7 @@ from gui import *
 # ----------
 # variables
 # ----------
-screen_size = (1000, 640)
+screen_size = (1000, 740)
 black = (31, 34, 39)
 clock       = pygame.time.Clock()
 sim         = Simulator()
@@ -47,12 +47,28 @@ buttons = [
 m = Menu(main, (0, 0, main.get_width()/4, main.get_height()), black, buttons, False)
 grect = (m.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
 g = Graphic(algoritmos, grect, color=(255,255,0))
-algoritmos.add_elements(m,g)
 
 # initialize help
 # help = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
 
+footer_buttons =    [
+                        {'obj': '', 'action': '', 'img': 'gui/img/method.png'},
+                        {'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
+                        {'obj': '', 'action': '', 'img': 'gui/img/dir.png'}
+                    ]
+# footer = Menu
 
+algoritmos.add_elements(m,g)
+
+def serialize_data(results):
+    y_offset = 15
+    requirements = results[0][0]
+    movements = results[0][1]
+    direction = "Izquierda" if results[0][2] else "Derecha"
+    method = results[1]
+
+    data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
+    return requirements, data
 
 # irect = (0, s.get_height()/8, s.get_width()/4, s.get_height()/6)
 # i = InputBox(s, irect, black)
@@ -77,15 +93,15 @@ while run:
                     results = button.executeAction()
                     print results
                     if results:
-                        requirements = results[0][0]
-                        print "reqs post execute \n", requirements
-                        
-
-                        g.print_graphic(requirements)
-
+                        reqs, data = serialize_data(results)
+                        f = Menu(main, (m.get_width()-20, main.get_height()-80, main.get_width()-m.get_width()+20, main.get_height()-g.get_height()+20), black, footer_buttons, True)
+                        f.update_captions(data)
+                        print "reqs post exe,cute \n", reqs
+                        g.print_graphic(reqs)
                         print 'printing elemenst: \n', algoritmos.elements
                         algoritmos.update_sfc()
                         m.update_sfc()
+                        f.update_sfc()
 
         if event.type == pygame.QUIT:
             run = False

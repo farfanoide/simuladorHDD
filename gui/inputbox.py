@@ -14,7 +14,7 @@ class InputBox(BaseGui):
     def __update_line(self, line, line_height, font):
         """Updates a line on its surface and updates line_height"""
 
-        rendered_line = font.render(line, 1, self._fg_color)
+        rendered_line = font.render(line, True, self._fg_color)
         self.blit(rendered_line, (self.get_padding_left() * 2, line_height))
         line_height += rendered_line.get_height() 
 

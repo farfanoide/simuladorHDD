@@ -11,16 +11,15 @@ class Button(BaseGui):
     """
 
     def __init__(self, base_sfc, action="", obj="", img=""):
+        
         try:
-            self.img    = pygame.image.load(img).convert()
+            self.img    = pygame.image.load(img).convert_alpha()
         except:
-            self.img = pygame.image.load('gui/img/button_small.png').convert()
-        self.action = action
-        self.obj    = obj
+            self.img = pygame.image.load('gui/img/button_small.png').convert_alpha()
+        self.action  = action
+        self.obj     = obj
         super(Button, self).__init__(base_sfc, self.img.get_rect())
-
-    def update_sfc(self):
-        self.base_sfc.blit(self.img, (self.rect.x, self.rect.y))
+        self.blit(self.img, (0,0))
 
     def clicked(self, pos):
         if self.rect.collidepoint(pos):
@@ -34,3 +33,9 @@ class Button(BaseGui):
             return action()
         else:
             print "No action defined"
+
+    def set_caption(self, text, pos):
+        pygame.font.init()
+        font = pygame.font.SysFont(None, 30)
+        caption = font.render(str(text), True, self._red)
+        self.blit(caption, pos)

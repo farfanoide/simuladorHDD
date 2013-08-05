@@ -19,8 +19,8 @@ class Menu(BaseGui):
         Blits buttons and updates their position
 
         Keyword arguments:
-        axis (boolean) -- Setup menu horizontally or vertically
-        steps (integer)  -- Padding to use between buttons
+        axis (boolean)  -- Setup menu horizontally or vertically
+        steps (integer) -- Padding to use between buttons
 
         """
         padding = step
@@ -34,3 +34,8 @@ class Menu(BaseGui):
                 button.rect.x = step
                 button.rect.y = padding
                 padding += button.get_height() + step
+
+    def update_captions(self, data):
+        for x in range(len(self.elements)):
+            text, position = data[x]
+            self.elements[x].set_caption(text, position)
