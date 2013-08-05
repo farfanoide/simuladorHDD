@@ -4,6 +4,7 @@ class Menu(BaseGui):
 
     def __init__(self, base_sfc, rect, color, buttons, axis):
         super(Menu, self).__init__(base_sfc, rect, color)
+        self.elements = []
         self.initiate_elements(buttons)
         self.fill(color)
         self.populate_sfc(axis)

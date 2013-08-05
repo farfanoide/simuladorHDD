@@ -7,36 +7,43 @@ from gui import *
 #---------------
 # helpers
 # --------------
-def init_home_screen(main_screen,screen_size):
-    home_rect = (0, 0, screen_size[0], screen_size[1])
-    home_screen = Screen(main_screen, home_rect, black)
+def init_home_screen(ms,sz):
+    home_rect = (0, 0, sz[0], sz[1])
+    home_screen = Screen(ms, home_rect, black)
     home_buttons = [
                     {'id':1, 'obj': home_screen, 'action': 'go_forward', 'img': "gui/img/back.jpg"},
-                    {'id':2, 'obj': home_screen, 'action': 'go_back', 'img': "gui/img/back.jpg"}
+                    {'id':1, 'obj': home_screen, 'action': 'go_back', 'img': "gui/img/back.jpg"}
                    ]
-    home_menu = Menu(home_screen, (0, 0, main_screen.get_width(), main_screen.get_height()/6), black, home_buttons, True)
+    home_menu = Menu(home_screen, (0, 0, ms.get_width(), ms.get_height()/6), black, home_buttons, True)
     home_screen.add_elements(home_menu)
-    home_screen.update_sfc()
-    return home_screen
+    return home_screen, home_menu
 
-def init_algorithm_screen(main_screen,screen_size):
-    buttons = [
+def init_algorithm_screen(ms,sz,s):
+    algorithm_buttons = [
                 # {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
-                {'id':3, 'obj': sim, 'action': 'executeFCFS', 'img': "gui/img/fcfs.png"},
-                {'id':3, 'obj': sim, 'action': 'executeCLOOK', 'img': "gui/img/clook.png"},
-                {'id':3, 'obj': sim, 'action': 'executeLOOK',  'img': "gui/img/look.png"},
-                {'id':3, 'obj': sim, 'action': 'executeSCAN',  'img': "gui/img/scan.png"},
-                {'id':3, 'obj': sim, 'action': 'executeSSTF',  'img': "gui/img/sstf.png"},
-                {'id':3, 'obj': sim, 'action': 'executeCSCAN', 'img': "gui/img/cscan.png"},
+                {'id':-1, 'obj': s, 'action': 'executeFCFS', 'img': "gui/img/fcfs.png"},
+                {'id':-1, 'obj': s, 'action': 'executeCLOOK', 'img': "gui/img/clook.png"},
+                {'id':-1, 'obj': s, 'action': 'executeLOOK',  'img': "gui/img/look.png"},
+                {'id':-1, 'obj': s, 'action': 'executeSCAN',  'img': "gui/img/scan.png"},
+                {'id':-1, 'obj': s, 'action': 'executeSSTF',  'img': "gui/img/sstf.png"},
+                {'id':-1, 'obj': s, 'action': 'executeCSCAN', 'img': "gui/img/cscan.png"}
               ]
-    algorithms_screen = Screen(main_screen, (0, 0, screen_size[0], screen_size[1]), black)
-    algorithms_menu = Menu(main_screen, (0, 0, main_screen.get_width()/4, main_screen.get_height()), black, buttons, False)
-    grect = (algorithms_menu.get_width() + 20, 30, sim.max_tracks + 40, sim.max_tracks + 40)
+    algorithms_screen = Screen(ms, (0, 0, sz[0], sz[1]), black)
+    algorithms_menu = Menu(algorithms_screen, (0, 0, algorithms_screen.get_width()/4, algorithms_screen.get_height()), black, algorithm_buttons, False)
+    grect = (algorithms_menu.get_width() + 20, 30, s.max_tracks + 40, s.max_tracks + 40)
     algorithms_graphic = Graphic(algorithms_screen, grect, color=(255,255,0))
     algorithms_screen.add_elements(algorithms_menu,algorithms_graphic)
-    algorithms_screen.update_sfc()
-    algorithms_menu.update_sfc()
-    return algorithms_screen
+    # algorithms_screen.update_sfc()
+    return algorithms_screen,algorithms_menu
+
+def serialize_data(results):
+    y_offset = 15
+    requirements = results[0][0]
+    movements = results[0][1]
+    method = results[1]
+    direction = "Izquierda" if results[0][2] else "Derecha"
+    data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
+    return requirements, data
 # ----------
 # variables
 # ----------
@@ -49,7 +56,7 @@ sim.random_list(15)
 sim.add_random_pf(5)
 
 # ----------
-# main 
+# main
 # ----------
 
 
@@ -62,35 +69,65 @@ main.fill(black)
 
 # home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
 # initialize algoritmos
-print "printeando sim.requirements \n", sim.requirements
+# print "printeando sim.requirements \n", sim.requirements
 # ----------
 # pygame loop
 # ----------
 # screen = Screen(main, home_rect, black)
-active_screen = init_algorithm_screen(main, screen_size)
-pygame.display.flip()
+# print type(algorithms)
+# print "home" ,home.get_element("Menu").elements
+# print_shite(home.elements)
+# print "algorithms" ,algorithms.get_element("Menu").elements
+# print_shite(algorithms.elements)
+# screens[i].update_sfc()
+
+# print type(active_screen)
+# pygame.display.flip()
+home,home_men = init_home_screen(main, screen_size)
+print home_men.elements
+
+
 run = True
+algorithm, algorithm_men = init_algorithm_screen(main, screen_size,sim)
+print algorithm_men.elements
+active_screen = home
+active_screen.update_sfc()
 while run:
     clock.tick(30)
+
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            active_menu = active_screen.get_menu()
-            print active_menu.elements
-            if active_menu.elements:
-                for button in active_menu.elements:
+            if active_screen == home:
+                for button in home_men.elements:
                     if button.clicked(pos):
-                        print button.id
-                        if button.id == 1:
-                            algoritmos = Screen(main, (0, 0, screen_size[0], screen_size[1]), black)
-                            print "Espere un momento cargando pantalla"
-                        elif button.id==3:
+                        if  button.id == 1:
+                            active_screen = algorithm
+                            active_screen.update_sfc()
+            elif active_screen == algorithm:
+                for button in algorithm_men.elements:
+                    if button.clicked(pos):
+                        if button.id == -1:
                             results = button.executeAction()
+                            print "aqui esta wally"
                             if results:
-                                reqs=results[0][0]
-                                active_screen.get_graphic().print_graphic(reqs)
-                                active_screen.update_sfc()
-                                active_screen.get_menu().update_sfc()
+                                reqs, data = serialize_data(results)
+                                # f = Menu(main, (m.get_width()-20, main.get_height()-80, main.get_width()-m.get_width()+20, main.get_height()-g.get_height()+20), black, footer_buttons, True)
+                                # f.update_captions(data)
+                                algorithm.get_element("Graphic").print_graphic(reqs)
+                                algorithm.update_sfc()
+                                algorithm_men.update_sfc()
+                                # f.update_sfc()
+                                # requirements = results[0][0]
+
+                                # print reqs
+                                # active_screen.fill(black)
+
+                                # screens[i].get_element("Graphic").print_graphic(reqs)
+                                # active_screen.get_element("Graphic").update_sfc()
+                                # graph.update_sfc()
+                                # active_screen.get_element("Menu").update_sfc()
+                                # screens[i].update_sfc()
         if event.type == pygame.QUIT:
             run = False
         # faster dubugging
@@ -109,7 +146,7 @@ sys.exit()
             # for button in active_menu.elements:
     # for elem in screens:
         # if elem.selected:
-            # active_screen = elem 
+            # active_screen = elem
             # break
                 # if button.clicked(pos):
                 #     results = button.executeAction()
@@ -119,7 +156,7 @@ sys.exit()
                     # if results:
                     #     requirements = results[0][0]
                     #     print "reqs post execute \n", requirements
-                        
+
 
                     #     g.print_graphic(requirements)
                     #     print 'printing elemenst: \n', algoritmos.elements

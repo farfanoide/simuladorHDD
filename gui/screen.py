@@ -32,20 +32,9 @@ class Screen(BaseGui):
         if self.selected:
             self.switch_select()
             self.next_scr.switch_select()
-
-    def get_menu(self):
-        try:
-            for elem in self.elements:
-                if elem.__class__.__name__ == "Menu":
-                    return elem
-        except IndexError:
-            return None
-    
-    def get_graphic(self):
-        try:
-            for elem in self.elements:
-                if elem.__class__.__name__ == "Graphic":
-                    return elem
-        except IndexError:
-            return None
+            
+    def get_element(self, element_class=""):
+        for elem in self.elements:
+            if elem.__class__.__name__ == element_class:
+                return elem
 
