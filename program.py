@@ -12,9 +12,9 @@ def init_home_screen(ms,sz):
     home_screen = Screen(ms, home_rect, black)
     home_input_box = InputBox(home_screen,(home_screen.get_width()/4,home_screen.get_height()/2,home_screen.get_width()/2,2*home_screen.get_height()/6))
     home_buttons = [
-                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/input_random.png"},
+                    {'id':1, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_random.png"},
                     {'id':3, 'obj': home_input_box, 'action': '', 'img': "gui/img/input_arch.png"},
-                    {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_hand.png"}
+                    {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_hand.png"},
                     {'id':4, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/exec.png"}
 
                    ]
@@ -111,13 +111,16 @@ while run:
                 for button in home_men.elements:
                     if button.clicked(pos):
                         if  button.id == 1:
-                            active_screen = algorithm
+                            param_lst = button.executeAction()
+                            sim.random_list(param_lst[0])
+                            sim.add_random_pf(param_lst[1]+2)
                         elif button.id == 2:
                             sim.requirements = button.executeAction()
                         elif button.id == 3:
                             file_name = active_screen.get_element('InputBox').ask(False)
                             sim.requirements = load_file(file_name)
                         elif button.id == 4:
+                            active_screen=algorithm
                             active_screen.update_sfc()                           
             elif active_screen == algorithm:
                 for button in algorithm_men.elements:
