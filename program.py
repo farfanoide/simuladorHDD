@@ -12,9 +12,11 @@ def init_home_screen(ms,sz):
     home_screen = Screen(ms, home_rect, black)
     home_input_box = InputBox(home_screen,(home_screen.get_width()/4,home_screen.get_height()/2,home_screen.get_width()/2,2*home_screen.get_height()/6))
     home_buttons = [
-                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/back.jpg"},
-                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/back.jpg"},
-                    {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/back.jpg"}
+                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/input_random.png"},
+                    {'id':3, 'obj': home_input_box, 'action': '', 'img': "gui/img/input_arch.png"},
+                    {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_hand.png"}
+                    {'id':4, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/exec.png"}
+
                    ]
     home_menu = Menu(home_screen, (0, 0, home_screen.get_width(), home_screen.get_height()/6), black, home_buttons, True)
     home_screen.add_elements(home_menu,home_input_box)
@@ -47,6 +49,20 @@ def serialize_data(results):
     data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
     return requirements, data
 
+def load_file(name):
+    
+    try:
+        f = open(name,'r')
+        lines = f.readlines()
+        final = ""
+        for i in lines:
+            final += i 
+        num_list = final.rsplit(' ')
+        full_list = [int(elem) for elem in num_list]
+        return full_list
+    except IOError:
+        print "No se pudo abrir el archivo, gato"
+        return None
 footer_buttons =    [
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/method.png'},
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
@@ -74,26 +90,7 @@ pygame.init()
 main = pygame.display.set_mode(screen_size)
 main.fill(black)
 
-# initialize home
 
-# home = Screen(main, home_rect, black)
-
-# home_menu = Menu(home, (0, 0, main.get_width(), main.get_height()/6), black, home_buttons, False)
-# initialize algoritmos
-# print "printeando sim.requirements \n", sim.requirements
-# ----------
-# pygame loop
-# ----------
-# screen = Screen(main, home_rect, black)
-# print type(algorithms)
-# print "home" ,home.get_element("Menu").elements
-# print_shite(home.elements)
-# print "algorithms" ,algorithms.get_element("Menu").elements
-# print_shite(algorithms.elements)
-# screens[i].update_sfc()
-
-# print type(active_screen)
-# pygame.display.flip()
 home,home_men = init_home_screen(main, screen_size)
 print home_men.elements
 
@@ -115,10 +112,13 @@ while run:
                     if button.clicked(pos):
                         if  button.id == 1:
                             active_screen = algorithm
-                            active_screen.update_sfc()
                         elif button.id == 2:
-                            sim.requirements = button.get_element('InputBox').ask(False)
-                            active_screen.update_sfc()
+                            sim.requirements = button.executeAction()
+                        elif button.id == 3:
+                            file_name = active_screen.get_element('InputBox').ask(False)
+                            sim.requirements = load_file(file_name)
+                        elif button.id == 4:
+                            active_screen.update_sfc()                           
             elif active_screen == algorithm:
                 for button in algorithm_men.elements:
                     if button.clicked(pos):
