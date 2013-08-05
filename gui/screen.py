@@ -15,7 +15,6 @@ class Screen(BaseGui):
         self.selected = not self.selected
         if self.selected:
             self.update_sfc()
-            # self.last_scr.switch_select()
 
     def set_last_screen(self, last_scr):
         self.last_scr = last_scr

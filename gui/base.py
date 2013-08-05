@@ -75,7 +75,6 @@ class BaseGui(pygame.surface.Surface):
         return draw_rect
 
     def get_center_coor(self):
-        # dist = self.get_width() + self.get_padding_left() + self.get_padding_right()
         cent = self.base_sfc.get_width() - self.get_width() / 2
         return cent
 

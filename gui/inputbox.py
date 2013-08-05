@@ -8,7 +8,6 @@ class InputBox(BaseGui):
         super(InputBox, self).__init__(base_sfc, rect)
         self.inputlst = []
         pygame.draw.rect(self, self._fg_color, self.apply_padding(), 1)
-        # self.update_sfc()
 
 
     def __update_line(self, line, line_height, font):
@@ -26,7 +25,6 @@ class InputBox(BaseGui):
         font   = pygame.font.Font(None, 18)
         line_h = self.get_padding_top() * 2
         self.fill(self._bg_color)
-        # self.draw_surround_rect()
 
         for line in self.inputlst:
             line_h, cl = self.__update_line(line, line_h, font)
@@ -86,7 +84,6 @@ class InputBox(BaseGui):
                 if self.__display_box(current_string):
                     self.inputlst.append(current_string)
                     current_string = ""
-            # self.base_sfc.update_sfc()
             self.update_sfc()
 
         if serialize:
