@@ -1,8 +1,12 @@
 ## Disk Scheduling Algorithms Simulator
 
+**Running:**
+    python program.py
+    
 **Contributing:**
 
 [Docstring conventions used](http://www.python.org/dev/peps/pep-0257/)
+
 
 What's Pysimulator 3000?
 This is a simulator written in Python 2.7 using Pygame Library. It allows you to
