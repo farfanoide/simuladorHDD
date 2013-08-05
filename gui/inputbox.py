@@ -4,11 +4,11 @@ from pygame.locals import *
 class InputBox(BaseGui):
 
     """Docstring for InputBox"""
-    def __init__(self, base_sfc, rect, color):
+    def __init__(self, base_sfc, rect):
         super(InputBox, self).__init__(base_sfc, rect)
         self.inputlst = []
         pygame.draw.rect(self, self._fg_color, self.apply_padding(), 1)
-        self.update_sfc()
+        # self.update_sfc()
 
 
     def __update_line(self, line, line_height, font):
@@ -69,6 +69,7 @@ class InputBox(BaseGui):
         current_string = ""
         self.__display_box(current_string)
         while True:
+            self.base_sfc.update_sfc()
             inkey = self.__get_key()
             if inkey == K_BACKSPACE:
                 if current_string:
@@ -84,7 +85,9 @@ class InputBox(BaseGui):
                 if self.__display_box(current_string):
                     self.inputlst.append(current_string)
                     current_string = ""
+            # self.base_sfc.update_sfc()
             self.update_sfc()
+
         if serialize:
             return self.__convert_to_list()
         else:

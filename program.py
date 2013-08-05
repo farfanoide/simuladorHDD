@@ -10,12 +10,14 @@ from gui import *
 def init_home_screen(ms,sz):
     home_rect = (0, 0, sz[0], sz[1])
     home_screen = Screen(ms, home_rect, black)
+    home_input_box = InputBox(home_screen,(home_screen.get_width()/4,home_screen.get_height()/2,home_screen.get_width()/2,2*home_screen.get_height()/6))
     home_buttons = [
-                    {'id':1, 'obj': home_screen, 'action': 'go_forward', 'img': "gui/img/back.jpg"},
-                    {'id':1, 'obj': home_screen, 'action': 'go_back', 'img': "gui/img/back.jpg"}
+                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/back.jpg"},
+                    {'id':1, 'obj': home_screen, 'action': '', 'img': "gui/img/back.jpg"},
+                    {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/back.jpg"}
                    ]
-    home_menu = Menu(home_screen, (0, 0, ms.get_width(), ms.get_height()/6), black, home_buttons, True)
-    home_screen.add_elements(home_menu)
+    home_menu = Menu(home_screen, (0, 0, home_screen.get_width(), home_screen.get_height()/6), black, home_buttons, True)
+    home_screen.add_elements(home_menu,home_input_box)
     return home_screen, home_menu
 
 def init_algorithm_screen(ms,sz,s):
@@ -31,7 +33,7 @@ def init_algorithm_screen(ms,sz,s):
     algorithms_screen = Screen(ms, (0, 0, sz[0], sz[1]), black)
     algorithms_menu = Menu(algorithms_screen, (0, 0, algorithms_screen.get_width()/4, algorithms_screen.get_height()), black, algorithm_buttons, False)
     grect = (algorithms_menu.get_width() + 20, 30, s.max_tracks + 40, s.max_tracks + 40)
-    algorithms_graphic = Graphic(algorithms_screen, grect, color=(255,255,0))
+    algorithms_graphic = Graphic(algorithms_screen, grect, black)
     algorithms_screen.add_elements(algorithms_menu,algorithms_graphic)
     # algorithms_screen.update_sfc()
     return algorithms_screen,algorithms_menu
@@ -44,6 +46,14 @@ def serialize_data(results):
     direction = "Izquierda" if results[0][2] else "Derecha"
     data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
     return requirements, data
+
+footer_buttons =    [
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/method.png'},
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/dir.png'}
+]
+
+
 # ----------
 # variables
 # ----------
@@ -106,6 +116,9 @@ while run:
                         if  button.id == 1:
                             active_screen = algorithm
                             active_screen.update_sfc()
+                        elif button.id == 2:
+                            sim.requirements = button.get_element('InputBox').ask(False)
+                            active_screen.update_sfc()
             elif active_screen == algorithm:
                 for button in algorithm_men.elements:
                     if button.clicked(pos):
@@ -114,12 +127,12 @@ while run:
                             print "aqui esta wally"
                             if results:
                                 reqs, data = serialize_data(results)
-                                # f = Menu(main, (m.get_width()-20, main.get_height()-80, main.get_width()-m.get_width()+20, main.get_height()-g.get_height()+20), black, footer_buttons, True)
-                                # f.update_captions(data)
+                                f = Menu(main, (algorithm_men.get_width()-20, main.get_height()-80, main.get_width()-algorithm_men.get_width()+20, main.get_height()-algorithm.get_element("Graphic").get_height()+20), black, footer_buttons, True)
+                                f.update_captions(data)
                                 algorithm.get_element("Graphic").print_graphic(reqs)
                                 algorithm.update_sfc()
                                 algorithm_men.update_sfc()
-                                # f.update_sfc()
+                                f.update_sfc()
                                 # requirements = results[0][0]
 
                                 # print reqs
