@@ -19,7 +19,7 @@ def init_home_screen(ms,sz):
                    ]
     exec_button = Button(home_screen, 5, '', '', 'gui/img/exec.png')
     exec_button.rect.x = 370
-    exec_button.rect.y = 500 
+    exec_button.rect.y = 500
     exec_button.update_sfc()
     home_menu = Menu(home_screen, (0, 0, home_screen.get_width(), home_screen.get_height()/6), black, home_buttons, True)
     home_menu.add_elements(exec_button)
@@ -52,13 +52,13 @@ def serialize_data(results):
     return requirements, data
 
 def load_file(name):
-    
+
     try:
         f = open(name,'r')
         lines = f.readlines()
         final = ""
-        for i in lines:
-            final += i 
+        for line in lines:
+            final += line
         num_list = final.rsplit(' ')
         full_list = [int(elem) for elem in num_list]
         return full_list
@@ -66,12 +66,25 @@ def load_file(name):
         print "No se pudo abrir el archivo, gato"
         return None
 
+
+
+def print_message(message, rect, base_sfc):
+    pygame.font.init()
+    font = pygame.font.SysFont(None,20)
+    m = font.render(message, True, (255,255,255))
+    base_sfc.blit(m,rect)
+    base_sfc.update_sfc()
+
+
 footer_buttons =    [
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/method.png'},
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/dir.png'}
 ]
 
+message_input_random="Ingrese cantidad de requerimientos y page faults separados por un espacio. Ej:20 5"
+message_input_hand="Ingrese los requerimientos separados por un espacio(anteponga page faults con '-'). Ej:20 5 -34"
+message_input_file="Ingrese nombre del archivo. Debe estar en la carpeta principal del programa."
 
 # ----------
 # variables
@@ -81,8 +94,7 @@ black = (31, 34, 39)
 clock = pygame.time.Clock()
 sim   = Simulator()
 
-sim.random_list(15)
-sim.add_random_pf(5)
+
 
 # ----------
 # main
@@ -110,12 +122,15 @@ while run:
                 for button in home_men.elements:
                     if button.clicked(pos):
                         if  button.id == 1:
+                            print_message(message_input_random,(150,active_screen.get_height()/6,active_screen.get_width(), active_screen.get_width()),home)
                             param_lst = button.executeAction()
                             sim.random_list(param_lst[0])
                             sim.add_random_pf(param_lst[1]+2)
                         elif button.id == 2:
+                            print_message(message_input_hand,(150,active_screen.get_height()/6,active_screen.get_width(), active_screen.get_width()),home)
                             sim.requirements = button.executeAction()
                         elif button.id == 3:
+                            print_message(message_input_file,(150,active_screen.get_height()/6,active_screen.get_width(), active_screen.get_width()),home)
                             file_name = active_screen.get_element('InputBox').ask(False)
                             sim.requirements = load_file(file_name)
                         elif button.id == 4:
@@ -123,7 +138,7 @@ while run:
                             sim.init_pos = int(num)
                         elif button.id == 5:
                             active_screen=algorithm
-                            active_screen.update_sfc()                           
+                            active_screen.update_sfc()
             elif active_screen == algorithm:
                 for button in algorithm_men.elements:
                     if button.clicked(pos):
