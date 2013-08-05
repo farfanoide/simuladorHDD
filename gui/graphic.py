@@ -124,7 +124,7 @@ class Graphic(BaseGui):
                         self.__print_req_label(font, coor)
 
                 else:
-                    img_sfc = pygame.image.load(img).convert()
+                    img_sfc = pygame.image.load(img).convert_alpha()
                     img_offset = int(img_sfc.get_width() / 2)
                     for coor in coordinates[x]:
                         self.__print_req_label(font, coor, img_offset)

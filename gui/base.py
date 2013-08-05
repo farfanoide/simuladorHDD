@@ -29,7 +29,8 @@ class BaseGui(pygame.surface.Surface):
         self.base_sfc = base_sfc
         self.padding  = padding
         self.elements = []
-        self.fill(color)
+        self._bg_color = color
+        self.fill(self._bg_color)
         self.update_sfc()
 
     def initiate_elements(self):
@@ -47,7 +48,7 @@ class BaseGui(pygame.surface.Surface):
             pygame.display.update(self.base_sfc.rect)
         except AttributeError:
             pygame.display.update(self.base_sfc.get_rect())
-        print self.base_sfc.get_rect()
+        # print self.base_sfc.get_rect()
     
     def get_padding_top(self):
         return self.padding[0]
@@ -79,8 +80,8 @@ class BaseGui(pygame.surface.Surface):
         cent = self.base_sfc.get_width() - self.get_width() / 2
         return cent
 
-    def draw_surround_rect(self, bkg=_bg_color, fg=_fg_color, padding=True):
-        self.fill(bkg)
+    def draw_surround_rect(self, fg=_fg_color, padding=True):
+        self.fill(self._bg_color)
         if padding:
             rect = self.apply_padding()
         else:

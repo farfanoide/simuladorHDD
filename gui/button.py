@@ -10,14 +10,14 @@ class Button(BaseGui):
 
     """
 
-    def __init__(self, base_sfc, action="", obj="", img=""):
-        
+    def __init__(self, base_sfc,id = 0, action="", obj="", img=""):
         try:
             self.img    = pygame.image.load(img).convert_alpha()
         except:
             self.img = pygame.image.load('gui/img/button_small.png').convert_alpha()
         self.action  = action
         self.obj     = obj
+        self.id = id
         super(Button, self).__init__(base_sfc, self.img.get_rect())
         self.blit(self.img, (0,0))
 

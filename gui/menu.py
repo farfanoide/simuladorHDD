@@ -4,6 +4,7 @@ class Menu(BaseGui):
 
     def __init__(self, base_sfc, rect, color, buttons, axis):
         super(Menu, self).__init__(base_sfc, rect, color)
+        self.elements = []
         self.initiate_elements(buttons)
         self.fill(color)
         self.populate_sfc(axis)
@@ -11,7 +12,7 @@ class Menu(BaseGui):
 
     def initiate_elements(self, buttons):
         for button in buttons:
-            b = Button(self, button['action'], button['obj'], button['img'])
+            b = Button(self, button['id'], button['action'], button['obj'], button['img'])
             self.elements.append(b)
 
     def populate_sfc(self, axis=True, step=20):
