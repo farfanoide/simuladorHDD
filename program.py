@@ -31,7 +31,7 @@ def init_algorithm_screen(ms,sz,s):
     algorithms_screen = Screen(ms, (0, 0, sz[0], sz[1]), black)
     algorithms_menu = Menu(algorithms_screen, (0, 0, algorithms_screen.get_width()/4, algorithms_screen.get_height()), black, algorithm_buttons, False)
     grect = (algorithms_menu.get_width() + 20, 30, s.max_tracks + 40, s.max_tracks + 40)
-    algorithms_graphic = Graphic(algorithms_screen, grect, color=(255,255,0))
+    algorithms_graphic = Graphic(algorithms_screen, grect, black)
     algorithms_screen.add_elements(algorithms_menu,algorithms_graphic)
     # algorithms_screen.update_sfc()
     return algorithms_screen,algorithms_menu
@@ -44,6 +44,14 @@ def serialize_data(results):
     direction = "Izquierda" if results[0][2] else "Derecha"
     data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
     return requirements, data
+
+footer_buttons =    [
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/method.png'},
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
+    {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/dir.png'}
+]
+
+
 # ----------
 # variables
 # ----------
@@ -114,12 +122,12 @@ while run:
                             print "aqui esta wally"
                             if results:
                                 reqs, data = serialize_data(results)
-                                # f = Menu(main, (m.get_width()-20, main.get_height()-80, main.get_width()-m.get_width()+20, main.get_height()-g.get_height()+20), black, footer_buttons, True)
-                                # f.update_captions(data)
+                                f = Menu(main, (algorithm_men.get_width()-20, main.get_height()-80, main.get_width()-algorithm_men.get_width()+20, main.get_height()-algorithm.get_element("Graphic").get_height()+20), black, footer_buttons, True)
+                                f.update_captions(data)
                                 algorithm.get_element("Graphic").print_graphic(reqs)
                                 algorithm.update_sfc()
                                 algorithm_men.update_sfc()
-                                # f.update_sfc()
+                                f.update_sfc()
                                 # requirements = results[0][0]
 
                                 # print reqs
