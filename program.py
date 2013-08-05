@@ -15,10 +15,14 @@ def init_home_screen(ms,sz):
                     {'id':1, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_random.png"},
                     {'id':3, 'obj': home_input_box, 'action': '', 'img': "gui/img/input_arch.png"},
                     {'id':2, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_hand.png"},
-                    {'id':4, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/exec.png"}
-
+                    {'id':4, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/init.png"}
                    ]
+    exec_button = Button(home_screen, 5, '', '', 'gui/img/exec.png')
+    exec_button.rect.x = 370
+    exec_button.rect.y = 500 
+    exec_button.update_sfc()
     home_menu = Menu(home_screen, (0, 0, home_screen.get_width(), home_screen.get_height()/6), black, home_buttons, True)
+    home_menu.add_elements(exec_button)
     home_screen.add_elements(home_menu,home_input_box)
     return home_screen, home_menu
 
@@ -115,6 +119,9 @@ while run:
                             file_name = active_screen.get_element('InputBox').ask(False)
                             sim.requirements = load_file(file_name)
                         elif button.id == 4:
+                            num = active_screen.get_element('InputBox').ask(False)
+                            sim.init_pos = int(num)
+                        elif button.id == 5:
                             active_screen=algorithm
                             active_screen.update_sfc()                           
             elif active_screen == algorithm:
