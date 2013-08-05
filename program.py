@@ -24,7 +24,6 @@ def init_home_screen(ms,sz):
 
 def init_algorithm_screen(ms,sz,s):
     algorithm_buttons = [
-                # {'obj': algoritmos, 'action': 'go_back',  'img': "gui/img/button_small.png"},
                 {'id':-1, 'obj': s, 'action': 'executeFCFS', 'img': "gui/img/fcfs.png"},
                 {'id':-1, 'obj': s, 'action': 'executeCLOOK', 'img': "gui/img/clook.png"},
                 {'id':-1, 'obj': s, 'action': 'executeLOOK',  'img': "gui/img/look.png"},
@@ -37,7 +36,6 @@ def init_algorithm_screen(ms,sz,s):
     grect = (algorithms_menu.get_width() + 20, 30, s.max_tracks + 40, s.max_tracks + 40)
     algorithms_graphic = Graphic(algorithms_screen, grect, black)
     algorithms_screen.add_elements(algorithms_menu,algorithms_graphic)
-    # algorithms_screen.update_sfc()
     return algorithms_screen,algorithms_menu
 
 def serialize_data(results):
@@ -45,7 +43,7 @@ def serialize_data(results):
     requirements = results[0][0]
     movements = results[0][1]
     method = results[1]
-    direction = "Izquierda" if results[0][2] else "Derecha"
+    direction = "Derecha" if results[0][2] else "Izquierda"
     data = [(method,(108,y_offset)), (movements, (160,y_offset-2)), (direction, (130,y_offset))]
     return requirements, data
 
@@ -63,6 +61,7 @@ def load_file(name):
     except IOError:
         print "No se pudo abrir el archivo, gato"
         return None
+
 footer_buttons =    [
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/method.png'},
     {'id': -7, 'obj': '', 'action': '', 'img': 'gui/img/movs.png'},
@@ -75,8 +74,8 @@ footer_buttons =    [
 # ----------
 screen_size = (1000, 740)
 black = (31, 34, 39)
-clock       = pygame.time.Clock()
-sim         = Simulator()
+clock = pygame.time.Clock()
+sim   = Simulator()
 
 sim.random_list(15)
 sim.add_random_pf(5)
@@ -90,15 +89,11 @@ pygame.init()
 main = pygame.display.set_mode(screen_size)
 main.fill(black)
 
-
 home,home_men = init_home_screen(main, screen_size)
-print home_men.elements
-
+algorithm, algorithm_men = init_algorithm_screen(main, screen_size,sim)
+active_screen = home
 
 run = True
-algorithm, algorithm_men = init_algorithm_screen(main, screen_size,sim)
-print algorithm_men.elements
-active_screen = home
 active_screen.update_sfc()
 while run:
     clock.tick(30)
@@ -136,16 +131,6 @@ while run:
                                 algorithm.update_sfc()
                                 algorithm_men.update_sfc()
                                 f.update_sfc()
-                                # requirements = results[0][0]
-
-                                # print reqs
-                                # active_screen.fill(black)
-
-                                # screens[i].get_element("Graphic").print_graphic(reqs)
-                                # active_screen.get_element("Graphic").update_sfc()
-                                # graph.update_sfc()
-                                # active_screen.get_element("Menu").update_sfc()
-                                # screens[i].update_sfc()
         if event.type == pygame.QUIT:
             run = False
         # faster dubugging
@@ -153,30 +138,3 @@ while run:
             run = False
 pygame.quit()
 sys.exit()
-
-
-
-
-
-
-            # active_menu = active_screen.get_menu()
-            # print active_menu.elements
-            # for button in active_menu.elements:
-    # for elem in screens:
-        # if elem.selected:
-            # active_screen = elem
-            # break
-                # if button.clicked(pos):
-                #     results = button.executeAction()
-
-                    # results = button.executeAction()
-                    # print results
-                    # if results:
-                    #     requirements = results[0][0]
-                    #     print "reqs post execute \n", requirements
-
-
-                    #     g.print_graphic(requirements)
-                    #     print 'printing elemenst: \n', algoritmos.elements
-                    #     algoritmos.update_sfc()
-                    #     m.update_sfc()

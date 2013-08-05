@@ -15,7 +15,6 @@ class Graphic(BaseGui):
         reqs_quantity = 0
         for reqs in requirements:
             if reqs:
-                print reqs
                 reqs_quantity += len(reqs)
 
         height = self.get_height() - self.get_padding_top() - self.get_padding_bottom()
