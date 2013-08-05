@@ -63,7 +63,7 @@ class InputBox(BaseGui):
             else:
                 pass
 
-    def ask(self):
+    def ask(self, serialize=True):
 
         pygame.font.init()
         current_string = ""
@@ -85,4 +85,7 @@ class InputBox(BaseGui):
                     self.inputlst.append(current_string)
                     current_string = ""
             self.update_sfc()
-        return self.__convert_to_list()
+        if serialize:
+            return self.__convert_to_list()
+        else:
+            return current_string
