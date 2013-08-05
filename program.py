@@ -10,7 +10,7 @@ from gui import *
 def init_home_screen(ms,sz):
     home_rect = (0, 0, sz[0], sz[1])
     home_screen = Screen(ms, home_rect, black)
-    home_input_box = InputBox(home_screen,(home_screen.get_width()/4,home_screen.get_height()/2,home_screen.get_width()/2,2*home_screen.get_height()/6))
+    home_input_box = InputBox(home_screen,(home_screen.get_width()/2-300,home_screen.get_height()/2-100,600,200))
     home_buttons = [
                     {'id':1, 'obj': home_input_box, 'action': 'ask', 'img': "gui/img/input_random.png"},
                     {'id':3, 'obj': home_input_box, 'action': '', 'img': "gui/img/input_arch.png"},

@@ -13,7 +13,7 @@ class InputBox(BaseGui):
 
     def __update_line(self, line, line_height, font):
         """Updates a line on its surface and updates line_height"""
-
+        self.blit(pygame.image.load('gui/img/input_list.png'),(0,0))
         rendered_line = font.render(line, True, self._fg_color)
         self.blit(rendered_line, (self.get_padding_left() * 2, line_height))
         line_height += rendered_line.get_height() 
@@ -25,7 +25,8 @@ class InputBox(BaseGui):
 
         font   = pygame.font.Font(None, 18)
         line_h = self.get_padding_top() * 2
-        self.draw_surround_rect()
+        self.fill(self._bg_color)
+        # self.draw_surround_rect()
 
         for line in self.inputlst:
             line_h, cl = self.__update_line(line, line_h, font)
