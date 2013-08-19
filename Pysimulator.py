@@ -70,16 +70,16 @@ def load_file(name):
 
 
 
-def print_message(message, rect, base_sfc, color=(255,255,255)):
-    """Prints a message on screen"""
-    pygame.font.init()
-    font = pygame.font.SysFont(None,20)
-    y = rect[1]
-    for line in message:
-        m = font.render(line, True, color)
-        base_sfc.blit(m,(rect[0], y + m.get_height(),rect[2], rect[3]))
-        y += m.get_height()
-        base_sfc.update_sfc()
+# def print_message(message, rect, base_sfc, color=(255,255,255)):
+#     """Prints a message on screen"""
+#     pygame.font.init()
+#     font = pygame.font.SysFont(None,20)
+#     y = rect[1]
+#     for line in message:
+#         m = font.render(line, True, color)
+#         base_sfc.blit(m,(rect[0], y + m.get_height(),rect[2], rect[3]))
+#         y += m.get_height()
+    
 
 #----------------
 # DATA
@@ -119,43 +119,51 @@ home,home_men = init_home_screen(main, screen_size)
 algorithm, algorithm_men = init_algorithm_screen(main, screen_size,sim)
 active_screen = home
 
+# error_msg_rect = (200,200,active_screen.get_width(),active_screen.get_height())
+error_msg = Message(main,(200, 250 , int(main.get_width()-400), 150), (255,0,0))
+help_msg = Message(main, (200, 100, int(main.get_width()-400), 150), (255,255,255))
+# help_msg_sfc = pygame.Surface((active_screen.get_width()-400, active_screen.get_height()-400))
 run = True
 active_screen.update_sfc()
 while run:
     clock.tick(30)
-    error_msg_rect = (200,200,active_screen.get_width(),active_screen.get_height())
-    help_msg_rect = (200,active_screen.get_height()/6,active_screen.get_width(), active_screen.get_width())
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-
             if active_screen == home:
                 for button in home_men.elements:
                     if button.clicked(pos):
                         if  button.id == 1:
-                            print_message(message_input_random,help_msg_rect,home)
+                            # active_screen.blit(help_msg_sfc,(200,100))
+                            help_msg.update_sfc()
+                            help_msg.print_message(message_input_random)
+                            # print_message(message_input_random,(20,20,help_msg_sfc.get_width(),help_msg_sfc.get_height()),help_msg_sfc)
                             param_lst = button.executeAction()
                             if param_lst[0]<0 or param_lst[1]<0:
-                                print_message(["parametros incorrectos"], error_msg_rect, active_screen,(255,0,0))
+                                error_msg.print_message(['Parametros Incorrectos'])
                                 break
                             sim.random_list(param_lst[0])
                             sim.add_random_pf(param_lst[1]+2)
                         elif button.id == 2:
-                            print_message(message_input_hand,help_msg_rect,home)
+                            help_msg.update_sfc()
+                            help_msg.print_message(message_input_hand)
+                            # print_message(message_input_hand,help_msg_sfc,home)
                             sim.requirements = button.executeAction()
                         elif button.id == 3:
-                            print_message(message_input_file,help_msg_rect,home)
+                            help_msg.update_sfc()
+                            help_msg.print_message(message_input_file)
+                            print_message(message_input_file,help_msg_sfc,home)
                             file_name = active_screen.get_element('InputBox').ask(False)
                             sim.requirements = load_file(file_name)
                             if (sim.requirements == None):
-                                print_message(["No se pudo abrir el archivo. Revise permisos y/o ubicacion"],error_msg_rect,active_screen,(255,0,0))
+                                # print_message(["No se pudo abrir el archivo. Revise permisos y/o ubicacion"],error_msg_rect,active_screen,(255,0,0))
                                 break
                         elif button.id == 4:
-                            print_message(message_input_pos,help_msg_rect,active_screen)
+                            # print_message(message_input_pos,help_msg_rect,active_screen)
                             num = active_screen.get_element('InputBox').ask(False)
                             sim.init_pos = int(num)
                             if sim.init_pos<0 or sim.init_pos>511:
-                                print_message(["parametros incorrectos"], error_msg_rect,active_screen,(255,0,0))
+                                # print_message(["parametros incorrectos"], error_msg_rect,active_screen,(255,0,0))
                                 break
                         elif button.id == 5:
                             active_screen=algorithm
