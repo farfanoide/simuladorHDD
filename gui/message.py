@@ -4,7 +4,7 @@ from pygame import *
 class Message(BaseGui):
 
     def __init__(self, base_sfc, rect, color):
-        super(BaseGui, self).__init__(base_sfc, rect, color=color)
+        super(Message, self).__init__(base_sfc, rect, color=color)
 
 
     def print_message(self, message):
