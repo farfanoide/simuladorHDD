@@ -1,5 +1,6 @@
 from gui.base import BaseGui
-from pygame import *
+import pygame
+from pygame.locals import *
 
 class Message(BaseGui):
 

@@ -1,0 +1,40 @@
+ScreenManager:
+    id: manager
+    Screen:
+        name: "Main"
+        BoxLayout:
+            padding: '10dp'
+            Button:
+                text: 'Execute'
+                on_press: manager.current = 'Graphics'
+    Screen:
+        name: "Graphics"
+        BoxLayout:
+            cols: 2
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: .3, 1
+                Button:
+                    text: 'FCFS'
+                    on_press: print('mira que loco')
+                    size_hint: .2, .2
+                Button:
+                    text: 'SSTF'
+                    on_press: print manager.screens
+                    size_hint: .2, .2
+                Button:
+                    text: 'SCAN'
+                    on_press: manager.current = 'Main'
+                    size_hint: .2, .2
+                Button:
+                    text: 'CSCAN'
+                    on_press: manager.current = 'Main'
+                    size_hint: .2, .2
+                Button:
+                    text: 'LOOK'
+                    on_press: manager.current = 'Main'
+                    size_hint: .2, .2
+                Button:
+                    text: 'CLOOK'
+                    on_press: manager.current = 'Main'
+                    size_hint: .2, .2
