@@ -1,15 +1,35 @@
 [
     {
         "type": "title",
-        "title": "Windows"
+        "title": "Settings"
+    },
+    {
+        "type": "numeric",
+        "title": "Requisitos",
+        "desc": "Cantidad deseada de requisitos",
+        "section": "pymulator",
+        "key": "reqs"
+    },
+    {
+        "type": "numeric",
+        "title": "Page Faults",
+        "desc": "Cantidad deseada de Page Faults",
+        "section": "pymulator",
+        "key": "pf"
     },
     {
         "type": "bool",
-        "title": "Fullscreen",
-        "desc": "Set the window in windowed or fullscreen",
-        "section": "graphics",
-        "key": "fullscreen",
+        "title": "Direccion Inicial",
+        "desc": "Izquierda - derecha",
+        "section": "pymulator",
+        "key": "dir",
         "true": "auto"
+    },
+    {
+        "type": "numeric",
+        "title": "Posicion Inicial",
+        "desc": "Posicion Inicial del lector del disco",
+        "section": "pymulator",
+        "key": "init_pos"
     }
 ]
-
