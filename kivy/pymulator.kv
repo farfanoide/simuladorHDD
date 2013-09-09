@@ -1,0 +1,107 @@
+[alg_btn@Button]:
+    text_size:self.size
+    font_size:'25sp'
+    
+<SettingsScreen>:
+    GridLayout:
+        rows:2
+        GridLayout:
+            cols:2
+            BoxLayout:
+                size_hint_x:None
+                orientation:"vertical"
+                spacing:2
+                padding:2
+                Button:
+                    text:"FIFO"
+                    font_size:'25sp'
+                    align:"center"
+                Button:
+                    text:"SSTF"
+                Button:
+                    text:"LOOK"
+                Button:
+                    text:"CLOOK"
+                Button:
+                    text:"SCAN"
+                Button:
+                    text:"CSCAN"
+            RelativeLayout:
+                canvas:
+                    Line:
+                        rectangle: 60,0,511,self.height-50
+                    Color: 
+                        rgba:0,1,0,1
+                    Line:
+                        points:0,0,100,100
+                size:550,550
+                Label:
+                    text:"0"
+                    size_hint:.1,.1
+                    pos:50+0,450
+                Label:
+                    text:"50"
+                    size_hint:.1,.1
+                    pos:50+50,450
+                Label:
+                    text:"100"
+                    size_hint:.1,.1
+                    pos:50+100,450
+                Label:
+                    text:"150"
+                    size_hint:.1,.1
+                    pos:50+150,450
+                Label:
+                    text:"200"
+                    size_hint:.1,.1
+                    pos:50+200,450
+                Label:
+                    text:"250"
+                    size_hint:.1,.1
+                    pos:50+250,450
+                Label:
+                    text:"300"
+                    size_hint:.1,.1
+                    pos:50+300,450
+                Label:
+                    text:"350"
+                    pos:50+350,450
+                    size_hint:.1,.1
+                Label:
+                    text:"400"
+                    size_hint:.1,.1
+                    pos:50+400,450
+                Label:
+                    text:"450"
+                    size_hint:.1,.1
+                    pos:50+450,450
+                Label:
+                    text:"500"
+                    pos:50+500,450
+                    size_hint:.1,.1
+        BoxLayout:
+            size_hint_y:None
+            padding:20
+            Button:
+                text:"<- Volver"
+                on_press: root.manager.current = "Menu Screen"          
+            Label:
+                text:"Metodo: SSTF"
+            Label:
+                text:"Movimientos: 230"
+            Label:
+                text:"Direccion: Izquierda"
+
+<MenuScreen>:
+    BoxLayout:
+        orientation:"vertical"
+        padding:100
+        spacing:10
+        Button:
+            text:"Set Up"
+            on_press: root.manager.current = "Grafico Screen"
+        Button:
+            text:"Ejecutar"
+            on_press: root.manager.current = "settings screen"
+        Button:
+            text:"Ayuda"
