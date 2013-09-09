@@ -3,16 +3,25 @@ from kivy.uix.label import Label
 
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.uix.settings import Settings, SettingsPanel
 from kivy.properties import NumericProperty, ReferenceListProperty,\
     ObjectProperty
-# from kivy.vector import Vector
 from kivy.clock import Clock
 from simulator import Simulator
-from kivy.config import Config
-Config.set('graphics','resizable','0')
 
-simulator = Simulator()
-simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
+from kivy.config import Config, ConfigParser
+
+
+# simulator = Simulator()
+# simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
+
+config = ConfigParser()
+config.read('pymulator.ini')
+# config.set('graphics','resizable','0')
+settings = Settings()
+settings.add_json_panel('My custom panel', config, 'settings.json')
+
+
 
 # class GraphicsScreen(Screen):
 #     pass

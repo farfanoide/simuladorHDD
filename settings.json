@@ -1,0 +1,16 @@
+
+[
+    {
+        "type": "title",
+        "title": "Windows"
+    },
+    {
+        "type": "bool",
+        "title": "Fullscreen",
+        "desc": "Set the window in windowed or fullscreen",
+        "section": "graphics",
+        "key": "fullscreen",
+        "true": "auto"
+    }
+]
+
