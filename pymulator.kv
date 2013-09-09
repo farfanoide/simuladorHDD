@@ -2,7 +2,7 @@ ScreenManager:
     id: manager
     Screen:
         name: "Main"
-        canvas.before:
+        canvas:
             Color:
                 rgb:0,1,0
             Rectangle:
@@ -21,7 +21,7 @@ ScreenManager:
                 text:"Ayuda" 
     Screen:
         name: "Graphics"
-        canvas.before:
+        canvas:
             Color:
                 rgb:1,0,0
             Rectangle:
@@ -57,12 +57,29 @@ ScreenManager:
                 RelativeLayout:
                     canvas:
                         Line:
-                            rectangle: 60,0,511,self.height-50
+                            rectangle: 85,0,50,self.height -50
+                        Line:
+                            rectangle: 135,0,50,self.height -50
+                        Line:
+                            rectangle: 185,0,50,self.height -50
+                        Line:
+                            rectangle: 235,0,50,self.height -50
+                        Line:
+                            rectangle: 285,0,50,self.height -50
+                        Line:
+                            rectangle: 335,0,50,self.height -50
+                        Line:
+                            rectangle: 385,0,50,self.height -50
+                        Line:
+                            rectangle: 435,0,50,self.height -50
+                        Line:
+                            rectangle: 485,0,50,self.height -50
+                        Line:
+                            rectangle: 535,0,50,self.height -50
                         Color: 
                             rgba:0,1,0,1
-                        Line:
-                            points:0,0,100,100
                     size:550,550
+                    
                     Label:
                         text:"0"
                         size_hint:.1,.1
@@ -116,3 +133,4 @@ ScreenManager:
                         text:"Movimientos: 230"
                     Label:
                         text:"Direccion: Izquierda"
+

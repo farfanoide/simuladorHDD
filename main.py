@@ -9,7 +9,6 @@ from kivy.properties import NumericProperty, ReferenceListProperty,\
 from kivy.clock import Clock
 from simulator import Simulator
 from kivy.config import Config
-Config.set('graphics','resizable','0')
 
 simulator = Simulator()
 simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
@@ -24,7 +23,8 @@ simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
 #     pass
 
 class PymulatorApp(App):
-    pass
+	Config.set('graphics','resizable','0')
+	pass
     # def build(self):
         # self.root = ScreenManager()
         # self.root.add_widget(GraphicsScreen(name='graphics'))
