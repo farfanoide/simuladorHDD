@@ -13,12 +13,33 @@ ScreenManager:
             spacing:10
             Button:
                 text:"Set Up"
-                on_press: root.manager.current = "Graphics"
+                on_press: manager.current = 'Set Up'
             Button:
                 text:"Ejecutar"
                 on_press: manager.current = 'Graphics'
             Button:
-                text:"Ayuda" 
+                text: 'Ayuda'
+                on_press: manager.current = 'Help'
+            Button:
+                text: 'Creditos'
+                on_press: manager.current = 'Credits'
+    Screen:
+        name: 'Set Up'
+        SettingsScreen:
+            on_close: manager.current = "Main"
+    Screen:
+        name: 'Help'
+    Screen:
+        name: 'Credits'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'los pibes'
+            Label:
+                text: 'para todo lo demas, existe mastercard'
+            Button:
+                text: '<'
+                on_press: manager.current = 'Main'
     Screen:
         name: "Graphics"
         canvas:
