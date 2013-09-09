@@ -8,6 +8,8 @@ from kivy.properties import NumericProperty, ReferenceListProperty,\
 # from kivy.vector import Vector
 from kivy.clock import Clock
 from simulator import Simulator
+from kivy.config import Config
+Config.set('graphics','resizable','0')
 
 simulator = Simulator()
 simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
