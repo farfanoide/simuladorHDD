@@ -1,15 +1,12 @@
 from kivy.app import App
 from kivy.uix.label import Label
 
-from kivy.uix.widget import Widget
-from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+# from kivy.uix.widget import Widget
+# from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.settings import Settings, SettingsPanel
-from kivy.properties import NumericProperty, ReferenceListProperty,\
-    ObjectProperty
-from kivy.clock import Clock
 from simulator import Simulator
 from kivy.config import Config, ConfigParser
-from kivy.graphics import Line, Rectangle, Color
+from kivy.graphics import Line, Color
 from kivy.uix.relativelayout import RelativeLayout
 
 
@@ -60,6 +57,7 @@ class Graphic(RelativeLayout):
         with self.canvas:
             for x in range(len(coordinates)):
                 if coordinates[x]:
+                    Color(0,1,0) if x else Color(1,0,0)
                     Line(points=coordinates[x], width=1)
 
 
