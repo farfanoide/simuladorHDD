@@ -26,7 +26,40 @@ class Graphic(RelativeLayout):
         for x in xrange(100, 550, 50):
             with self.canvas:
                 Line(points=[x, 0, x, 400], width=1)
+            # TODO: borrar paddings hardcodeados
             self.add_widget(Label(text=str(x), pos=(x - 350, 200)))
+
+    def __calculate_coordinates(self, requirements):
+        """Calculates coordinates for the graphic according to amount of requirements and height available."""
+        # TODO: hacer esto bien
+        # step = self.__calculate_vertical_step(requirements)
+        print requirements
+        step = 15
+        coordinates = ([], [], [])
+        i   = 100 #self.get_padding_top()
+        pad = 100 #self.get_padding_left()
+        for x in range(len(requirements)):
+            try:
+                for req in requirements[x]:
+                    # coordinate = ((req + pad, i))
+                    coor = req + pad
+                    coordinates[x].append(coor)
+                    coordinates[x].append(i)
+                    i += step
+                    # coordinates[x].append(coor)
+            except IndexError:
+                pass
+        return coordinates
+
+    def draw_lines(self, requirements):
+        coordinates = self.__calculate_coordinates(requirements)
+        with self.canvas:
+            for x in range(len(coordinates)):
+                if coordinates[x]:
+                    Line(points=coordinates[x], width=1)
+
+
+
 
 
 class PymulatorApp(App):

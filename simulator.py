@@ -14,8 +14,10 @@ class Simulator():
 
     def executeFCFS(self):
         self.algorithm = FCFS()
-        return self.algorithm.attend_requirements(
+        results = self.algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "FCFS"
+        print 'debuggiando results[]0', results[0][0]
+        return results[0][0]
 
     def executeSSTF(self):
         self.algorithm = SSTF()

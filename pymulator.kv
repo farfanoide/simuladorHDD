@@ -10,15 +10,15 @@ ScreenManager:
         BoxLayout:
             orientation:"vertical"
             padding: 100
-            spacing:10
+            spacing: 10
             Button:
-                text:"Set Up"
+                text: 'Configurar'
                 on_press: app.open_settings()
             Button:
                 text: 'Ayuda'
                 on_press: manager.current = 'Help'
             Button:
-                text:"Ejecutar"
+                text: 'Graficar'
                 on_press: manager.current = 'Graphics'
             Button:
                 text: 'Creditos'
@@ -56,7 +56,7 @@ ScreenManager:
                 size_hint_x:None
                 Button:
                     text: 'FCFS'
-                    on_press: print app.simulator.executeFCFS()
+                    on_press:  graph_canvas.draw_lines(app.simulator.executeFCFS())
                 Button:
                     text: 'SSTF'
                     on_press: print app.simulator.executeSSTF()
@@ -78,6 +78,7 @@ ScreenManager:
             GridLayout:
                 rows: 2
                 Graphic:
+                    id: graph_canvas
                     padding: 100
                     size_hint: 1, .8
                     canvas:
@@ -86,8 +87,8 @@ ScreenManager:
                 BoxLayout:
                     size_hint: 1, .2
                     Label:
-                        text:"Metodo: SSTF"
+                        text: "Metodo: SSTF"
                     Label:
-                        text:"Movimientos: 230"
+                        text: "Movimientos: 230"
                     Label:
-                        text:"Direccion: Izquierda"
+                        text: "Direccion: Izquierda"
