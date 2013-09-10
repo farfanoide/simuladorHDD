@@ -31,5 +31,12 @@
         "desc": "Posicion Inicial del lector del disco",
         "section": "pymulator",
         "key": "init_pos"
+    },
+    {
+        "type": "path",
+        "title": "Archivo",
+        "desc": "Archivo con lista de requerimientos",
+        "section": "pymulator",
+        "key": "file"
     }
 ]
