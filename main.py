@@ -13,9 +13,6 @@ from kivy.graphics import Line, Rectangle
 from kivy.uix.relativelayout import RelativeLayout
 
 
-# simulator = Simulator()
-# simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
-
 class Graphic(RelativeLayout):
 
     """Graphic class to print requirements to canvas"""
@@ -41,6 +38,11 @@ class PymulatorApp(App):
 
     def build_settings(self, settings):
         settings.add_json_panel('Pymulator', self.config, 'settings.json')
+
+    def build(self):
+        self.simulator = Simulator()
+        self.simulator.random_list(15)
+        self.simulator.add_random_pf(3)
 
 
 if __name__ == '__main__':
