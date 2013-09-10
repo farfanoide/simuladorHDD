@@ -4,16 +4,16 @@ ScreenManager:
         name: "Main"
         canvas:
             Color:
-                rgb:0,1,0
+                rgb: .35, .39, .43
             Rectangle:
                 size: self.size
         BoxLayout:
             orientation:"vertical"
-            padding:100
+            padding: 100
             spacing:10
             Button:
                 text:"Set Up"
-                on_press: manager.current = 'Set Up'
+                on_press: app.open_settings()
             Button:
                 text:"Ejecutar"
                 on_press: manager.current = 'Graphics'
@@ -23,6 +23,9 @@ ScreenManager:
             Button:
                 text: 'Creditos'
                 on_press: manager.current = 'Credits'
+            Button:
+                text: 'Cerrar'
+                on_press: app.stop()
     # Screen:
     #     name: 'Set Up'
     #     SettingsScreen:
@@ -44,7 +47,7 @@ ScreenManager:
         name: "Graphics"
         canvas:
             Color:
-                rgb:1,0,0
+                rgb: .31, .35, .39
             Rectangle:
                 size: self.size
         GridLayout:
@@ -100,7 +103,6 @@ ScreenManager:
                         Color: 
                             rgba:0,1,0,1
                     size:550,550
-                    
                     Label:
                         text:"0"
                         size_hint:.1,.1
