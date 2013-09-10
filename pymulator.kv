@@ -73,6 +73,9 @@ ScreenManager:
                     text: 'CLOOK'
                     on_press: print app.simulator.executeCLOOK()
                 Button:
+                    text: 'Clear'
+                    on_press: graph_canvas.draw_grid()
+                Button:
                     text: '<'
                     on_press: manager.current = 'Main'
             GridLayout:
@@ -81,9 +84,6 @@ ScreenManager:
                     id: graph_canvas
                     padding: 100
                     size_hint: 1, .8
-                    canvas:
-                        Line:
-                            rectangle: 100, 0, 400, 400
                 BoxLayout:
                     size_hint: 1, .2
                     Label:

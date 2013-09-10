@@ -9,7 +9,7 @@ from kivy.properties import NumericProperty, ReferenceListProperty,\
 from kivy.clock import Clock
 from simulator import Simulator
 from kivy.config import Config, ConfigParser
-from kivy.graphics import Line, Rectangle
+from kivy.graphics import Line, Rectangle, Color
 from kivy.uix.relativelayout import RelativeLayout
 
 
@@ -22,6 +22,10 @@ class Graphic(RelativeLayout):
         self.draw_grid()
 
     def draw_grid(self):
+        self.canvas.clear()
+
+        with self.canvas:
+            Line(rectangle=(100, 0, 400, 400))
 
         for x in xrange(100, 550, 50):
             with self.canvas:
@@ -36,8 +40,8 @@ class Graphic(RelativeLayout):
         print requirements
         step = 15
         coordinates = ([], [], [])
-        i   = 100 #self.get_padding_top()
-        pad = 100 #self.get_padding_left()
+        i = 100  # self.get_padding_top()
+        pad = 100  # self.get_padding_left()
         for x in range(len(requirements)):
             try:
                 for req in requirements[x]:
@@ -57,9 +61,6 @@ class Graphic(RelativeLayout):
             for x in range(len(coordinates)):
                 if coordinates[x]:
                     Line(points=coordinates[x], width=1)
-
-
-
 
 
 class PymulatorApp(App):
