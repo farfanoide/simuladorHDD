@@ -80,10 +80,19 @@ ScreenManager:
                     on_press: manager.current = 'Main'
             GridLayout:
                 rows: 2
-                Graphic:
-                    id: graph_canvas
-                    padding: 100
-                    size_hint: 1, .8
+                AnchorLayout:
+                    anchor_x:"center"
+                    anchor_y:"center"
+                    Graphic:
+                        canvas:
+                            Color:
+                                rgb:.1,.1,.1
+                            Rectangle:
+                                size: self.size
+                        id: graph_canvas
+                        padding: 100
+                        size_hint:None,None
+                        size: 512,400
                 BoxLayout:
                     size_hint: 1, .2
                     Label:
