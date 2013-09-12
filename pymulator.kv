@@ -65,13 +65,16 @@ ScreenManager:
                     on_press: print app.simulator.executeSCAN()
                 Button:
                     text: 'CSCAN'
-                    on_press: print app.simulator.executeCSCAN()
+                    on_press: print app.simulator.direction
                 Button:
                     text: 'LOOK'
                     on_press: print app.simulator.executeLOOK()
                 Button:
                     text: 'CLOOK'
                     on_press: print app.simulator.executeCLOOK()
+                Button:
+                    text: 'Configurar'
+                    on_press: app.open_settings()
                 BoxLayout:
                     orientation: 'horizontal'
                     Button:

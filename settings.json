@@ -38,13 +38,5 @@
         "desc": "Archivo con lista de requerimientos",
         "section": "pymulator",
         "key": "file"
-    },
-    {
-        "type": "bool",
-        "title": "Fullscreen",
-        "desc": "Set the window in windowed or fullscreen",
-        "section": "graphics",
-        "key": "fullscreen",
-        "true": "auto"
     }
 ]

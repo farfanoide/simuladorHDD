@@ -27,6 +27,20 @@ class PymulatorApp(App):
         # self.simulator.random_list(15)
         # self.simulator.add_random_pf(3)
 
+    def on_config_change(self, config, section, key, value):
+        # TODO: change self.simulator.x to use kivy properties
+        # set max, min and validations
+        if config is not self.config:
+            return
+        if key == 'dir':
+            self.simulator.direction = value
+        elif key == 'reqs':
+            self.simulator.random_list(int(value))
+        elif key == 'init_pos': 
+            self.simulator.init_pos = value
+        elif key == 'pf':
+            self.simulator.add_random_pf(int(value))
+
 
 if __name__ == '__main__':
     PymulatorApp().run()
