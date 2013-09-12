@@ -59,7 +59,7 @@ ScreenManager:
                     on_press:  graph_canvas.draw_lines(app.simulator.executeFCFS())
                 Button:
                     text: 'SSTF'
-                    on_press: print app.simulator.executeSSTF()
+                    on_press: graph_canvas.draw_lines(app.simulator.executeSSTF())
                 Button:
                     text: 'SCAN'
                     on_press: print app.simulator.executeSCAN()
@@ -72,32 +72,35 @@ ScreenManager:
                 Button:
                     text: 'CLOOK'
                     on_press: print app.simulator.executeCLOOK()
-                Button:
-                    text: 'Clear'
-                    on_press: graph_canvas.draw_grid()
-                Button:
-                    text: '<'
-                    on_press: manager.current = 'Main'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Button:
+                        text: '<'
+                        on_press: manager.current = 'Main'
+                    Button:
+                        text: 'x'
+                        on_press: graph_canvas.draw_grid()
             GridLayout:
                 rows: 2
                 AnchorLayout:
                     anchor_x:"center"
                     anchor_y:"center"
                     Graphic:
-                        canvas:
-                            Color:
-                                rgb:.1,.1,.1
-                            Rectangle:
-                                size: self.size
                         id: graph_canvas
-                        padding: 100
-                        size_hint:None,None
-                        size: 512,400
+                        size_hint: None, None
+                        size: 512, 400
+                        # on_reqs: self.draw_grid(self.reqs)
+                        # on_method: method.text = 'Metodo: ' + self.method
+                        # on_movs: movs.text = 'Movimientos: ' + self.movs
+                        # on_dir: dir.text = 'Direccion: ' + self.dir
                 BoxLayout:
                     size_hint: 1, .2
                     Label:
-                        text: "Metodo: SSTF"
+                        id: method
+                        text: "Metodo: - "
                     Label:
-                        text: "Movimientos: 230"
+                        id: movs 
+                        text: "Movimientos: 0"
                     Label:
-                        text: "Direccion: Izquierda"
+                        id: dir
+                        text: "Direccion: - "

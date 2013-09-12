@@ -21,8 +21,11 @@ class Simulator():
 
     def executeSSTF(self):
         self.algorithm = SSTF()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction), "SSTF"
+        # return self.algorithm.attend_requirements(
+        #     self.requirements, self.init_pos, self.direction), "SSTF"
+        results = self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction)
+        return results[0]
 
     def executeSCAN(self):
         self.algorithm = SCAN()
