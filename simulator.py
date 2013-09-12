@@ -69,3 +69,8 @@ class Simulator():
         for x in range(quantity):
             elem = randint(0, len(self.requirements) - 1)
             self.requirements[elem] = -self.requirements[elem]
+
+    def remove_pf(self):
+        for req in self.requirements:
+            if req < 0:
+                req = -req

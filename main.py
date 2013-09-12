@@ -42,6 +42,7 @@ class PymulatorApp(App):
         elif key == 'init_pos': 
             self.simulator.init_pos = value
         elif key == 'pf':
+            self.simulator.remove_pf()
             self.simulator.add_random_pf(int(value))
 
 
