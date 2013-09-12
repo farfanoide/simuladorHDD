@@ -4,9 +4,11 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.properties import ObjectProperty
 
+
 class Graphic(RelativeLayout):
 
     """Graphic class to print requirements to canvas"""
+
     def __init__(self, **kargs):
         super(Graphic, self).__init__(**kargs)
         self.reqs = []
@@ -45,12 +47,12 @@ class Graphic(RelativeLayout):
                 pass
         # update page faults line with first req of next line
         if (coordinates[0]) and (coordinates[1]):
-            coordinates[1].insert(0,coordinates[0][-2])
-            coordinates[1].insert(1,coordinates[0][-1])
+            coordinates[1].insert(0, coordinates[0][-2])
+            coordinates[1].insert(1, coordinates[0][-1])
 
         return coordinates, points
 
-    def draw_lines(self, requirements):
+    def draw_graphic(self, requirements):
         self.draw_grid()
         coordinates, points = self._calculate_coordinates(requirements)
         with self.canvas:
@@ -58,16 +60,19 @@ class Graphic(RelativeLayout):
                 if coordinates[x]:
                     Color(0, 1, 0) if x else Color(1, 0, 0)
                     Line(points=coordinates[x], width=1)
-        
-        ps = 5. # circle diameter
+
+        ps = 5.  # circle diameter
         for point in points:
             if point[0] < self.width - 20:
-                self.add_widget(Label(text=str(int(point[0])), pos=(point[0], point[1]-20), size_hint=(.1,.1)))
+                self.add_widget(
+                    Label(text=str(int(point[0])), pos=(point[0], point[1] - 20), size_hint=(.1, .1)))
             else:
-                self.add_widget(Label(text=str(int(point[0])), pos=(point[0]-45, point[1]-20), size_hint=(.1,.1)))
-            with self.canvas:    
+                self.add_widget(
+                    Label(text=str(int(point[0])), pos=(point[0] - 45, point[1] - 20), size_hint=(.1, .1)))
+            with self.canvas:
                 Color(0, 0, 1)
-                Ellipse(size=(ps, ps), pos=(point[0] - (ps / 2), point[1] - (ps / 2)))
+                Ellipse(size=(ps, ps), pos=(
+                    point[0] - (ps / 2), point[1] - (ps / 2)))
 
     def draw_grid(self):
 
@@ -86,7 +91,9 @@ class Graphic(RelativeLayout):
             with self.canvas:
                 Line(points=[x, 0, x, self.height], width=1)
 
+
 class GraphicScreen(GridLayout):
+
     """docstring for GraphicScreen"""
 
     labels = ObjectProperty(None)
@@ -95,9 +102,22 @@ class GraphicScreen(GridLayout):
     def __init__(self, **kwargs):
         super(GraphicScreen, self).__init__(**kwargs)
 
+    def _check_dir(self, data):
+        if data:
+            return "Derecha"
+        else:
+            return "Izquierda"
+
+    def _prettify_data(self, data):
+        return  dict(lines=data[0][0], method=str(data[1]),
+            movs=str(data[0][1]), dir=self._check_dir(data[0][2]))
+
     def update_ui(self, results):
-        self.graph_canvas.draw_lines(results[0][0])
+        data = self._prettify_data(results)
         self.labels.clear_widgets()
-        self.labels.add_widget(Label(text='Metodo: ' + str(results[1])))
-        self.labels.add_widget(Label(text='Movimientos: ' + str(results[0][1])))
-        self.labels.add_widget(Label(text='Direccion: ' + str(results[0][2])))
+        
+        self.graph_canvas.draw_graphic(data['lines'])
+        
+        self.labels.add_widget(Label(text='Metodo: ' + data['method']))
+        self.labels.add_widget(Label(text='Movimientos: ' + data['movs']))
+        self.labels.add_widget(Label(text='Direccion: ' + data['dir']))

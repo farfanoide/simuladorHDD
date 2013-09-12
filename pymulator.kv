@@ -65,13 +65,13 @@ ScreenManager:
                     on_press: graph_screen.update_ui(app.simulator.executeSCAN())
                 Button:
                     text: 'CSCAN'
-                    on_press: print app.simulator.direction
+                    on_press:  graph_screen.update_ui(app.simulator.executeCSCAN())
                 Button:
                     text: 'LOOK'
-                    on_press: print app.simulator.executeLOOK()
+                    on_press: graph_screen.update_ui(app.simulator.executeLOOK())
                 Button:
                     text: 'CLOOK'
-                    on_press: print app.simulator.executeCLOOK()
+                    on_press:  graph_screen.update_ui(app.simulator.executeCLOOK())
                 Button:
                     text: 'Configurar'
                     on_press: app.open_settings()
@@ -95,10 +95,6 @@ ScreenManager:
                         id: graph_canvas
                         size_hint: None, None
                         size: 512, 400
-                        # on_reqs: self.draw_grid(self.reqs)
-                        # on_method: method.text = 'Metodo: ' + self.method
-                        # on_movs: movs.text = 'Movimientos: ' + self.movs
-                        # on_dir: dir.text = 'Direccion: ' + self.dir
                 BoxLayout:
                     id: labels
                     size_hint: 1, .2
@@ -106,7 +102,7 @@ ScreenManager:
                         text: "Metodo: - "
                     Label:
                         id: movs 
-                        text: "Movimientos: 0"
+                        text: "Movimientos: - "
                     Label:
                         id: dir
                         text: "Direccion: - "
