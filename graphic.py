@@ -1,7 +1,8 @@
 from kivy.uix.label import Label
 from kivy.graphics import Line, Color, Rectangle, Ellipse
 from kivy.uix.relativelayout import RelativeLayout
-
+from kivy.uix.gridlayout import GridLayout
+from kivy.properties import ObjectProperty
 
 class Graphic(RelativeLayout):
 
@@ -85,4 +86,18 @@ class Graphic(RelativeLayout):
             with self.canvas:
                 Line(points=[x, 0, x, self.height], width=1)
 
-        
+class GraphicScreen(GridLayout):
+    """docstring for GraphicScreen"""
+
+    labels = ObjectProperty(None)
+    graph_canvas = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(GraphicScreen, self).__init__(**kwargs)
+
+    def update_ui(self, results):
+        self.graph_canvas.draw_lines(results[0][0])
+        self.labels.clear_widgets()
+        self.labels.add_widget(Label(text='Metodo: ' + str(results[1])))
+        self.labels.add_widget(Label(text='Movimientos: ' + str(results[0][1])))
+        self.labels.add_widget(Label(text='Direccion: ' + str(results[0][2])))

@@ -8,30 +8,26 @@ class Simulator(EventDispatcher):
 
     """Simulates Scheduling algorithms"""
 
-    algorithm = ObjectProperty()
+    algorithm = ObjectProperty(None)
 
     def __init__(self, reqs=[], pos=250, dire=True, tracks=511):
         self.requirements = reqs
         self.init_pos = pos
         self.direction = dire
         self.max_tracks = tracks
-        self.algorithm = None
+
+    # def on_algorithm(self, instance, value):
+
 
     def executeFCFS(self):
         algorithm = FCFS()
-        results = algorithm.attend_requirements(
+        return algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "FCFS"
-        self.algorithm = algorithm
-        print 'debuggiando results[]0', results[0][0]
-        return results[0][0]
 
     def executeSSTF(self):
         self.algorithm = SSTF()
-        # return self.algorithm.attend_requirements(
-        #     self.requirements, self.init_pos, self.direction), "SSTF"
-        results = self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction)
-        return results[0]
+        return self.algorithm.attend_requirements(
+            self.requirements, self.init_pos, self.direction), "SSTF"
 
     def executeSCAN(self):
         self.algorithm = SCAN()

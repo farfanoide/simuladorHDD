@@ -56,13 +56,13 @@ ScreenManager:
                 size_hint_x:None
                 Button:
                     text: 'FCFS'
-                    on_press:  graph_canvas.draw_lines(app.simulator.executeFCFS())
+                    on_press:  graph_screen.update_ui(app.simulator.executeFCFS())
                 Button:
                     text: 'SSTF'
-                    on_press: graph_canvas.draw_lines(app.simulator.executeSSTF())
+                    on_press: graph_screen.update_ui(app.simulator.executeSSTF())
                 Button:
                     text: 'SCAN'
-                    on_press: print app.simulator.executeSCAN()
+                    on_press: graph_screen.update_ui(app.simulator.executeSCAN())
                 Button:
                     text: 'CSCAN'
                     on_press: print app.simulator.direction
@@ -83,8 +83,11 @@ ScreenManager:
                     Button:
                         text: 'x'
                         on_press: graph_canvas.draw_grid()
-            GridLayout:
+            GraphicScreen:
                 rows: 2
+                id: graph_screen
+                labels: labels
+                graph_canvas: graph_canvas
                 AnchorLayout:
                     anchor_x:"center"
                     anchor_y:"center"
@@ -97,9 +100,9 @@ ScreenManager:
                         # on_movs: movs.text = 'Movimientos: ' + self.movs
                         # on_dir: dir.text = 'Direccion: ' + self.dir
                 BoxLayout:
+                    id: labels
                     size_hint: 1, .2
                     Label:
-                        id: method
                         text: "Metodo: - "
                     Label:
                         id: movs 
