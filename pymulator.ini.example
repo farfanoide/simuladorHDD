@@ -1,6 +1,6 @@
 [pymulator]
 reqs = 25
-pf = 3
+pf = 10
 dir = 0
 init_pos = 250
 file = None
@@ -10,3 +10,4 @@ mouse = mouse
 
 [graphics]
 resizable = 0
+

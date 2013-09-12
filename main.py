@@ -16,6 +16,7 @@ class PymulatorApp(App):
     use_kivy_settings = False
 
     def build_config(self, config):
+        # TODO: add validations for missing or incomplete .ini
         config.read('pymulator.ini')
 
     def build_settings(self, settings):
@@ -23,8 +24,9 @@ class PymulatorApp(App):
 
     def build(self):
         self.simulator = Simulator()
-        self.simulator.requirements = [-5, 15, 40, 65, 20, -35, 400, -511, 380, 12, 500]
-        # self.simulator.random_list(15)
+        self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
+        self.simulator.add_random_pf(self.config.getdefaultint('pymulator', 'pf', 3))
+        # self.simulator.requirements = [-5, 15, 40, 65, 20, -35, 400, -511, 380, 12, 500]
         # self.simulator.add_random_pf(3)
 
     def on_config_change(self, config, section, key, value):
@@ -36,6 +38,7 @@ class PymulatorApp(App):
             self.simulator.direction = value
         elif key == 'reqs':
             self.simulator.random_list(int(value))
+            self.simulator.add_random_pf(int(value))
         elif key == 'init_pos': 
             self.simulator.init_pos = value
         elif key == 'pf':

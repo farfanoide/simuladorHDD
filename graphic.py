@@ -42,6 +42,10 @@ class Graphic(RelativeLayout):
                     coor_y -= step
             except IndexError:
                 pass
+        # update page faults line with first req of next line
+        if (coordinates[0]) and (coordinates[1]):
+            coordinates[0].extend(coordinates[1][:2])
+            
         return coordinates, points
 
     def draw_lines(self, requirements):
