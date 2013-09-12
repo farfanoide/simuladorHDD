@@ -5,6 +5,8 @@ class Scheduling(object):
         self.requirements = []
         self.attended     = []
         self.page_faults  = []
+        self.greater      = []
+        self.lower        = []
         self.movements    = 0
         self.direction    = True
         self.last_dir     = None

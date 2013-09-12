@@ -20,7 +20,9 @@ class CLOOK(Scheduling):
                 self.attended  += lower
                 self.movements += self.count_movements(lower, lower[0])
             self.last_dir = self.get_end_dir(self.attended, current_pos, direction)
-            return [self.page_faults, greater, lower], self.movements, self.last_dir
+            self.greater  = greater
+            self.lower    = lower
+            return [self.page_faults, self.greater, self.lower], self.movements, self.last_dir
         else:
             if lower:
                 lower.sort(reverse=True)
@@ -31,4 +33,6 @@ class CLOOK(Scheduling):
                 self.attended.extend(greater)
                 self.movements += self.count_movements(greater, greater[0])
             self.last_dir = self.get_end_dir(self.attended, current_pos, direction)
-            return [self.page_faults, lower, greater], self.movements, self.last_dir
+            self.greater  = greater
+            self.lower    = lower
+            return [self.page_faults, self.lower, self.greater], self.movements, self.last_dir
