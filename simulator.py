@@ -1,21 +1,27 @@
 from random import randint
 import math
 from algorithms import *
+from kivy.event import EventDispatcher
+from kivy.properties import ObjectProperty
 
-class Simulator():
+class Simulator(EventDispatcher):
 
     """Simulates Scheduling algorithms"""
+
+    algorithm = ObjectProperty()
 
     def __init__(self, reqs=[], pos=250, dire=True, tracks=511):
         self.requirements = reqs
         self.init_pos = pos
         self.direction = dire
         self.max_tracks = tracks
+        self.algorithm = None
 
     def executeFCFS(self):
-        self.algorithm = FCFS()
-        results = self.algorithm.attend_requirements(
+        algorithm = FCFS()
+        results = algorithm.attend_requirements(
             self.requirements, self.init_pos, self.direction), "FCFS"
+        self.algorithm = algorithm
         print 'debuggiando results[]0', results[0][0]
         return results[0][0]
 
@@ -70,7 +76,8 @@ class Simulator():
             elem = randint(0, len(self.requirements) - 1)
             self.requirements[elem] = -self.requirements[elem]
 
-    def remove_pf(self):
-        for req in self.requirements:
-            if req < 0:
-                req = -req
+    # def remove_pf(self):
+    #     for req in self.requirements:
+    #         if (req < 0):
+    #             print req
+    #             req = -req

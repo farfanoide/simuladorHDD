@@ -36,13 +36,13 @@ class PymulatorApp(App):
             return
         if key == 'dir':
             self.simulator.direction = value
-        elif key == 'reqs':
+        elif (key == 'reqs'):
             self.simulator.random_list(int(value))
-            self.simulator.add_random_pf(int(value))
+            self.simulator.add_random_pf(self.config.getdefaultint('pymulator', 'pf', 3))
         elif key == 'init_pos': 
-            self.simulator.init_pos = value
+            self.simulator.init_pos = int(value)
         elif key == 'pf':
-            self.simulator.remove_pf()
+            self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
             self.simulator.add_random_pf(int(value))
 
 
