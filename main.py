@@ -6,6 +6,11 @@ from kivy.config import Config, ConfigParser
 from simulator import Simulator
 from graphic import Graphic
 
+# -----------
+# TODO: get these their own place
+# -----------
+# HELPERS
+# -----------
 def convert_str_to_list(string):
     full_string = string
     try:
@@ -18,12 +23,11 @@ def convert_str_to_list(string):
 
 def load_file(name):
     """ Load data from a file"""
-    print 'hasta aca llegamos'
+    # TODO: open a file
     try:
         f = open(sys.path(name),'r')
         lines = f.readlines()
         full_list = convert_str_to_list(lines)
-        print 'full_list', full_list
         return full_list
     except IOError:
         return None
@@ -40,6 +44,8 @@ class PymulatorApp(App):
         settings.add_json_panel('Pymulator', self.config, 'settings.json')
 
     def build(self):
+        self.height = self.config.getdefaultint('graphics', 'height', 700)
+        self.width = self.config.getdefaultint('graphics', 'width', 800)
         self.simulator = Simulator()
         self.simulator.direction = self.config.getdefaultint('pymulator', 'dir', True)
         self.simulator.init_pos = self.config.getdefaultint('pymulator', 'init_pos', 250)
@@ -49,6 +55,7 @@ class PymulatorApp(App):
     def on_config_change(self, config, section, key, value):
         # TODO: change self.simulator.x to use kivy properties
         # set max, min and validations
+        #  also create custom function for every key with validations and stuff
         if config is not self.config:
             return
         if key == 'dir':

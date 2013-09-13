@@ -85,7 +85,7 @@ ScreenManager:
                         on_press: manager.current = 'Main'
                     Button:
                         text: 'x'
-                        on_press: graph_canvas.draw_grid()
+                        on_press: graph_screen.clear_ui()
             GraphicScreen:
                 rows: 2
                 id: graph_screen
@@ -97,7 +97,7 @@ ScreenManager:
                     Graphic:
                         id: graph_canvas
                         size_hint: None, None
-                        size: 512, 400
+                        size: 512, 470
                 BoxLayout:
                     id: labels
                     size_hint: 1, .12

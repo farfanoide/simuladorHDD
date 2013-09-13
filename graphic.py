@@ -100,18 +100,23 @@ class GraphicScreen(GridLayout):
     def __init__(self, **kwargs):
         super(GraphicScreen, self).__init__(**kwargs)
 
-
     def _prettify_data(self, data):
         dir = "Derecha" if data[0][2] else "Izquierda"
-        return  dict(lines=data[0][0], method=str(data[1]),
-            movs=str(data[0][1]), dir=dir)
+        return dict(lines=data[0][0], method=str(data[1]),
+                    movs=str(data[0][1]), dir=dir)
+
+    def clear_ui(self):
+        self.graph_canvas.draw_grid()
+        self.labels.clear_widgets()
+        for x in xrange(3):
+            self.labels.add_widget(Label(text=' - '))
 
     def update_ui(self, results):
         data = self._prettify_data(results)
         self.labels.clear_widgets()
-        
+
         self.graph_canvas.draw_graphic(data['lines'])
-        
+
         self.labels.add_widget(Label(text='Metodo: ' + data['method']))
         self.labels.add_widget(Label(text='Movimientos: ' + data['movs']))
         self.labels.add_widget(Label(text='Direccion: ' + data['dir']))
