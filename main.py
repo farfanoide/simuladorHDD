@@ -44,13 +44,13 @@ class PymulatorApp(App):
         settings.add_json_panel('Pymulator', self.config, 'settings.json')
 
     def build(self):
-        self.height = self.config.getdefaultint('graphics', 'height', 700)
-        self.width = self.config.getdefaultint('graphics', 'width', 800)
+        self.height = int(self.config.getdefault('graphics', 'height', 700))
+        self.width = int(self.config.getdefault('graphics', 'width', 800))
         self.simulator = Simulator()
-        self.simulator.direction = self.config.getdefaultint('pymulator', 'dir', True)
-        self.simulator.init_pos = self.config.getdefaultint('pymulator', 'init_pos', 250)
-        self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
-        self.simulator.add_random_pf(self.config.getdefaultint('pymulator', 'pf', 3))
+        self.simulator.direction = int(self.config.getdefault('pymulator', 'dir', True))
+        self.simulator.init_pos = int(self.config.getdefault('pymulator', 'init_pos', 250))
+        self.simulator.random_list(int(self.config.getdefault('pymulator', 'reqs', 15)))
+        self.simulator.add_random_pf(int(self.config.getdefault('pymulator', 'pf', 3)))
 
     def on_config_change(self, config, section, key, value):
         # TODO: change self.simulator.x to use kivy properties
@@ -62,11 +62,11 @@ class PymulatorApp(App):
             self.simulator.direction = value
         elif (key == 'reqs'):
             self.simulator.random_list(int(value))
-            self.simulator.add_random_pf(self.config.getdefaultint('pymulator', 'pf', 3))
+            self.simulator.add_random_pf(int(self.config.getdefault('pymulator', 'pf', 3)))
         elif key == 'init_pos': 
             self.simulator.init_pos = int(value)
         elif key == 'pf':
-            self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
+            self.simulator.random_list(int(self.config.getdefault('pymulator', 'reqs', 15)))
             self.simulator.add_random_pf(int(value))
         elif key == 'file':
             reqs = load_file(value)
