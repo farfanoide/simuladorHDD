@@ -1,15 +1,32 @@
+import sys
+import os
 from kivy.app import App
-
-
-# from kivy.uix.widget import Widget
-# from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.settings import Settings, SettingsPanel
-from simulator import Simulator
 from kivy.config import Config, ConfigParser
+from simulator import Simulator
 from graphic import Graphic
 
+def convert_str_to_list(string):
+    full_string = string
+    try:
+        numlist = full_string.rsplit(' ')
+        full_list = [int(elem) for elem in numlist]
+        return full_list
+    except ValueError:
+        print "mira si seras gato, poneme bien la data"
+        return None
 
-
+def load_file(name):
+    """ Load data from a file"""
+    print 'hasta aca llegamos'
+    try:
+        f = open(sys.path(name),'r')
+        lines = f.readlines()
+        full_list = convert_str_to_list(lines)
+        print 'full_list', full_list
+        return full_list
+    except IOError:
+        return None
 
 class PymulatorApp(App):
 
@@ -24,10 +41,10 @@ class PymulatorApp(App):
 
     def build(self):
         self.simulator = Simulator()
+        self.simulator.direction = self.config.getdefaultint('pymulator', 'dir', True)
+        self.simulator.init_pos = self.config.getdefaultint('pymulator', 'init_pos', 250)
         self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
         self.simulator.add_random_pf(self.config.getdefaultint('pymulator', 'pf', 3))
-        # self.simulator.requirements = [-5, 15, 40, 65, 20, -35, 400, -511, 380, 12, 500]
-        # self.simulator.add_random_pf(3)
 
     def on_config_change(self, config, section, key, value):
         # TODO: change self.simulator.x to use kivy properties
@@ -44,6 +61,14 @@ class PymulatorApp(App):
         elif key == 'pf':
             self.simulator.random_list(self.config.getdefaultint('pymulator', 'reqs', 15))
             self.simulator.add_random_pf(int(value))
+        elif key == 'file':
+            reqs = load_file(value)
+            if reqs:
+                self.simulator.requirements = reqs
+        elif key == 'req_list':
+            reqs = convert_str_to_list(value)
+            if reqs:
+                self.simulator.requirements = reqs
 
 
 if __name__ == '__main__':

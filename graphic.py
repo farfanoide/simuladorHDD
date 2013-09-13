@@ -75,15 +75,13 @@ class Graphic(RelativeLayout):
                     point[0] - (ps / 2), point[1] - (ps / 2)))
 
     def draw_grid(self):
+        """ Clears graphic canvas and redraws grid"""
 
         self.canvas.clear()
-        # self.clear_widgets()
-
         with self.canvas:
             Line(rectangle=(0, 0, self.width, self.height))
 
         step = self.width / 10
-        print step
         # step = 50
         for x in xrange(0, self.width, step):
             self.add_widget(
@@ -102,15 +100,11 @@ class GraphicScreen(GridLayout):
     def __init__(self, **kwargs):
         super(GraphicScreen, self).__init__(**kwargs)
 
-    def _check_dir(self, data):
-        if data:
-            return "Derecha"
-        else:
-            return "Izquierda"
 
     def _prettify_data(self, data):
+        dir = "Derecha" if data[0][2] else "Izquierda"
         return  dict(lines=data[0][0], method=str(data[1]),
-            movs=str(data[0][1]), dir=self._check_dir(data[0][2]))
+            movs=str(data[0][1]), dir=dir)
 
     def update_ui(self, results):
         data = self._prettify_data(results)

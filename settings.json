@@ -1,22 +1,8 @@
 [
     {
         "type": "title",
-        "title": "Settings"
-    },
-    {
-        "type": "numeric",
-        "title": "Requisitos",
-        "desc": "Cantidad deseada de requisitos",
-        "section": "pymulator",
-        "key": "reqs"
-    },
-    {
-        "type": "numeric",
-        "title": "Page Faults",
-        "desc": "Cantidad deseada de Page Faults",
-        "section": "pymulator",
-        "key": "pf"
-    },
+        "title": "Configuraciones"
+    },    
     {
         "type": "bool",
         "title": "Direccion Inicial",
@@ -38,5 +24,29 @@
         "desc": "Archivo con lista de requerimientos",
         "section": "pymulator",
         "key": "file"
+    },{
+        "type": "string",
+        "title": "Lista de requerimientos",
+        "desc": "Ingrese los requerimientos deseados separados por un espacio. Anteponga '-' a los Page Faults. ej: 10 34 -12 88 ",
+        "section": "pymulator",
+        "key": "req_list"
+    },
+    {
+        "type": "title",
+        "title": "Carga Aleatoria"
+    },
+    {
+        "type": "numeric",
+        "title": "Requerimientos",
+        "desc": "Cantidad deseada de requerimientos aleatorios",
+        "section": "pymulator",
+        "key": "reqs"
+    },
+    {
+        "type": "numeric",
+        "title": "Page Faults",
+        "desc": "Cantidad deseada de Page Faults aleatorios",
+        "section": "pymulator",
+        "key": "pf"
     }
 ]

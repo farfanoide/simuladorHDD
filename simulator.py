@@ -16,9 +16,7 @@ class Simulator(EventDispatcher):
         self.direction = dire
         self.max_tracks = tracks
 
-    # def on_algorithm(self, instance, value):
-
-
+    # TODO: simplify all executeXXXX
     def executeFCFS(self):
         algorithm = FCFS()
         return algorithm.attend_requirements(
@@ -72,6 +70,7 @@ class Simulator(EventDispatcher):
             elem = randint(0, len(self.requirements) - 1)
             self.requirements[elem] = -self.requirements[elem]
 
+    # TODO: implement remove_pf
     # def remove_pf(self):
     #     for req in self.requirements:
     #         if (req < 0):

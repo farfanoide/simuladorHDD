@@ -31,6 +31,8 @@ ScreenManager:
         Button:
             text: '< te la creiste!'
             on_press: manager.current = 'Main'
+            # TODO: add help screen
+            # http://kivy.org/docs/api-kivy.uix.rst.html?highlight=text
     Screen:
         name: 'Credits'
         BoxLayout:
@@ -42,6 +44,7 @@ ScreenManager:
             Button:
                 text: '<'
                 on_press: manager.current = 'Main'
+            # TODO: add proper credits
     Screen:
         name: "Graphics"
         canvas:
@@ -97,12 +100,10 @@ ScreenManager:
                         size: 512, 400
                 BoxLayout:
                     id: labels
-                    size_hint: 1, .2
+                    size_hint: 1, .12
                     Label:
                         text: "Metodo: - "
                     Label:
-                        id: movs 
                         text: "Movimientos: - "
                     Label:
-                        id: dir
                         text: "Direccion: - "
