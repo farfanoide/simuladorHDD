@@ -20,7 +20,7 @@ class Simulator(EventDispatcher):
     def execute_algorithm(self, algorithm):
         class_ = getattr(algorithms, algorithm)
         temp = class_()
-        if (algorithm == "CSCAN") or (algorithm == "SCAN") :
+        if "SCAN" in algorithm :
             return temp.attend_requirements(
             self.requirements, self.init_pos, self.direction, self.max_tracks), algorithm
         else:
