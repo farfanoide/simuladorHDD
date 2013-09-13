@@ -26,8 +26,7 @@ class Graphic(RelativeLayout):
             if reqs:
                 reqs_quantity += len(reqs)
 
-        step = int(self.height / reqs_quantity)
-        return step
+        return self.height / reqs_quantity
 
     def _calculate_coordinates(self, requirements):
         """Calculates coordinates for the graphic according to amount of requirements and height available."""
@@ -62,13 +61,15 @@ class Graphic(RelativeLayout):
                     Line(points=coordinates[x], width=1)
 
         ps = 5.  # circle diameter
+        if (len(points) < 40):
+            for point in points:
+                if point[0] < self.width - 25:
+                    self.add_widget(
+                        Label(text=str(int(point[0])), pos=(point[0], point[1] - 20), size_hint=(.1, .1)))
+                else:
+                    self.add_widget(
+                        Label(text=str(int(point[0])), pos=(point[0] - 45, point[1] - 20), size_hint=(.1, .1)))
         for point in points:
-            if point[0] < self.width - 20:
-                self.add_widget(
-                    Label(text=str(int(point[0])), pos=(point[0], point[1] - 20), size_hint=(.1, .1)))
-            else:
-                self.add_widget(
-                    Label(text=str(int(point[0])), pos=(point[0] - 45, point[1] - 20), size_hint=(.1, .1)))
             with self.canvas:
                 Color(0, 0, 1)
                 Ellipse(size=(ps, ps), pos=(
@@ -81,8 +82,8 @@ class Graphic(RelativeLayout):
         with self.canvas:
             Line(rectangle=(0, 0, self.width, self.height))
 
-        step = self.width / 10
-        # step = 50
+        # step = self.width / 10
+        step = 50
         for x in xrange(0, self.width, step):
             self.add_widget(
                 Label(text=str(x), pos=(x - step / 2, self.height), size_hint=(.1, .1)))
