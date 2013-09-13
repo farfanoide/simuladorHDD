@@ -1,6 +1,7 @@
 from random import randint
 import math
-from algorithms import *
+# from algorithms import *
+import algorithms
 from kivy.event import EventDispatcher
 from kivy.properties import ObjectProperty
 
@@ -16,37 +17,16 @@ class Simulator(EventDispatcher):
         self.direction = dire
         self.max_tracks = tracks
 
-    # TODO: simplify all executeXXXX
-    def executeFCFS(self):
-        algorithm = FCFS()
-        return algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction), "FCFS"
-
-    def executeSSTF(self):
-        self.algorithm = SSTF()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction), "SSTF"
-
-    def executeSCAN(self):
-        self.algorithm = SCAN()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction, self.max_tracks), "SCAN"
-
-    def executeCSCAN(self):
-        self.algorithm = CSCAN()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction, self.max_tracks), "CSCAN"
-
-    def executeLOOK(self):
-        self.algorithm = LOOK()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction), "LOOK"
-
-    def executeCLOOK(self):
-        self.algorithm = CLOOK()
-        return self.algorithm.attend_requirements(
-            self.requirements, self.init_pos, self.direction), "CLOOK"
-
+    def execute_algorithm(self, algorithm):
+        class_ = getattr(algorithms, algorithm)
+        temp = class_()
+        if (algorithm == "CSCAN") or (algorithm == "SCAN") :
+            return temp.attend_requirements(
+            self.requirements, self.init_pos, self.direction, self.max_tracks), algorithm
+        else:
+            return temp.attend_requirements(
+            self.requirements, self.init_pos, self.direction), algorithm
+    
     def random_list(self, quantity):
         """
         Generates random list, duh!

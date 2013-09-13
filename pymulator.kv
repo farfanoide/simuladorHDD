@@ -59,22 +59,22 @@ ScreenManager:
                 size_hint_x:None
                 Button:
                     text: 'FCFS'
-                    on_press:  graph_screen.update_ui(app.simulator.executeFCFS())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'SSTF'
-                    on_press: graph_screen.update_ui(app.simulator.executeSSTF())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'SCAN'
-                    on_press: graph_screen.update_ui(app.simulator.executeSCAN())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'CSCAN'
-                    on_press:  graph_screen.update_ui(app.simulator.executeCSCAN())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'LOOK'
-                    on_press: graph_screen.update_ui(app.simulator.executeLOOK())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'CLOOK'
-                    on_press:  graph_screen.update_ui(app.simulator.executeCLOOK())
+                    on_press:  graph_screen.update_ui(app.simulator.execute_algorithm(self.text))
                 Button:
                     text: 'Configurar'
                     on_press: app.open_settings()
