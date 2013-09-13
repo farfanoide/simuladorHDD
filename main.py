@@ -12,9 +12,8 @@ from graphic import Graphic
 # HELPERS
 # -----------
 def convert_str_to_list(string):
-    full_string = string
     try:
-        numlist = full_string.rsplit(' ')
+        numlist = string.rsplit(' ')
         full_list = [int(elem) for elem in numlist]
         return full_list
     except ValueError:
@@ -23,11 +22,11 @@ def convert_str_to_list(string):
 
 def load_file(name):
     """ Load data from a file"""
-    # TODO: open a file
     try:
-        f = open(sys.path(name),'r')
+
+        f = open(name,'r')
         lines = f.readlines()
-        full_list = convert_str_to_list(lines)
+        full_list = convert_str_to_list(lines[0])
         return full_list
     except IOError:
         return None
