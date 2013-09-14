@@ -2,6 +2,8 @@ import sys
 import os
 from kivy.app import App
 from kivy.uix.settings import Settings, SettingsPanel
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 from kivy.config import Config, ConfigParser
 from simulator import Simulator
 from graphic import Graphic
@@ -11,14 +13,14 @@ from graphic import Graphic
 # -----------
 # HELPERS
 # -----------
-def convert_str_to_list(string):
+def str_to_list(string):
     try:
         numlist = string.rsplit(' ')
         full_list = [int(elem) for elem in numlist]
         return full_list
     except ValueError:
         print "mira si seras gato, poneme bien la data"
-        return None
+        return False
 
 def load_file(name):
     """ Load data from a file"""
@@ -26,7 +28,7 @@ def load_file(name):
 
         f = open(name,'r')
         lines = f.readlines()
-        full_list = convert_str_to_list(lines[0])
+        full_list = str_to_list(lines[0])
         return full_list
     except IOError:
         return None
@@ -67,12 +69,19 @@ class PymulatorApp(App):
             self.simulator.random_list(int(self.config.getdefault('pymulator', 'reqs', 15)))
             self.simulator.add_random_pf(int(value))
         elif key == 'file':
+            print 'file', value, str(type(value))
             reqs = load_file(value)
             if reqs:
                 self.simulator.requirements = reqs
-            self.config.set('pymulator', 'file', None)
+            else:
+                popup = Popup(title='Lista de Requerimientos',
+                    content=Label(text='El archivo ingresado no pudo ser leido \n o no esta en el formato correcto'),
+                    size_hint=(None, None), size=(600, 300))
+                popup.open()
+                self.config.setdefault('pymulator', 'file', None)
+
         elif key == 'req_list':
-            reqs = convert_str_to_list(value)
+            reqs = str_to_list(value)
             if reqs:
                 self.simulator.requirements = reqs
 

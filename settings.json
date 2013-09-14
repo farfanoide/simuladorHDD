@@ -6,7 +6,7 @@
     {
         "type": "bool",
         "title": "Direccion Inicial",
-        "desc": "Izquierda - derecha",
+        "desc": "On: Izquierda - Derecha | Off: Derecha - Izquierda",
         "section": "pymulator",
         "key": "dir",
         "true": "auto"
@@ -24,7 +24,8 @@
         "desc": "Archivo con lista de requerimientos",
         "section": "pymulator",
         "key": "file"
-    },{
+    },
+    {
         "type": "string",
         "title": "Lista de requerimientos",
         "desc": "Ingrese los requerimientos deseados separados por un espacio. Anteponga '-' a los Page Faults. ej: 10 34 -12 88 ",

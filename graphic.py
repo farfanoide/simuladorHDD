@@ -58,26 +58,25 @@ class Graphic(RelativeLayout):
                 if coordinates[x]:
                     Color(0, 1, 0) if x else Color(1, 0, 0)
                     Line(points=coordinates[x], width=1)
-
+        
         ps = 5.  # circle diameter
-        if (len(points) < 40):
-            for point in points:
-                if point[0] < self.width - 25:
-                    self.add_widget(
-                        Label(text=str(int(point[0])), pos=(point[0], point[1] - 20), size_hint=(.1, .1)))
-                else:
-                    self.add_widget(
-                        Label(text=str(int(point[0])), pos=(point[0] - 45, point[1] - 20), size_hint=(.1, .1)))
         for point in points:
+            if point[0] < self.width - 25:
+                self.add_widget(
+                    Label(text=str(int(point[0])), pos=(point[0], point[1] - 20), size_hint=(.1, .1)))
+            else:
+                self.add_widget(
+                    Label(text=str(int(point[0])), pos=(point[0] - 45, point[1] - 20), size_hint=(.1, .1)))
             with self.canvas:
                 Color(0, 0, 1)
                 Ellipse(size=(ps, ps), pos=(
                     point[0] - (ps / 2), point[1] - (ps / 2)))
 
+
     def draw_grid(self):
         """ Clears graphic canvas and redraws grid"""
-
         self.canvas.clear()
+
         with self.canvas:
             Line(rectangle=(0, 0, self.width, self.height))
 
