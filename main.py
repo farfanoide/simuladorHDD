@@ -32,6 +32,7 @@ def load_file(name):
         return None
 
 class PymulatorApp(App):
+    # TODO: start tagging the app.
 
     use_kivy_settings = False
 
@@ -43,8 +44,6 @@ class PymulatorApp(App):
         settings.add_json_panel('Pymulator', self.config, 'settings.json')
 
     def build(self):
-        self.height = int(self.config.getdefault('graphics', 'height', 700))
-        self.width = int(self.config.getdefault('graphics', 'width', 800))
         self.simulator = Simulator()
         self.simulator.direction = int(self.config.getdefault('pymulator', 'dir', True))
         self.simulator.init_pos = int(self.config.getdefault('pymulator', 'init_pos', 250))
@@ -71,6 +70,7 @@ class PymulatorApp(App):
             reqs = load_file(value)
             if reqs:
                 self.simulator.requirements = reqs
+            self.config.set('pymulator', 'file', None)
         elif key == 'req_list':
             reqs = convert_str_to_list(value)
             if reqs:

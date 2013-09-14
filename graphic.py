@@ -22,7 +22,6 @@ class Graphic(RelativeLayout):
         reqs_quantity = 0
 
         for reqs in requirements:
-            print reqs
             if reqs:
                 reqs_quantity += len(reqs)
 

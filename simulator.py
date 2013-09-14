@@ -11,11 +11,11 @@ class Simulator(EventDispatcher):
 
     algorithm = ObjectProperty(None)
 
-    def __init__(self, reqs=[], pos=250, dire=True, tracks=511):
-        self.requirements = reqs
-        self.init_pos = pos
-        self.direction = dire
-        self.max_tracks = tracks
+    def __init__(self, **kwargs):
+        self.requirements = kwargs.get('reqs', [])
+        self.init_pos = kwargs.get('pos', 250)
+        self.direction = kwargs.get('dire', True)
+        self.max_tracks = kwargs.get('tracks', 511)
 
     def execute_algorithm(self, algorithm):
         class_ = getattr(algorithms, algorithm)
