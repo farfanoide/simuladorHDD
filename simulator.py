@@ -1,9 +1,8 @@
 from random import randint
-import math
-# from algorithms import *
 import algorithms
 from kivy.event import EventDispatcher
 from kivy.properties import ObjectProperty
+
 
 class Simulator(EventDispatcher):
 
@@ -17,16 +16,28 @@ class Simulator(EventDispatcher):
         self.direction = kwargs.get('dire', True)
         self.max_tracks = kwargs.get('tracks', 511)
 
+    def set_requirements(self, requirements):
+        if requirements and type(requirements) == list:
+            self.requirements = []
+            for req in requirements:
+                print 'antes: ', req
+                if req < -self.max_tracks:
+                    req = -self.max_tracks
+                elif req > self.max_tracks:
+                    req = self.max_tracks
+                print 'despues: ', req
+                self.requirements.append(req)
+
     def execute_algorithm(self, algorithm):
         class_ = getattr(algorithms, algorithm)
         temp = class_()
-        if "SCAN" in algorithm :
+        if "SCAN" in algorithm:
             return temp.attend_requirements(
-            self.requirements, self.init_pos, self.direction, self.max_tracks), algorithm
+                self.requirements, self.init_pos, self.direction, self.max_tracks), algorithm
         else:
             return temp.attend_requirements(
-            self.requirements, self.init_pos, self.direction), algorithm
-    
+                self.requirements, self.init_pos, self.direction), algorithm
+
     def random_list(self, quantity):
         """
         Generates random list, duh!

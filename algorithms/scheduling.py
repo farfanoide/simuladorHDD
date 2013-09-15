@@ -16,7 +16,7 @@ class Scheduling(object):
 
     def extract_page_faults(self, requirements):
         """
-        Removes page faults from original requirement list 
+        Removes page faults from original requirement list
         and saves them to their own to be attended.
         """
         if requirements:
