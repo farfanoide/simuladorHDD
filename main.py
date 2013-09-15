@@ -79,8 +79,7 @@ class PymulatorApp(App):
         elif key == 'init_pos':
             self.simulator.init_pos = int(value)
         elif key == 'pf':
-            self.simulator.random_list(
-                int(self.config.getdefault('pymulator', 'reqs', 15)))
+            self.simulator.remove_pf()
             self.simulator.add_random_pf(int(value))
         elif key == 'file':
             reqs = load_file(value)

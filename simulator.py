@@ -20,12 +20,10 @@ class Simulator(EventDispatcher):
         if requirements and type(requirements) == list:
             self.requirements = []
             for req in requirements:
-                print 'antes: ', req
                 if req < -self.max_tracks:
                     req = -self.max_tracks
                 elif req > self.max_tracks:
                     req = self.max_tracks
-                print 'despues: ', req
                 self.requirements.append(req)
 
     def execute_algorithm(self, algorithm):
@@ -62,8 +60,9 @@ class Simulator(EventDispatcher):
             self.requirements[elem] = -self.requirements[elem]
 
     # TODO: implement remove_pf
-    # def remove_pf(self):
-    #     for req in self.requirements:
-    #         if (req < 0):
-    #             print req
-    #             req = -req
+    def remove_pf(self):
+        """Removes all Page Faults in current requierement list"""
+
+        for i in range(len(self.requirements)):
+            if (self.requirements[i] < 0):
+                self.requirements[i] = -self.requirements[i]
