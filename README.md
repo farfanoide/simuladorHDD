@@ -17,6 +17,10 @@ How to use it:
     $ cp pymulator.ini.example pymulator.ini
     $ python Pysimulator.py # on a Mac change this to: $ kivy main.py
 
+Windows:
+    - [Download][4]. Extract and execute pymulator.exe
+
+
 Setup the simulator with the config screen (shortcut: F1) and go to the graphics screen to see the results.
 
 
@@ -29,3 +33,4 @@ Send us your pull request.
 [1]: http://kivy.org
 [2]: http://www.python.org/
 [3]: http://www.python.org/dev/peps/pep-0257/
+[4]: https://www.dropbox.com/sh/umxjta8ahfdpwhf/6fU_Tdqyrw
