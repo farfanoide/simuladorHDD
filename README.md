@@ -17,8 +17,10 @@ How to use it:
     $ cp pymulator.ini.example pymulator.ini
     $ python Pysimulator.py # on a Mac change this to: $ kivy main.py
 
-Windows:
-    - [Download][4]. Extract and execute pymulator.exe
+Windows Users:
+=============
+* [Microsoft Visual C++ 2008 SP1 Redistributable Package (x86)][5] or [Microsoft Visual C++ 2008 SP1 Redistributable Package (x64)][6]
+* [Download][4]. Extract and execute pymulator.exe
 
 
 Setup the simulator with the config screen (shortcut: F1) and go to the graphics screen to see the results.
@@ -34,3 +36,5 @@ Send us your pull request.
 [2]: http://www.python.org/
 [3]: http://www.python.org/dev/peps/pep-0257/
 [4]: https://www.dropbox.com/sh/umxjta8ahfdpwhf/6fU_Tdqyrw
+[5]: http://www.microsoft.com/en-us/download/details.aspx?id=5582
+[6]: http://www.microsoft.com/en-us/download/details.aspx?id=2092
