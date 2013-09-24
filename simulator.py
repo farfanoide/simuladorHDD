@@ -20,11 +20,10 @@ class Simulator(EventDispatcher):
         if requirements and type(requirements) == list:
             self.requirements = []
             for req in requirements:
-                if req < -self.max_tracks:
-                    req = -self.max_tracks
-                elif req > self.max_tracks:
-                    req = self.max_tracks
-                self.requirements.append(req)
+                if abs(req) <= self.max_tracks:
+                    self.requirements.append(req)
+
+
 
     def execute_algorithm(self, algorithm):
         class_ = getattr(algorithms, algorithm)
