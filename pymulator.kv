@@ -28,20 +28,31 @@ ScreenManager:
                 on_press: app.stop()
     Screen:
         name: 'Help'
-        Button:
-            text: '< te la creiste!'
-            on_press: manager.current = 'Main'
+        BoxLayout:
+            orientation: 'vertical'
+            RstDocument:
+                # colors: {'background':'0000ff'}
+                source: 'docs/help.rst'
+
+
+            Button:
+                size_hint_y:None
+                text: '<'
+                on_press: manager.current = 'Main'               
+        # Button:
+            # text: '< te la creiste!'
+            # on_press: manager.current = 'Main'
             # TODO: add help screen
             # http://kivy.org/docs/api-kivy.uix.rst.html?highlight=text
     Screen:
         name: 'Credits'
         BoxLayout:
             orientation: 'vertical'
-            Label:
-                text: 'los pibes'
-            Label:
-                text: 'para todo lo demas, existe mastercard'
+            RstDocument:
+                # colors: {'background':'0000ff'}
+                source: 'docs/credits.rst'
             Button:
+                size_hint_y:None
                 text: '<'
                 on_press: manager.current = 'Main'
             # TODO: add proper credits
