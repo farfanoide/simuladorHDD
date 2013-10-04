@@ -15,47 +15,48 @@ ScreenManager:
                 text: 'Configurar'
                 on_press: app.open_settings()
             Button:
-                text: 'Ayuda'
-                on_press: manager.current = 'Help'
-            Button:
                 text: 'Graficar'
                 on_press: manager.current = 'Graphics'
             Button:
+                text: 'Ayuda'
+                on_press: manager.current = 'Help'
+            Button:
                 text: 'Creditos'
                 on_press: manager.current = 'Credits'
-            Button:
-                text: 'x'
-                on_press: app.stop()
     Screen:
         name: 'Help'
         BoxLayout:
             orientation: 'vertical'
             RstDocument:
-                # colors: {'background':'0000ff'}
                 source: 'docs/help.rst'
 
-
-            Button:
-                size_hint_y:None
-                text: '<'
-                on_press: manager.current = 'Main'               
-        # Button:
-            # text: '< te la creiste!'
-            # on_press: manager.current = 'Main'
-            # TODO: add help screen
-            # http://kivy.org/docs/api-kivy.uix.rst.html?highlight=text
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgb: 1, 1, 1
+                    Rectangle:
+                        size: self.size
+                orientation: 'horizontal'
+                size_hint: 1, .1
+                Button:
+                    text: '<'
+                    on_press: manager.current = 'Main'
+                Button:
+                    text: 'Configurar'
+                    on_press: app.open_settings()
+                Button:
+                    text: 'Joya, graficame algo! >'
+                    on_press: manager.current = 'Graphics'
     Screen:
         name: 'Credits'
         BoxLayout:
             orientation: 'vertical'
             RstDocument:
-                # colors: {'background':'0000ff'}
                 source: 'docs/credits.rst'
             Button:
                 size_hint_y:None
                 text: '<'
                 on_press: manager.current = 'Main'
-            # TODO: add proper credits
     Screen:
         name: "Graphics"
         canvas:

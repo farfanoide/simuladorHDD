@@ -1,8 +1,8 @@
 ## Disk Scheduling Simulator
 
-![pymulator in action](pymulator.png)
+![pymulator in action](misc/pymulator.png)
 
-This is a simulator written in Python 2.7 using [Kivy Framework][1]. 
+This is a simulator written in Python 2.7 using [Kivy Framework][1].
 It allows the user to simulate a 512 tracks hdd, and compare the perfomance of different scheduling algorithms.
 
 Dependencies:
