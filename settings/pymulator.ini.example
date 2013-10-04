@@ -1,0 +1,16 @@
+[pymulator]
+reqs = 25
+pf = 10
+dir = 0
+init_pos = 23
+req_list = 34 89 02 -44 14 66 78 -88 -99
+file = None 
+
+[input]
+mouse = mouse
+
+[graphics]
+resizable = 0
+height = 700
+width = 800
+

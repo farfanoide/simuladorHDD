@@ -1,11 +1,13 @@
 import sys
 import os
+#---------- Kivy imports
 from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.settings import Settings, SettingsPanel
 from kivy.config import Config, ConfigParser
-# -----------------
+from kivy.uix.rst import RstDocument    
+# ---------- Pymulator imports
 from simulator import Simulator
 from graphic import Graphic
 
@@ -48,10 +50,10 @@ class PymulatorApp(App):
 
     def build_config(self, config):
         # TODO: add validations for missing or incomplete .ini
-        config.read('pymulator.ini')
+        config.read('settings/pymulator.ini')
 
     def build_settings(self, settings):
-        settings.add_json_panel('Pymulator', self.config, 'settings.json')
+        settings.add_json_panel('Pymulator', self.config, 'settings/settings.json')
 
     def build(self):
         self.simulator = Simulator()
@@ -102,3 +104,4 @@ class PymulatorApp(App):
 
 if __name__ == '__main__':
     PymulatorApp().run()
+    print('execute_Python("is my Biotch")')
