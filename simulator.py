@@ -58,7 +58,6 @@ class Simulator(EventDispatcher):
             elem = randint(0, len(self.requirements) - 1)
             self.requirements[elem] = -self.requirements[elem]
 
-    # TODO: implement remove_pf
     def remove_pf(self):
         """Removes all Page Faults in current requierement list"""
 
