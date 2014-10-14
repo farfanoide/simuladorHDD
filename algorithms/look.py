@@ -1,7 +1,9 @@
 from scheduling import Scheduling
+
+
 class LOOK(Scheduling):
 
-    
+
     def attend_requirements(self, requirements, init_pos, direction):
 
         current_pos    = self.startup(requirements, init_pos)

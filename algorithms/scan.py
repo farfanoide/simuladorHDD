@@ -1,4 +1,6 @@
 from scheduling import Scheduling
+
+
 class SCAN(Scheduling):
 
 

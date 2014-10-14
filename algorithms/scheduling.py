@@ -1,4 +1,6 @@
+
 class Scheduling(object):
+
     """ Base Class for all algorithms """
 
     def __init__(self):

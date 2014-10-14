@@ -6,7 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.settings import Settings, SettingsPanel
 from kivy.config import Config, ConfigParser
-from kivy.uix.rst import RstDocument    
+from kivy.uix.rst import RstDocument
 # ---------- Pymulator imports
 from simulator import Simulator
 from graphic import Graphic
@@ -53,7 +53,10 @@ class PymulatorApp(App):
         config.read('settings/pymulator.ini')
 
     def build_settings(self, settings):
-        settings.add_json_panel('Pymulator', self.config, 'settings/settings.json')
+        settings.add_json_panel(
+            'Pymulator',
+            self.config,
+            'settings/settings.json')
 
     def build(self):
         self.simulator = Simulator()
@@ -90,10 +93,11 @@ class PymulatorApp(App):
             else:
                 # TODO: move popup to self containing function
                 # that receives title of section and message
-                popup = Popup(title='Lista de Requerimientos',
-                              content=Label(
-                                  text='El archivo ingresado no pudo ser leido \n o no esta en el formato correcto'),
-                              size_hint=(None, None), size=(600, 300))
+                popup = Popup(
+                    title='Lista de Requerimientos', content=Label(
+                        text='El archivo ingresado no pudo ser leido \n o no esta en el formato correcto'), size_hint=(
+                        None, None), size=(
+                        600, 300))
                 popup.open()
                 self.config.set('pymulator', 'file', None)
         elif key == 'req_list':

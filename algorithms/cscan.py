@@ -1,7 +1,9 @@
 from scheduling import Scheduling
+
+
 class CSCAN(Scheduling):
 
-    
+
     def attend_requirements(self, requirements, init_pos, direction, max_tracks):
         current_pos    = self.startup(requirements, init_pos)
         greater, lower = self.divide_list(self.requirements, current_pos, False)
@@ -39,7 +41,7 @@ class CSCAN(Scheduling):
             greater.sort(reverse=True)
             lower.sort(reverse=True)
             self.attended  += lower
-            self.movements += current_pos  
+            self.movements += current_pos
             if greater:
                 self.attended  += greater
                 self.movements += max_tracks - greater[-1]
