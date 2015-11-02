@@ -66,44 +66,44 @@ class testSimulator(unittest.TestCase):
 
     def test_FCFS(self):
         base_results = (([[0, 5, 35, 400], [15, 40, 65, 20, 90, 100]], 960, True), 'FCFS')
-        self.assertEqual(self.simulator.executeFCFS(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('FCFS'), base_results)
         
         self.simulator.init_pos=self.simulator.max_tracks
         base_results = (([[511, 5, 35, 400], [15, 40, 65, 20, 90, 100]], 1461, True), 'FCFS')
-        self.assertEqual(self.simulator.executeFCFS(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('FCFS'), base_results)
 
     def test_SSTF(self):
         base_results = (([[0, 5, 35, 400], [100, 90, 65, 40, 20, 15]], 785, False), 'SSTF')
-        self.assertEqual(self.simulator.executeSSTF(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SSTF'), base_results)
 
         self.simulator.init_pos=self.simulator.max_tracks
         base_results = (([[511, 5, 35, 400], [100, 90, 65, 40, 20, 15]], 1286, False), 'SSTF')
-        self.assertEqual(self.simulator.executeSSTF(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SSTF'), base_results)
        
 
     def test_SCAN(self):
         base_results = (([[0, 5, 35, 400], [self.simulator.max_tracks, 100, 90, 65, 40, 20, 15]], 1007, False), 'SCAN')
-        self.assertEqual(self.simulator.executeSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SCAN'), base_results)
 
         self.simulator.init_pos=self.simulator.max_tracks
         base_results = (([[self.simulator.max_tracks, 5, 35, 400], [self.simulator.max_tracks, 100, 90, 65, 40, 20, 15]], 1508, False), 'SCAN')
-        self.assertEqual(self.simulator.executeSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SCAN'), base_results)
 
     def test_CSCAN(self):
         base_results = (([[0, 5, 35, 400], [self.simulator.max_tracks], [0, 15, 20, 40, 65, 90, 100]], 611, True), 'CSCAN')
-        self.assertEqual(self.simulator.executeCSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CSCAN'), base_results)
 
         self.simulator.init_pos=self.simulator.max_tracks
         base_results = (([[511, 5, 35, 400], [self.simulator.max_tracks], [0, 15, 20, 40, 65, 90, 100]], 1112, True), 'CSCAN')
-        self.assertEqual(self.simulator.executeCSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CSCAN'), base_results)
 
     def test_LOOK(self):
         base_results = (([[0, 5, 35, 400], [100, 90, 65, 40, 20, 15]], 485, False), 'LOOK')
-        self.assertEqual(self.simulator.executeLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('LOOK'), base_results)
 
     def test_CLOOK(self):
         base_results = (([[0, 5, 35, 400], [], [15, 20, 40, 65, 90, 100]], 485, True), 'CLOOK')
-        self.assertEqual(self.simulator.executeCLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CLOOK'), base_results)
 
 
 class testSimulatorNoPageFaults(unittest.TestCase):
@@ -116,51 +116,51 @@ class testSimulatorNoPageFaults(unittest.TestCase):
 
     def test_FCFS(self):
         base_results = (([[], [0, 5, 15, 40, 65, 20, 35, 400, 90, 100]], 810, True), 'FCFS')
-        self.assertEqual(self.simulator.executeFCFS(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('FCFS'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [511, 5, 15, 40, 65, 20, 35, 400, 90, 100]], 1311, True), 'FCFS')
-        self.assertEqual(self.simulator.executeFCFS(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('FCFS'), base_results)
 
     def test_SSTF(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'SSTF')
-        self.assertEqual(self.simulator.executeSSTF(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SSTF'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [511, 400, 100, 90, 65, 40, 35, 20, 15, 5]], 506, False), 'SSTF')
-        self.assertEqual(self.simulator.executeSSTF(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SSTF'), base_results)
 
     def test_SCAN(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'SCAN')
-        self.assertEqual(self.simulator.executeSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SCAN'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [511, 400, 100, 90, 65, 40, 35, 20, 15, 5]], 506, False), 'SCAN')
-        self.assertEqual(self.simulator.executeSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('SCAN'), base_results)
 
     def test_CSCAN(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400], []], 400, True), 'CSCAN')
-        self.assertEqual(self.simulator.executeCSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CSCAN'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [511], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'CSCAN')
-        self.assertEqual(self.simulator.executeCSCAN(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CSCAN'), base_results)
 
     def test_LOOK(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400]], 400, True), 'LOOK')
-        self.assertEqual(self.simulator.executeLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('LOOK'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [511, 400, 100, 90, 65, 40, 35, 20, 15, 5]], 506, False), 'LOOK')
-        self.assertEqual(self.simulator.executeLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('LOOK'), base_results)
 
     def test_CLOOK(self):
         base_results = (([[], [0, 5, 15, 20, 35, 40, 65, 90, 100, 400], []], 400, True), 'CLOOK')
-        self.assertEqual(self.simulator.executeCLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CLOOK'), base_results)
         
         self.simulator.init_pos = self.simulator.max_tracks
         base_results = (([[], [self.simulator.max_tracks], [5, 15, 20, 35, 40, 65, 90, 100, 400]], 395, True), 'CLOOK')
-        self.assertEqual(self.simulator.executeCLOOK(), base_results)
+        self.assertEqual(self.simulator.execute_algorithm('CLOOK'), base_results)
 
 
 class TestSimulatorFalseDirection(unittest.TestCase):
@@ -171,11 +171,10 @@ class TestSimulatorFalseDirection(unittest.TestCase):
         self.simulator.direction = False
         self.simulator.requirements = [-5, 15, 40, 65, 20, -35, -400, 90, 100]
 
-    def test_dir_post_CSCAN(self):
-        self.simulator.executeCSCAN()
-        self.assertEqual(self.simulator.algorithm.last_dir, self.simulator.direction)
+    # def test_dir_post_CSCAN(self):
+    #     self.simulator.execute_algorithm('CSCAN')
+    #     self.assertEqual(self.simulator.algorithm.last_dir, self.simulator.direction)
 
-    def test_dir_post_CLOOK(self):
-        self.simulator.executeCLOOK()
-        self.assertEqual(self.simulator.algorithm.last_dir, self.simulator.direction)
-
+    # def test_dir_post_CLOOK(self):
+    #     self.simulator.execute_algorithm('CLOOK')
+    #     self.assertEqual(self.simulator.algorithm.last_dir, self.simulator.direction)
